@@ -172,10 +172,34 @@ body{
 }
 
 
-.registro-ambiente{
+.registro-ambiente {
     height: 260px;
 }
 
 .registro-admin {
     height: 360px;
+}
+
+/* Custom Scrollbar */
+
+::-webkit-scrollbar {
+    width: 3em;
+    height: 100%;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #ffffff;
+    border-color: #238276;
+    border-radius: 20px;
+    
+    border:solid 3px #238276 ;
+
+}
+
+::-webkit-scrollbar-thumb {
+    background-image: url("scroll.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    
 }
