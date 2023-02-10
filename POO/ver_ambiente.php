@@ -34,7 +34,7 @@
             ?>
             <?php
             while ($filas = $resultado->fetch_assoc()) {
-                // echo $fila['serial'] . " " . $fila['tipo_dispositivo'] . " " . $fila['marca'] . " " . $fila['modelo'] . " " . $fila['placa'] . " " . $fila['estado'] .   "<br>";
+               
             ?>
                 <tr>
                     <td><?php echo $filas['id_numero_ambiente']; ?></td>
@@ -46,7 +46,7 @@
                     if ($filas['id_estado_ambiente'] == 1) { ?>
                         <td><a class="btn btn-info bg-success" href="modificarAmbientes.php?idAmbiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">Editar</a></td>
                         <td><a class="btn btn-info bg-success" href="eliminarAmbiente.php?idAmbiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">Eliminar</a></td>
-                        <td><a class="btn btn-info bg-success" href="eliminarAmbiente.php?idAmbiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">Prestar</a></td>
+                        <td><a class="btn btn-info bg-success" href="registrarPrestamoAmbiente.php?idambiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">Prestar</a></td>
                     <?php
                     } else { ?>
 
