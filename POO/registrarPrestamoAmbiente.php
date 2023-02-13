@@ -84,28 +84,28 @@
 
 
             <div class="registro-div registro_usuario-input">
-                    <h3>Datos Instructor</h3>
-                    <div class="registro-input registro-usuario-input">
-                        <div class="rgts-input rgts-usuario-input">
-                            <select name="tipoDocumento" id="" class="select-registro">
-                                <option value=<?php echo $fila['idDocumento']; ?>><?php echo $fila['tipo'] ?> </option>
+                <h3>Datos Instructor</h3>
+                <div class="registro-input registro-usuario-input">
+                    <div class="rgts-input rgts-usuario-input">
+                        <select name="tipoDocumento" id="" class="select-registro">
+                            <option value=<?php echo $fila['idDocumento']; ?>><?php echo $fila['tipo'] ?> </option>
 
 
-                            </select>
+                        </select>
 
-                            <input type="number" name="numeroCedula" value=<?php echo $fila['numero_documento'] ?> class="input-number" readonly>
-                            <input type="text" name="nombre" value="<?php echo $fila['nombre'] ?>" readonly>
-                            <input type="text" name="apellido" value="<?php echo $fila['apellido'] ?>" class="input-number" readonly>
-                            <input type="text" name="telefono" value="<?php echo $fila['telefono'] ?>" readonly>
-                            <input type="email" name="correo" value="<?php echo $fila['correo']; ?>" readonly>
-                            <select name="rol" id="" class="select-registro">
-                                <option value="id_rol"><?php echo $fila['nombre_rol']; ?></option>
-                            </select>
+                        <input type="number" name="numeroCedula" value=<?php echo $fila['numero_documento'] ?> class="input-number" readonly>
+                        <input type="text" name="nombre" value="<?php echo $fila['nombre'] ?>" readonly>
+                        <input type="text" name="apellido" value="<?php echo $fila['apellido'] ?>" class="input-number" readonly>
+                        <input type="text" name="telefono" value="<?php echo $fila['telefono'] ?>" readonly>
+                        <input type="email" name="correo" value="<?php echo $fila['correo']; ?>" readonly>
+                        <select name="rol" id="" class="select-registro">
+                            <option value="id_rol"><?php echo $fila['nombre_rol']; ?></option>
+                        </select>
 
 
-                            <!-- <input class="btn-registro btn-  registro-usuario" type="submit" value="Registrar usuario" name="enviar"> -->
-                        </div>
+                        <!-- <input class="btn-registro btn-  registro-usuario" type="submit" value="Registrar usuario" name="enviar"> -->
                     </div>
+                </div>
             </div>
 
 
@@ -119,6 +119,17 @@
                 </thead>
                 <tbody>
 
+
+                    <script type="text/javascript" src="../jquery.js"></script>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $('input[type=checkbox]').live('click', function() {
+                                var parent = $(this).parent().attr('id');
+                                $('#' + parent + ' input[type=checkbox]').removeAttr('checked');
+                                $(this).attr('checked', 'checked');
+                            });
+                        });
+                    </script>
                     <?php
                     require_once "./classAmbientes.php";
                     $verAmbiente = new Ambientes();
@@ -153,6 +164,10 @@
                 </tbody>
             </table>
 
+
+            <label for="">observaciones</label><br>
+            <textarea rows="10" cols="40" name="observaciones" placeholder=""></textarea>
+
             <input class="btn-registro btn-registro-dispositivo" type="submit" value="prestar" name=prestar>
         </form>
     <?php
@@ -161,14 +176,62 @@
 
 
 
-<?php
+    <?php
+
+    include_once "./classPrestamo.php";
+    include_once "./classAmbientes.php";
+
+
     if (isset($_POST['prestar'])) {
 
         $ambiente = $_POST['inputselect'];
-        $numeroCedula=$_POST['numeroCedula'];
+        $numeroCedula = $_POST['numeroCedula'];
 
-        echo $ambiente[0] ."-------------";
-        echo $numeroCedula;
+        if (empty($_POST['observaciones'])) {
+            $observaciones = NULL;
+        } else {
+            $observaciones = $_POST['observaciones'];
+        }
+
+
+        $nuevoPrestamo = new Prestamo();
+
+
+        $nuevoPrestamo->id_prestamo = NULL;
+        $nuevoPrestamo->fecha_prestamo = date('Y-m-d');
+        $nuevoPrestamo->hora_prestamo = date('h:i:s');
+        $nuevoPrestamo->fecha_entrega = NULL;
+        $nuevoPrestamo->hora_entrega =  NULL;
+        $nuevoPrestamo->observaciones = $observaciones;
+        $nuevoPrestamo->id_numero_ambiente = $ambiente[0];
+        $nuevoPrestamo->numero_documento = $numeroCedula;
+        $nuevoPrestamo->estado_prestamo="activo";
+        $nuevoPrestamo->registrarPrestamo();
+
+
+        $actualizarEstadoAmbiente = new Ambientes();
+        $actualizarEstadoAmbiente->id_ambiente = $ambiente[0];
+        $actualizarEstadoAmbiente->estado = 2;
+        $actualizarEstadoAmbiente->actualizarEstadoAmbiente();
+
+
+
+        date_default_timezone_set("UTC");
+
+
+        $hora = date('h:i:s');
+        $fecha = date('d-m-Y');
+        $fecha2 = date('d-m-Y  h:i:s');
+
+        echo $ambiente[0] . "-------------";
+        echo $numeroCedula . "-------------";
+        echo $hora . "----------------";
+        echo $fecha . "--------------";
+        echo $fecha2;
+
+
+
+
 
         // header("Location: ver_ambiente.php");
     }
@@ -180,6 +243,3 @@
 </body>
 
 </html>
-
-
-

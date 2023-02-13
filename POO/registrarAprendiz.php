@@ -40,7 +40,7 @@
                         ?>
                     </select>
                     <input type="number" placeholder="Numero de documento" class="input-number" name="numeroCedula">
-                    <input type="text" placeholder="Nombre" name="nombre">
+                    <input type="text" placeholder="Nombre" name="nombre" >
                     <input type="text" placeholder="Apellido" name="apellido">
                     <input type="number" placeholder="N° ficha" name="ficha">
                     <input type="text" placeholder="Telefono" class="input-number" name="telefono">
