@@ -43,7 +43,8 @@ class Ambientes extends conexion
         $this->con->close();
     }
 
-    public function eliminarAmbiente($id_ambiente,$direccion) {
+    public function eliminarAmbiente($id_ambiente, $direccion)
+    {
         $this->conectar();
 
         $query = "DELETE FROM ambientes WHERE  id_numero_ambiente= ?";
@@ -51,7 +52,7 @@ class Ambientes extends conexion
         $eliminarAmbiente->bind_param("i", $id_ambiente);
         $eliminarAmbiente->execute();
         if ($eliminarAmbiente) {
-            header("Location: " .$direccion);
+            header("Location: " . $direccion);
         } else {
             echo "No se pudieron insertar los datos,error: " . mysqli_error($this->con);
         }
@@ -61,28 +62,46 @@ class Ambientes extends conexion
 
 
 
-    
+
     public function modificarAmbiente()
 
-   
+
     {
         $this->conectar();
 
         $modificarAmbiente = mysqli_prepare($this->con, "UPDATE `ambientes` SET `id_numero_ambiente`=?,`piso`=?,`estado`=? WHERE id_numero_ambiente=?");
-            $modificarAmbiente->bind_param("isii", $this->id_ambiente, $this->piso, $this->estado, $this->id_ambiente);
-            $modificarAmbiente->execute();
-            if ($modificarAmbiente) {
-                header("Location: ver_ambiente.php");
-            } else {
-                echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
-            }
+        $modificarAmbiente->bind_param("isii", $this->id_ambiente, $this->piso, $this->estado, $this->id_ambiente);
+        $modificarAmbiente->execute();
+        if ($modificarAmbiente) {
+            header("Location: ver_ambiente.php");
+        } else {
+            echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
+        }
 
-            $this->con->close();
+        $this->con->close();
     }
-    
+
+
+    public function actualizarEstadoAmbiente()
+    {
+        $this->conectar();
+
+        $actualizar_estado_ambiente = mysqli_prepare($this->con, "UPDATE `ambientes` SET `estado`=? 
+        WHERE `id_numero_ambiente`=? ");
 
 
 
+        $actualizar_estado_ambiente->bind_param('si', $this->estado, $this->id_ambiente);
 
+        $actualizar_estado_ambiente->execute();
 
+        if ($actualizar_estado_ambiente) {
+            // header("Location: ver_ambiente.php");
+            echo "estado actualizado con exito";
+        } else {
+            echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
+        }
+
+        $this->con->close();
+    }
 }
