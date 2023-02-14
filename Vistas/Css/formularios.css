@@ -1,0 +1,181 @@
+/* <!-- CUADRO DE INICIO DE SESION Y REGISTRO --> */
+
+.formulario {
+    align-items: center;
+    text-align: center;
+    margin-top: 10em;
+}
+
+body{
+    background: rgb(194, 194, 194);
+}
+
+.titulo__h1{
+    display: inline-block;
+    margin: auto;
+    margin-top: 10px;
+    text-shadow: 3px 3px rgb(177, 176, 176);
+}
+
+.form{
+    
+    text-align: center;
+    width: 220px;
+    height: 150px;
+    margin: auto;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: -5px 5px gray;
+    border: rgb(1, 104, 107) 3px solid;
+    transition: all .5s;
+    background: rgb(216, 216, 216);
+    color: rgb(1, 104, 107);
+
+}
+
+.form:hover{
+    box-shadow: 10px 10px gray;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 1px;
+    
+}
+
+
+.form__a{
+    text-decoration: none;
+    justify-content: center;
+    color: #34fddb;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: rgb(1, 104, 107);
+    transition: all .5s;
+    border: #34fddb solid 2px;
+    display: block;
+    width: 120px;
+    height: 20px;
+    margin: 17px auto;
+    padding: 2px;
+    
+
+}
+
+.form__a:hover{
+    background: rgb(0, 0, 0);
+    color: #34fddb;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 0px;
+    box-shadow: 5px 5px gray;
+
+}
+
+
+/* REGISTROS */
+
+.registro-div{
+    align-items: center;
+    text-align: center;
+
+}
+
+
+.registro {
+    width: 250px;
+    height: 340px;
+    margin: 5em auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: rgb(216, 216, 216);
+    border: rgb(1, 104, 107) 3px solid;
+    border-bottom-right-radius: 30px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: rgb(1, 104, 107);
+}
+
+.registro h3{
+    font-size: 25px;
+    margin: 10px 0;
+}
+
+.registro-input {
+    height: 330px;
+}
+
+.rgts-input {
+    height: 100%;
+}
+
+.rgts-input input {
+    display: block;
+    margin: 4px auto;
+    padding: 5px;
+    border-bottom-right-radius: 15px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border: 2px solid rgb(1, 104, 107);
+    outline: none;
+    width: 180px;
+    transition: all .5s ease;
+}
+
+.rgts-input input:focus {
+    width: 210px;
+}
+
+.select-registro{
+    margin: 4px auto;
+    padding: 5px;
+    border-bottom-right-radius: 15px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border: 2px solid rgb(1, 104, 107);
+    outline: none;
+    width: 195px;
+    transition: all .5s ease;
+}
+
+.select-registro:focus{
+    width: 210px;
+}
+
+.btn-registro:hover {
+    border-bottom-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background: #000;
+}
+
+.btn-registro {
+    margin-top: 8px;
+    padding: 5px;
+    border: none;
+    color: #34fddb;
+    background: rgb(1, 104, 107);
+    border: #34fddb solid 2px;
+    cursor: pointer;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    transition: all .3s ease;
+    display: block;
+    margin: 0px auto 10px auto;
+    width: 100px;
+}
+
+
+.registro-ambiente{
+    height: 260px;
+}
+
+.registro-admin {
+    height: 360px;
+}

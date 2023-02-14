@@ -1,0 +1,105 @@
+body{
+    margin: 1vh;
+}
+
+.barra_superior{
+    display: flex;
+    background-color: #238276;
+    justify-content: center;
+    height: 70px;
+    align-items: center;
+    
+}
+
+.subtitulo{
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.roles{
+    width: 100%;
+    height: 50vh;
+    margin-top: 3vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 90px;
+    
+}
+
+.btn_rol{
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    transition: all .5s;
+}
+
+.btn_rol:hover{
+    margin-bottom: 20px;
+}
+
+.barra_inferior{
+    background: green;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+}
+
+.div_rol{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+        /* FORMULARIOS */
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.registro-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.rgts-input{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.campos-registro{
+    border-radius: 5px;
+    border: 1px solid #238276;
+    outline: none;
+
+}
+
+
+.btn-registro{
+    border: 1px solid #238276;
+    transition: all .5s;
+    background: rgb(199, 197, 197);
+    border-radius: 5px;
+}
+
+.btn-registro:hover{
+    background: #238276;
+}
+
+.modal-header{
+    background: #238276;
+}
+
+.modal-body{
+    background: rgb(202, 202, 202);
+    width: auto;
+}
