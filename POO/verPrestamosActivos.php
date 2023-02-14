@@ -56,12 +56,14 @@ $mostrar_prestamos = $estadoPrestamo->obtenerPrestamosActivos("activo");
                     <td><?php echo $rows['fecha_entrega']    ?></td>
                     <td><?php echo $rows['numero_documento']    ?></td>
                     <td><?php echo $rows['observaciones']    ?></td>
-                    <td><?php echo $rows['estado_prestamo']    ?></td>
+                    <td><?php echo $rows['estado_prestamo']?></td>
+
                     
+
                     <td>
-                    <button onclick="return añadirObservaciones()">
-  observaciones</button>    
-                    <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $rows['id_prestamo']; ?>" style="color:white">Entregar</a></td>
+                    <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo $rows['id_prestamo']; ?>" style="color:white">observacion</a>
+                        <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $rows['id_prestamo']; ?>" style="color:white">Entregar</a>
+                    </td>
 
 
 
@@ -80,6 +82,8 @@ $mostrar_prestamos = $estadoPrestamo->obtenerPrestamosActivos("activo");
 
         </tbody>
     </table>
+
+  
 </body>
 
 </html>

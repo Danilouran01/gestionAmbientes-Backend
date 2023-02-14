@@ -58,5 +58,25 @@ class Prestamo extends Conexion{
         }
     }
 
+    public function obtenerPrestamosId($id){
+
+        $this->conectar();
+      
+        $prestamos_id="SELECT * FROM `prestamo` WHERE `id_prestamo`=$id";
+       $consultar_prestamos_id = $this->con->query( $prestamos_id);
+       return $consultar_prestamos_id;
+
+
+    }
+
+    public function añadirObservacion(){
+        $this->conectar();
+
+        $actualizarObservacion=mysqli_prepare($this->con,"UPDATE `prestamo` SET `observaciones`=? WHERE  `id_prestamo`=?");
+        $actualizarObservacion->bind_param('si',$this->observaciones,$this->id_prestamo);
+        $actualizarObservacion->execute();
+
+    }
+
 
 }
