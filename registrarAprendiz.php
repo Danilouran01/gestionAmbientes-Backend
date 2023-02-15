@@ -10,27 +10,30 @@
         $apellido = $_POST['apellido'];
         $telefono = $_POST['telefono'];
         $correo = $_POST['correo'];
-        // $rol = $_POST['rol'];
-        $ficha=$_POST['ficha'];
+        $ficha = $_POST['ficha'];
 
-        
+
 
         $aprendiz = new Aprendiz();
-        $aprendiz->tipoDocumento=$tipoDocumento;
-        $aprendiz->numeroDocumento=$numeroCedula;
-        $aprendiz->nombre=$nombre;
-        $aprendiz->apellido=$apellido;
-        $aprendiz->telefono=$telefono;
-        $aprendiz->correo=$correo;
-        $aprendiz->rol=3;
+        $aprendiz->tipoDocumento = $tipoDocumento;
+        $aprendiz->numeroDocumento = $numeroCedula;
+        $aprendiz->nombre = $nombre;
+        $aprendiz->apellido = $apellido;
+        $aprendiz->telefono = $telefono;
+        $aprendiz->correo = $correo;
+        $aprendiz->rol = 3;
         $aprendiz->setFicha($ficha);
         $aprendiz->setContrasena(NULL);
 
         $aprendiz->registrarUsuario();
 
+        echo '<script type="text/javascript">alert("Datos registrados correctamente");</script>';
 
+        
         header("location: ./index.php");
     }
 
 
     ?>
+
+   

@@ -2,7 +2,10 @@
 require_once "./classUsuario.php";
 
 $usuarioIndex = new Usuario();
-$docuemento = $usuarioIndex->mostrarTipoDocumentoSelect();
+$documentoInstructor = $usuarioIndex->mostrarTipoDocumentoSelect();
+$documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -90,19 +93,32 @@ $docuemento = $usuarioIndex->mostrarTipoDocumentoSelect();
                 </div>
                 <div class="modal-body">
                     <div class="registro-div registro_usuario-input">
-                        <form class="registro registro_usuario" id="registro">
+                    <form class="registro registro_usuario" id="registro" method="post" action="./registrarInstructor.php">
+                        
                             <div class="registro-input registro-usuario-input">
                                 <div class="rgts-input rgts-usuario-input">
-                                    <input class="campos-registro" type="text" placeholder="Nombre">
-                                    <input class="campos-registro" type="text" placeholder="Apellido">
-                                    <select class="campos-registro" name="" id="" class="select-registro">
-                                        <option value="">Cedula</option>
-                                        <option value="">Tarjeta de identidad</option>
-                                        <option value="">Cedula de extranjeria</option>
-                                        <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number">
-                                        <input class="campos-registro" type="number" placeholder="Telefono" class="input-number">
-                                        <input class="campos-registro" type="email" placeholder="Correo">
-                                        <button class="btn-registro btn-registro-usuario">Registrarse</button>
+
+                                    <select class="campos-registro" name="tipoDocumento" id="" class="select-registro"  name="tipoDocumento">
+                                        <?php
+
+                                        while ($row = $documentoAprendiz->fetch_assoc()) { ?>
+
+                                            <option value="<?php echo $row['idDocumento'] ?>"><?php echo $row['tipo']  ?></option>
+
+                                        <?php
+                                        }
+                                        ?>
+
+                                    </select>
+                                    <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number" name="numeroCedula">
+
+                                    <input class="campos-registro" type="text" placeholder="Nombre" name="nombre">
+                                    <input class="campos-registro" type="text" placeholder="Apellido" name="apellido">
+                                    <input class="campos-registro" type="number" placeholder="Telefono" class="input-number" name="telefono">
+                                    <input class="campos-registro" type="email" placeholder="Correo" name="correo">
+                                    
+
+                                    <input class="btn-registro btn-registro-usuario" type="submit" value="Registrarse" name="enviar">
                                 </div>
                             </div>
                         </form>
@@ -121,14 +137,14 @@ $docuemento = $usuarioIndex->mostrarTipoDocumentoSelect();
                 </div>
                 <div class="modal-body">
                     <div class="registro-div registro_usuario-input">
-                        <form class="registro registro_usuario" id="registro" method="post" action="./POO/registrarAprendiz.php">
+                        <form class="registro registro_usuario" id="registro" method="post" action="./registrarAprendiz.php">
                             <div class="registro-input registro-usuario-input">
                                 <div class="rgts-input rgts-usuario-input">
 
                                     <select class="campos-registro" name="tipoDocumento" id="" class="select-registro">
                                         <?php
 
-                                        while ($row = $docuemento->fetch_assoc()) { ?>
+                                        while ($row = $documentoInstructor->fetch_assoc()) { ?>
 
                                             <option value="<?php echo $row['idDocumento'] ?>"><?php echo $row['tipo']  ?></option>
 
