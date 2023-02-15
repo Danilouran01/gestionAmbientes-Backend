@@ -75,6 +75,13 @@
         $modificarInstructor = new Instructor();
         $obtenerUsuarioId = $modificarInstructor->obtenerUsuarioId($documentoInstructor);
         $fila = $obtenerUsuarioId->fetch_assoc();
+        // $filas=mysql_num_rows($fila);
+      
+
+
+        // if ($fila  ){
+        //     # code...
+        // }
 
     ?>
 
@@ -146,10 +153,11 @@
                                 <td><?php echo $filas['piso']; ?></td>
                                 <td><?php echo $filas['estado_ambiente'] ?></td>
                                 <td> <input type="checkbox" value="<?php echo $filas['id_numero_ambiente']; ?>" name='inputselect[]' class="chkseleccion"></td>
+
+                                
                                 <!-- <td><a class="btn btn-info bg-success" href="?idambiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">Prestar</a></td> -->
 
                                 <input type="submit" name="" value="">
-
                             <?php
                         } else {
                             ?>
@@ -239,6 +247,25 @@
 
 
     ?>
+
+<!-- select one checkbox 
+
+<script>
+    var checkbox = document.getElementsByClassName('chkseleccion');
+    var currentCheckbox = null;
+    for (var i = 0; i < checkbox.length; i++) {
+        checkbox[i].addEventListener('click',function() {
+            if (currentCheckbox !== null && currentCheckbox !== this) {
+                currentCheckbox.checked = false;
+            }
+            if (this.checked) {
+                currentCheckbox = this;
+            } else {
+                currentCheckbox = null;
+            }
+        });
+    }
+</script> --> -->
 
 </body>
 
