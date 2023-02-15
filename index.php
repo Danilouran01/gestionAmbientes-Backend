@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Css/style.css">
+    <link rel="stylesheet" href="./Vistas/Css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <title>Gestion de Ambientes</title>
@@ -24,19 +24,19 @@
     <div class="roles">
         <div class="administrador div_rol">
             <a href="" class="btn_rol" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <img class="img_rol" src="../images/Boton Administrador.png" alt="">
+                <img class="img_rol" src="./Vistas/images/Boton Administrador.png" alt="">
             </a>
             <h3>Administrador</h3>
         </div>
         <div class="instructor div_rol">
             <a href="#" class="btn_rol" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                <img class="img_rol" src="../images/Boton Intructor.png" alt="">
+                <img class="img_rol" src="./Vistas/images/Boton Intructor.png" alt="">
             </a>
             <h3>Instructor</h3>
         </div>
         <div class="aprendiz div_rol" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3">
             <a href="#" class="btn_rol">
-                <img class="img_rol" src="../images/Boton Aprendiz.png" alt="">
+                <img class="img_rol" src="./Vistas/images/Boton Aprendiz.png" alt="">
             </a>
             <h3>Aprendiz</h3>
         </div>
