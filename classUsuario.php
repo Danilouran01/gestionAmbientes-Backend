@@ -1,7 +1,6 @@
 <?php
 require_once "./conexionPoo.php";
 
-
 class Usuario extends Conexion
 {
     public $tipoDocumento;
@@ -128,4 +127,15 @@ class Usuario extends Conexion
     {
         $this->ficha = $ficha;
     }
+
+
+    public function mostrarTipoDocumentoSelect(){
+        $this->conectar();
+                
+                                $tipo_documento = "SELECT * FROM `tipo_documento`";
+                                $resultado_sql = mysqli_query($this->con,$tipo_documento);
+                                return $resultado_sql;
+        
+            }
+        
 }
