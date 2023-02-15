@@ -25,7 +25,7 @@ class Elemento extends Conexion
     {
         $this->conectar();
         $insertElemento = mysqli_prepare($this->con, "INSERT INTO `elementos`(`serial`, `tipo_dispositivo`, `marca`, `modelo`, `placa`, `estado`) VALUES (?,?,?,?,?,?)");
-        $insertElemento->bind_param("isssss", $this->serial, $this->tipoDispositivo, $this->marca, $this->modelo, $this->placa, $this->estado);
+        $insertElemento->bind_param("issssi", $this->serial, $this->tipoDispositivo, $this->marca, $this->modelo, $this->placa, $this->estado);
         $insertElemento->execute();
         if ($insertElemento) {
             echo "Datos insertados correctamente";

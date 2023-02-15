@@ -16,8 +16,8 @@
             <div class="registro-input registro-ambiente-input">
                 <div class="rgts-input rgts-ambiente-input">
 
-                    <input type="text" name="numeroAmbiente" placeholder="numero abiemte">
-                    <input type="text" name="numeroPiso" placeholder="numero piso">
+                    <input type="text" name="numeroAmbiente" placeholder="numero ambiente" required>
+                    <input type="text" name="numeroPiso" placeholder="numero piso" required>
                     
                     <select name="estadoAmbiente" class="select-registro">
                     <?php

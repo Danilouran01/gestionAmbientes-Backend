@@ -81,19 +81,21 @@
         $correo = $_POST['correo'];
         $rol = $_POST['rol'];
 
-        $instructor = new Instructor(
-            $tipoDocumento,
-            $numeroCedula,
-            $nombre,
-            $apellido,
-            $telefono,
-            $correo,
-            $rol,
-            0,
-            NULL
-        );
-        $instructor->registrarUsuario();
-    }
+    
+
+    $instructor = new Instructor();
+    $instructor->tipoDocumento=$tipoDocumento;
+    $instructor->numeroDocumento=$numeroCedula;
+    $instructor->nombre=$nombre;
+    $instructor->apellido=$apellido;
+    $instructor->telefono=$telefono;
+    $instructor->correo=$correo;
+    $instructor->rol=$rol;
+    $instructor->setFicha(0);
+    $instructor->setContrasena(NULL);
+
+    $instructor->registrarUsuario();
+}
 
 
     ?>
