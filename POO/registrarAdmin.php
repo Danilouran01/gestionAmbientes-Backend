@@ -40,12 +40,12 @@
                         ?>
                     </select>>
 
-                    <input type="number" placeholder="Numero de Cedula" class="input-number" name="numeroDocumento">
-                    <input type="text" placeholder="Nombres" name="nombre">
-                    <input type="text" placeholder="Apellidos" name="apellido">
-                    <input type="email" placeholder="Correo electronico" name="correo">
-                    <input type="password" placeholder="Contraseña" name="Contrasena">
-                    <input type="number" placeholder="Numero celular" class="input-number" name="telefono">
+                    <input type="number" placeholder="Numero de Cedula" class="input-number" name="numeroDocumento" required>
+                    <input type="text" placeholder="Nombres" name="nombre" required>
+                    <input type="text" placeholder="Apellidos" name="apellido" required>
+                    <input type="email" placeholder="Correo electronico" name="correo" required>
+                    <input type="password" placeholder="Contraseña" name="Contrasena" required>
+                    <input type="number" placeholder="Numero celular" class="input-number" name="telefono" required>
 
                     <!-- <select name="rol" id="" class="select-registro">
                         <?php
@@ -77,7 +77,7 @@
     </div>
 
     <?php
-   require "./Administrador.php";
+   require "./classAdministrador.php";
 
     if (isset($_POST['registrar'])) {
 $aa=$_POST['tipoDocumento'];
@@ -92,8 +92,8 @@ $contrasena=$_POST['Contrasena'];
         $admin->correo=$_POST['correo'];
         $admin->setContrasena($contrasena);
         $admin->rol=1;
-        $admin->numeroFicha="NULL";
-        $admin->create();
+        $admin->setFicha(0);
+        $admin->registrarUsuario();
     }
 
     ?>

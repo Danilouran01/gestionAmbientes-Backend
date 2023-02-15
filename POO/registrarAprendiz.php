@@ -39,13 +39,13 @@
                         }
                         ?>
                     </select>
-                    <input type="number" placeholder="Numero de documento" class="input-number" name="numeroCedula">
-                    <input type="text" placeholder="Nombre" name="nombre" >
-                    <input type="text" placeholder="Apellido" name="apellido">
-                    <input type="number" placeholder="N° ficha" name="ficha">
-                    <input type="text" placeholder="Telefono" class="input-number" name="telefono">
-                    <input type="email" placeholder="Correo" name="correo">
-                    <select name="rol" id="" class="select-registro">
+                    <input type="number" placeholder="Numero de documento" class="input-number" name="numeroCedula" required>
+                    <input type="text" placeholder="Nombre" name="nombre" required>
+                    <input type="text" placeholder="Apellido" name="apellido" required>
+                    <input type="number" placeholder="N° ficha" name="ficha" required>
+                    <input type="text" placeholder="Telefono" class="input-number" name="telefono" required>
+                    <input type="email" placeholder="Correo" name="correo" required>
+                    <select name="rol" id="" class="select-registro" required>
                         <?php
                         $sqlRol = "SELECT * FROM `rol` WHERE id_rol = 3";
                         $resultadoSqlRol = mysqli_query($mysqli, $sqlRol);
