@@ -2,7 +2,7 @@
 require_once "./classPrestamo.php";
 
 $estadoPrestamo = new Prestamo();
-$mostrar_prestamos = $estadoPrestamo->obtenerPrestamosActivos("activo");
+$mostrar_prestamos = $estadoPrestamo->obtenerPrestamosActivosInactivos("activo");
 ?>
 
 <!DOCTYPE html>

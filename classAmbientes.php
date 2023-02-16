@@ -34,6 +34,16 @@ class Ambientes extends conexion
     }
 
 
+    public function mostrarAmbienteEstado()
+    {
+        $this->conectar();
+        $sql = "SELECT `id_numero_ambiente`, `piso`, estado_ambiente,`id_estado_ambiente` FROM `ambientes` inner JOIN estado_ambiente ON ambientes.estado=estado_ambiente.id_estado_ambiente WHERE id_estado_ambiente=1";
+        $resultado = $this->con->query($sql);
+        return $resultado;
+        $this->con->close();
+    }
+
+
     public function obtenerAmbientePorId($id)
     {
         $this->conectar();

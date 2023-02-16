@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Css/form.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../style.css">
@@ -24,98 +25,21 @@
 
     <?php
     if (!isset($_POST['consultar'])) { ?>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">numero</th>
-                    <th scope="col">piso</th>
-                    <th scope="col">estado</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <?php
-                require_once "./classAmbientes.php";
-                $verAmbiente = new Ambientes();
-                $resultado = $verAmbiente->mostrarAmbiente();
-                ?>
-                <?php
-                while ($filas = $resultado->fetch_assoc()) {
 
 
-                    if ($filas['id_estado_ambiente'] == 1) { ?>
-                        <tr>
-                            <td><?php echo $filas['id_numero_ambiente']; ?></td>
-                            <td><?php echo $filas['piso']; ?></td>
-                            <td><?php echo $filas['estado_ambiente'] ?></td>
-                        <?php
-                    }
+        <?php
+        require_once "./classAmbientes.php";
+        $verAmbiente = new Ambientes();
+        $resultado = $verAmbiente->mostrarAmbienteEstado();
 
-                        ?>
+        var_dump($resultado);
 
-
-                        </tr>
-                    <?php
-                }
-                    ?>
-            </tbody>
-        </table>
+        if ($resultado->num_rows == 0) {
+            echo "<center><h2>No hay ambientes disponibles</h2></center>";
 
 
-
-
-
-    <?php
-    } else {
-
-        $documentoInstructor = $_POST['documento'];
-        echo $documentoInstructor;
-
-        require_once "./classInstructor.php";
-        $modificarInstructor = new Instructor();
-        $obtenerUsuarioId = $modificarInstructor->obtenerUsuarioId($documentoInstructor);
-        $fila = $obtenerUsuarioId->fetch_assoc();
-        // $filas=mysql_num_rows($fila);
-      
-
-
-        // if ($fila  ){
-        //     # code...
-        // }
-
-    ?>
-
-
-        <form action="./registrarPrestamoAmbiente.php" method="post">
-
-
-
-            <div class="registro-div registro_usuario-input">
-                <h3>Datos Instructor</h3>
-                <div class="registro-input registro-usuario-input">
-                    <div class="rgts-input rgts-usuario-input">
-                        <select name="tipoDocumento" id="" class="select-registro">
-                            <option value=<?php echo $fila['idDocumento']; ?>><?php echo $fila['tipo'] ?> </option>
-
-
-                        </select>
-
-                        <input type="number" name="numeroCedula" value=<?php echo $fila['numero_documento'] ?> class="input-number" readonly>
-                        <input type="text" name="nombre" value="<?php echo $fila['nombre'] ?>" readonly>
-                        <input type="text" name="apellido" value="<?php echo $fila['apellido'] ?>" class="input-number" readonly>
-                        <input type="text" name="telefono" value="<?php echo $fila['telefono'] ?>" readonly>
-                        <input type="email" name="correo" value="<?php echo $fila['correo']; ?>" readonly>
-                        <select name="rol" id="" class="select-registro">
-                            <option value="id_rol"><?php echo $fila['nombre_rol']; ?></option>
-                        </select>
-
-
-                        <!-- <input class="btn-registro btn-  registro-usuario" type="submit" value="Registrar usuario" name="enviar"> -->
-                    </div>
-                </div>
-            </div>
-
-
+        } else {
+        ?>
             <table class="table">
                 <thead>
                     <tr>
@@ -125,62 +49,156 @@
                     </tr>
                 </thead>
                 <tbody>
-
-
-                    <script type="text/javascript" src="../jquery.js"></script>
-                    <script type="text/javascript">
-                        $(document).ready(function() {
-                            $('input[type=checkbox]').live('click', function() {
-                                var parent = $(this).parent().attr('id');
-                                $('#' + parent + ' input[type=checkbox]').removeAttr('checked');
-                                $(this).attr('checked', 'checked');
-                            });
-                        });
-                    </script>
-                    <?php
-                    require_once "./classAmbientes.php";
-                    $verAmbiente = new Ambientes();
-                    $resultado = $verAmbiente->mostrarAmbiente();
-                    ?>
-                    <?php
+                
+                
+                <?php
                     while ($filas = $resultado->fetch_assoc()) {
 
-
                         if ($filas['id_estado_ambiente'] == 1) { ?>
-                            <tr>
 
+                            <tr>
                                 <td><?php echo $filas['id_numero_ambiente']; ?></td>
                                 <td><?php echo $filas['piso']; ?></td>
                                 <td><?php echo $filas['estado_ambiente'] ?></td>
-                                <td> <input type="checkbox" value="<?php echo $filas['id_numero_ambiente']; ?>" name='inputselect[]' class="chkseleccion"></td>
-
-                                
-                                <!-- <td><a class="btn btn-info bg-success" href="?idambiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">Prestar</a></td> -->
-
-                                <input type="submit" name="" value="">
-                            <?php
-                        } else {
-                            ?>
-                                <!-- <h2>No se econtaron ambientes disponibles</h2> -->
-                            <?php
-                        }
-                            ?>
                             </tr>
-                        <?php
+
+                       <?php
+                        }  
                     }
-                        ?>
+                    ?>
+
                 </tbody>
             </table>
 
 
-            <label for="">observaciones</label><br>
-            <textarea rows="10" cols="40" name="observaciones" placeholder=""></textarea>
 
-            <input class="btn-registro btn-registro-dispositivo" type="submit" value="prestar" name=prestar>
-        </form>
+
+
+        <?php
+        }
+
+
+
+    } else {
+        $documentoInstructor = $_POST['documento'];
+        echo $documentoInstructor;
+
+        require_once "./classInstructor.php";
+        $mostrarInstructor = new Instructor();
+        $obtenerUsuarioId = $mostrarInstructor->obtenerUsuarioId($documentoInstructor);
+
+        var_dump($obtenerUsuarioId);
+
+        if ($obtenerUsuarioId->num_rows == 0) {
+            echo "<center><h2>Usuario no encontrado</h2></center>";
+
+
+
+        } else {
+            $fila = $obtenerUsuarioId->fetch_assoc();
+        ?>
+            <form action="./registrarPrestamoAmbiente.php" method="post">
+
+
+
+                <div class="registro-div registro_usuario-input">
+                    <h3>Datos Instructor</h3>
+                    <div class="registro-input registro-usuario-input">
+                        <div class="rgts-input rgts-usuario-input">
+
+                            <select name="tipoDocumento" id="" class="select-registro">
+                                <option value=<?php echo $fila['idDocumento']; ?>><?php echo $fila['tipo'] ?> </option>
+                            </select>
+
+                            <input type="number" name="numeroCedula" value=<?php echo $fila['numero_documento'] ?> class="input-number" readonly>
+                            <input type="text" name="nombre" value="<?php echo $fila['nombre'] ?>" readonly>
+                            <input type="text" name="apellido" value="<?php echo $fila['apellido'] ?>" class="input-number" readonly>
+                            <input type="text" name="telefono" value="<?php echo $fila['telefono'] ?>" readonly>
+                            <input type="email" name="correo" value="<?php echo $fila['correo']; ?>" readonly>
+                            <select name="rol" id="" class="select-registro">
+                                <option value="id_rol"><?php echo $fila['nombre_rol']; ?></option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <?php
+                require_once "./classAmbientes.php";
+                $verAmbiente = new Ambientes();
+                $resultados = $verAmbiente->mostrarAmbienteEstado();
+
+                var_dump($resultados);
+
+                if ($resultados->num_rows == 0) {
+                    echo "<center><h2>No hay ambientes disponibles</h2></center>";
+
+
+                } else {
+                ?>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">numero</th>
+                                <th scope="col">piso</th>
+                                <th scope="col">estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+
+
+                            while ($filas = $resultados->fetch_assoc()) {
+
+
+                                if ($filas['id_estado_ambiente'] == 1) { ?>
+                                    <tr>
+                                        <td><?php echo $filas['id_numero_ambiente']; ?></td>
+                                        <td><?php echo $filas['piso']; ?></td>
+                                        <td><?php echo $filas['estado_ambiente'] ?></td>
+
+                                        <td> <input type="radio" value="<?php echo $filas['id_numero_ambiente']; ?>" name='inputselect[]' class="chkseleccion"></td>
+                                        </tr>
+                                    <?php
+                                }
+                            }
+                                ?>
+                                
+                        </tbody>
+                    </table>
+
+
+
+
+                    <label for="">observaciones</label><br>
+                <textarea rows="10" cols="40" name="observaciones" placeholder=""></textarea>
+
+                <input class="btn-registro btn-registro-dispositivo" type="submit" value="prestar" name=prestar>
+            </form>
+
+
+
+
+                <?php
+
+                }
+
+
+                ?>
+
+
+
+
+
+            
     <?php
+        }
     }
+
     ?>
+
 
 
 
@@ -213,7 +231,7 @@
         $nuevoPrestamo->observaciones = $observaciones;
         $nuevoPrestamo->id_numero_ambiente = $ambiente[0];
         $nuevoPrestamo->numero_documento = $numeroCedula;
-        $nuevoPrestamo->estado_prestamo="activo";
+        $nuevoPrestamo->estado_prestamo = "activo";
         $nuevoPrestamo->registrarPrestamo();
 
 
@@ -239,33 +257,14 @@
 
 
 
+header("location: verPrestamosActivos.php ");
 
-
-        // header("Location: ver_ambiente.php");
+    //    echo "<script>alert('datos registrados exitosamente');</script>";
     }
 
 
 
     ?>
-
-<!-- select one checkbox 
-
-<script>
-    var checkbox = document.getElementsByClassName('chkseleccion');
-    var currentCheckbox = null;
-    for (var i = 0; i < checkbox.length; i++) {
-        checkbox[i].addEventListener('click',function() {
-            if (currentCheckbox !== null && currentCheckbox !== this) {
-                currentCheckbox.checked = false;
-            }
-            if (this.checked) {
-                currentCheckbox = this;
-            } else {
-                currentCheckbox = null;
-            }
-        });
-    }
-</script> --> -->
 
 </body>
 

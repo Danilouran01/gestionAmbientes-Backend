@@ -23,7 +23,9 @@ class Prestamo extends Conexion{
         $registrar_prestamo->execute();
 
         if ($registrar_prestamo) {
-                echo "Datos insertados correctamente";
+                // echo "Datos insertados correctamente";
+
+                echo "<script>alert('datos registrados exitosamente');</script>";
             } else {
                 echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
             }
@@ -31,12 +33,12 @@ class Prestamo extends Conexion{
     }
 
 
-    public function obtenerPrestamosActivos($estado){
+    public function obtenerPrestamosActivosInactivos($estado){
 
 
         $this->conectar();
       
-         $prestamos_activos="SELECT * FROM `prestamo` WHERE estado_prestamo='$estado'";
+         $prestamos_activos="SELECT `id_prestamo`, `fecha_prestamo`, `hora_prestamo`, `fecha_entrega`, `hora_entrega`, `observaciones`, `id_numero_ambiente`, `numero_documento`, `estado_prestamo` FROM `prestamo` ORDER BY prestamo.id_prestamo DESC";
         $consulatr_prestamos_activos = $this->con->query( $prestamos_activos);
         return $consulatr_prestamos_activos;
 
