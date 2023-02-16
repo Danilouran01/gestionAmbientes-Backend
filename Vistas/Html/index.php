@@ -8,11 +8,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <title>Gestion de Ambientes</title>
+    <link rel="stylesheet" href="../Css/global.css">
+
 </head>
 <body>
 
     <div class="barra_superior">
-        <h1>Gestion de Ambientes</h1>
+        <img class="logo" src="../images/logo sena.png" alt="">
+        <h1 class="titulo_principal">Gestion de Ambientes</h1>
+
     </div>
 
     <div class="subtitulo">
@@ -45,7 +49,8 @@
     
 
   
-  <!-- Modal -->
+        <!-- Modal 1  -->
+
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -72,6 +77,8 @@
     </div>
   </div>
 
+        <!-- MODAL 2 -->
+
   <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -86,7 +93,8 @@
                         <div class="rgts-input rgts-usuario-input">
                             <input class="campos-registro" type="text" placeholder="Nombre">
                             <input class="campos-registro" type="text" placeholder="Apellido">
-                            <select class="campos-registro" name="" id="" class="select-registro">
+                            <select class="campos-registro select" name="" id="" class="select-registro">
+                                <option value="" disabled selected>Tipo de documento</option>
                                 <option value="">Cedula</option>
                                 <option value="">Tarjeta de identidad</option>
                                 <option value="">Cedula de extranjeria</option>
@@ -103,6 +111,9 @@
     </div>
   </div>
 
+
+        <!-- MODAL 3 -->
+
   <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -117,7 +128,8 @@
                         <div class="rgts-input rgts-usuario-input">
                             <input class="campos-registro" type="text" placeholder="Nombre">
                             <input class="campos-registro" type="text" placeholder="Apellido">
-                            <select class="campos-registro" name="" id="" class="select-registro">
+                            <select class="campos-registro select" name="" id="" class="select-registro">
+                                <option value="" disabled selected>Tipo de documento</option>
                                 <option value="">Cedula</option>
                                 <option value="">Tarjeta de identidad</option>
                                 <option value="">Cedula de extranjeria</option>
