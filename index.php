@@ -95,18 +95,21 @@ $documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
                 </div>
                 <div class="modal-body">
                     <div class="registro-div registro_usuario-input">
-                    <form class="registro registro_usuario" id="registro" method="post" action="./registrarInstructor.php">
-                        
+
+
+
+                        <form class="registro registro_usuario" id="registro" method="post" action="./registrarInstructor.php">
+
                             <div class="registro-input registro-usuario-input">
                                 <div class="rgts-input rgts-usuario-input">
 
-                                    <select class="campos-registro" name="tipoDocumento" id="" class="select-registro"  name="tipoDocumento">
-                                        <option value="" disabled selected>Tipo de documento</option>
+                                    <select class="campos-registro" name="tipoDocumento" id="" class="select-registro">
+                                        <!-- <option value="" disabled selected>Tipo de documento</option> -->
 
                                         <?php
 
                                         while ($row = $documentoAprendiz->fetch_assoc()) { ?>
-                                            
+
                                             <option value="<?php echo $row['idDocumento'] ?>"><?php echo $row['tipo']  ?></option>
 
                                         <?php
@@ -120,7 +123,7 @@ $documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
                                     <input class="campos-registro" type="text" placeholder="Apellido" name="apellido">
                                     <input class="campos-registro" type="number" placeholder="Telefono" class="input-number" name="telefono">
                                     <input class="campos-registro" type="email" placeholder="Correo" name="correo">
-                                    
+
 
                                     <input class="btn-registro btn-registro-usuario" type="submit" value="Registrarse" name="enviar">
                                 </div>
@@ -131,6 +134,7 @@ $documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
             </div>
         </div>
     </div>
+
 
     <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -146,7 +150,7 @@ $documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
                                 <div class="rgts-input rgts-usuario-input">
 
                                     <select class="campos-registro" name="tipoDocumento" id="" class="select-registro">
-                                        <option value="" disabled selected>Tipo de documento</option>
+                                        <!-- <option value="" disabled selected>Tipo de documento</option> -->
 
                                         <?php
 
@@ -168,7 +172,7 @@ $documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
                                     <input class="campos-registro" type="number" placeholder="Numero de ficha" class="input-number" name="ficha">
                                     <input class="campos-registro" type="number" placeholder="Telefono" class="input-number" name="telefono">
                                     <input class="campos-registro" type="email" placeholder="Correo" name="correo">
-                                    
+
 
                                     <input class="btn-registro btn-registro-usuario" type="submit" value="Registrarse" name="enviar">
                                 </div>
