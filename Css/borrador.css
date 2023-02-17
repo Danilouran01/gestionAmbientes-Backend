@@ -1,0 +1,85 @@
+select{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+
+.buscador{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buscador h3{
+    display: inline-block;
+    margin: 10px;
+}
+
+.buscador-int{
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    height: 4vh;
+    border-bottom: 1px solid greenyellow;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.input-b{
+    width: 15vh;
+    height: 21px;
+    border-radius: 10px;
+    background: white;
+    outline: none;
+    border: 1px solid black;
+    transition: .5s;  
+}
+
+.input-b:focus{
+    width: 25vh;
+}
+
+.selec-b{
+    width: 33px;
+    height: 26px;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+
+}
+
+.selec-b:hover{
+    background: greenyellow;
+}
+
+.btn-b{
+    width: 130px;
+    height: 26px;
+    border-radius: 10px;
+    background: white;
+    border: none;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.btn-b:hover{
+    background:greenyellow;
+}
+
+.btns-b{
+    margin-bottom: 10px;
+}
+
+
+.bd-prestamo-ambientes{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    max-height: 100%;
+    
+}
