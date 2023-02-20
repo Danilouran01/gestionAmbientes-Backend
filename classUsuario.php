@@ -75,6 +75,14 @@ class Usuario extends Conexion
 
     }
 
+    public function obtenerUsuarioIdRol($idUsuario,$rol){
+        $this->conectar();
+        $sql="SELECT * FROM tipo_documento INNER JOIN usuario on usuario.tipo_documento=tipo_documento.idDocumento INNER JOIN rol ON rol.id_rol=usuario.id_rol WHERE numero_documento=$idUsuario AND usuario.id_rol=$rol";
+        $obtenerUsuarioId = $this->con->query($sql);
+        return $obtenerUsuarioId;
+
+    }
+
     public function modificarUsuario(){
         $this->conectar();
 
