@@ -2,11 +2,17 @@
 require_once "./classUsuario.php";
 
 $usuarioIndex = new Usuario();
-$documentoInstructor = $usuarioIndex->mostrarTipoDocumentoSelect();
-$documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
+$docuemento = $usuarioIndex->mostrarTipoDocumentoSelect();
 
-
+if(isset($_GET['msg']))
+{
+	$Message = $_GET['msg'];
+}
+else{
+	$Message = 0;
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,17 +22,25 @@ $documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./Css/style.css">
-    <link rel="stylesheet" href="./css/global.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Gestion de Ambientes</title>
 </head>
-
+<?php 
+if($Message==1){?>
+<script>
+       Swal.fire(
+        'Algo salió mal',
+        'Numero de documento o contraseña incorrectos',
+        'error'
+)
+</script>
+<?php } ?>
 <body>
 
     <div class="barra_superior">
-        <img class="logo" src="./images/logo sena.png" alt="">
-        <h1 class="titulo_principal">Gestion de Ambientes</h1>
+        <h1>Gestion de Ambientes</h1>
     </div>
 
     <div class="subtitulo">
@@ -69,11 +83,11 @@ $documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
                 </div>
                 <div class="modal-body">
                     <div class="registro-div">
-                        <form class="registro registro-admin" id="registro">
+                        <form action="login/logear.php" method="POST" class="registro registro-admin" id="registro">
                             <div class="registro-input">
                                 <div class="rgts-input">
-                                    <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number">
-                                    <input class="campos-registro" type="password" placeholder="Contraseña">
+                                    <input class="campos-registro" name="numero_documento" id="numero_documento" type="number" placeholder="Numero de documento" class="input-number" required>
+                                    <input class="campos-registro" name="contrasena" id="contrasena" type="password" placeholder="Contraseña" required>
 
                                     <button class="btn-registro">Iniciar Sesión</button>
                                     <a href="#">¿Olvidaste la contraseña?</a>
@@ -95,37 +109,19 @@ $documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
                 </div>
                 <div class="modal-body">
                     <div class="registro-div registro_usuario-input">
-
-
-
-                        <form class="registro registro_usuario" id="registro" method="post" action="./registrarInstructor.php">
-
+                        <form class="registro registro_usuario" id="registro">
                             <div class="registro-input registro-usuario-input">
                                 <div class="rgts-input rgts-usuario-input">
-
-                                    <select class="campos-registro" name="tipoDocumento" id="" class="select-registro">
-                                        <!-- <option value="" disabled selected>Tipo de documento</option> -->
-
-                                        <?php
-
-                                        while ($row = $documentoAprendiz->fetch_assoc()) { ?>
-
-                                            <option value="<?php echo $row['idDocumento'] ?>"><?php echo $row['tipo']  ?></option>
-
-                                        <?php
-                                        }
-                                        ?>
-
-                                    </select>
-                                    <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number" name="numeroCedula">
-
-                                    <input class="campos-registro" type="text" placeholder="Nombre" name="nombre">
-                                    <input class="campos-registro" type="text" placeholder="Apellido" name="apellido">
-                                    <input class="campos-registro" type="number" placeholder="Telefono" class="input-number" name="telefono">
-                                    <input class="campos-registro" type="email" placeholder="Correo" name="correo">
-
-
-                                    <input class="btn-registro btn-registro-usuario" type="submit" value="Registrarse" name="enviar">
+                                    <input class="campos-registro" type="text" placeholder="Nombre">
+                                    <input class="campos-registro" type="text" placeholder="Apellido">
+                                    <select class="campos-registro" name="" id="" class="select-registro">
+                                        <option value="">Cedula</option>
+                                        <option value="">Tarjeta de identidad</option>
+                                        <option value="">Cedula de extranjeria</option>
+                                        <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number">
+                                        <input class="campos-registro" type="number" placeholder="Telefono" class="input-number">
+                                        <input class="campos-registro" type="email" placeholder="Correo">
+                                        <button class="btn-registro btn-registro-usuario">Registrarse</button>
                                 </div>
                             </div>
                         </form>
@@ -134,7 +130,6 @@ $documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
             </div>
         </div>
     </div>
-
 
     <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -145,16 +140,14 @@ $documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
                 </div>
                 <div class="modal-body">
                     <div class="registro-div registro_usuario-input">
-                        <form class="registro registro_usuario" id="registro" method="post" action="./registrarAprendiz.php">
+                        <form class="registro registro_usuario" id="registro" method="post" action="./POO/registrarAprendiz.php">
                             <div class="registro-input registro-usuario-input">
                                 <div class="rgts-input rgts-usuario-input">
 
                                     <select class="campos-registro" name="tipoDocumento" id="" class="select-registro">
-                                        <!-- <option value="" disabled selected>Tipo de documento</option> -->
-
                                         <?php
 
-                                        while ($row = $documentoInstructor->fetch_assoc()) { ?>
+                                        while ($row = $docuemento->fetch_assoc()) { ?>
 
                                             <option value="<?php echo $row['idDocumento'] ?>"><?php echo $row['tipo']  ?></option>
 
@@ -172,7 +165,7 @@ $documentoAprendiz = $usuarioIndex->mostrarTipoDocumentoSelect();
                                     <input class="campos-registro" type="number" placeholder="Numero de ficha" class="input-number" name="ficha">
                                     <input class="campos-registro" type="number" placeholder="Telefono" class="input-number" name="telefono">
                                     <input class="campos-registro" type="email" placeholder="Correo" name="correo">
-
+                                    
 
                                     <input class="btn-registro btn-registro-usuario" type="submit" value="Registrarse" name="enviar">
                                 </div>
