@@ -16,7 +16,7 @@ class Ambientes extends conexion
         $pre = mysqli_prepare($this->con, "INSERT INTO `ambientes`(`id_numero_ambiente`, `piso`, `estado`) VALUES (?,?,?)");
         $pre->bind_param("iii", $this->id_ambiente, $this->piso, $this->estado);
         $pre->execute();
-        if ($pre == TRUE) {
+        if ($pre) {
             echo "Datos insertados correctamente";
         } else {
             echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
@@ -114,4 +114,23 @@ class Ambientes extends conexion
 
         $this->con->close();
     }
+
+
+    public function estadoAmbiente(){
+        $this->conectar();
+        
+    $sql_estado = "SELECT * FROM `estado_ambiente`";
+    $resultado_sql= $this->con->query($sql_estado);
+
+    if ($resultado_sql){
+        return  $resultado_sql;
+    }else{
+        echo "erro: " . mysqli_error($this->con);
+    } 
+    
+    $this->con->close();
+
+    }
+
+
 }

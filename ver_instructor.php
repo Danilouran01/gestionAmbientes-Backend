@@ -44,7 +44,7 @@
      <td><?php echo $row['telefono']  ?></td>
      <td><?php echo $row['nombre_rol']  ?></td>
      <td><a class="btn btn-info bg-success" href="modifcarInstructor.php?documento=<?php echo $row['numero_documento'];?>" style="color:white">Editar</a></td>
-     <td><a class="btn btn-info bg-success" href="eliminarAprendiz.php?documento=<?php echo $row['numero_documento'];?>" style="color:white">Eliminar</a></td>
+     <td><a class="btn btn-info bg-success" href="eliminarInstructor.php?documento=<?php echo $row['numero_documento'];?>" style="color:white">Eliminar</a></td>
     </tr>
 <?php
   }
