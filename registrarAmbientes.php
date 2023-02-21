@@ -1,3 +1,7 @@
+<?php
+  include_once "./classAmbientes.php";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,26 +22,25 @@
 
                     <input type="text" name="numeroAmbiente" placeholder="numero ambiente" required>
                     <input type="text" name="numeroPiso" placeholder="numero piso" required>
-                    
+
                     <select name="estadoAmbiente" class="select-registro">
-                    <?php
-                        include "../conexion.php";
-                        $sql = "SELECT * FROM `estado_ambiente`";
-                        $resultadoSql = mysqli_query($mysqli, $sql);
-                        if ($resultadoSql) {
+                        <?php
+
+                      
+
+                        $estadoAmbiente=new Ambientes();
+                        $resultado_sql = $estadoAmbiente->estadoAmbiente();
 
 
-                            while ($row = $resultadoSql->fetch_assoc()) {
+                        while ($row = $resultado_sql->fetch_assoc()) {
 
                         ?>
-                                <option value="<?php echo $row['id_estado_ambiente']; ?>"> <?php echo $row['estado_ambiente']; ?></option>
+                            <option value="<?php echo $row['id_estado_ambiente']; ?>"> <?php echo $row['estado_ambiente']; ?></option>
 
                         <?php
 
-                            }
-                        } else {
-                            echo "erro: " . mysqli_error($mysqli);
                         }
+
                         ?>
                     </select>
                     <!-- <input type="text" name="elementoAmbiente" placeholder="elemento ambiente"> -->
@@ -47,26 +50,29 @@
         </form>
     </div>
 
+
     <?php
-    require "./classAmbientes.php";
+ 
 
     if (isset($_POST['registrar'])) {
         echo  $_POST['numeroAmbiente'];
-        $ambiente = new Ambientes();
+
+        $ambiente =new Ambientes();
         $ambiente->id_ambiente = $_POST['numeroAmbiente'];
         $ambiente->piso = $_POST['numeroPiso'];
         $ambiente->estado = $_POST['estadoAmbiente'];
 
         $ambiente->registrarAmbiente();
 
-
-
-
+        
     }
 
-
     ?>
-
 </body>
 
 </html>
+
+
+
+
+
