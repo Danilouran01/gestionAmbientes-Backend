@@ -65,7 +65,6 @@
                         <div class="rgts-input">
                             <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number">
                             <input class="campos-registro" type="password" placeholder="Contraseña">
-
                             <button class="btn-registro">Iniciar Sesión</button>
                             <a href="#">¿Olvidaste la contraseña?</a>
                         </div>
