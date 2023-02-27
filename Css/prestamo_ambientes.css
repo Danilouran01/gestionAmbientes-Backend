@@ -2,8 +2,8 @@
     background-color: #bec0be;
     height: 70px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-between !important;
+    align-items: center !important;
     width: 100%;
     z-index: 5;
 }
