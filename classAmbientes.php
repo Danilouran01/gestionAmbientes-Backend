@@ -108,6 +108,7 @@ class Ambientes extends conexion
         if ($actualizar_estado_ambiente) {
             // header("Location: ver_ambiente.php");
             echo "estado actualizado con exito";
+            return true;
         } else {
             echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
         }
