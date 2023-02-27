@@ -100,11 +100,7 @@ $nuevoPrestamo = new Prestamo();
                 <div class="buscador-int">
                     <!-- <input class="input-b btns-b" type="searc" placeholder="Buscar"> -->
 
-                    <form action="./RegistrarPrestamoAmbiente.php" method="post">
-                    <input  class="input-b btns-b"  placeholder="Buscar" type="number" id="documento" name="documento" 
-                     required>
-                    <input type="submit" value="Consultar" name="consultar" class="btn-consultar">
-                </form>
+                    
 
                     <select class="selec-b btns-b" name="" id="">
                         <option value="">Filtro</option>
@@ -179,7 +175,7 @@ $nuevoPrestamo = new Prestamo();
                     $documentoInstructor = $_POST['documento'];
                     echo $documentoInstructor;
 
-                    $obtenerUsuarioId = $mostrarInstructor->obtenerUsuarioIdRol($documentoInstructor,2);
+                    $obtenerUsuarioId = $mostrarInstructor->obtenerUsuarioIdRol($documentoInstructor, 2);
 
                     // var_dump($obtenerUsuarioId);
 
@@ -200,12 +196,11 @@ $nuevoPrestamo = new Prestamo();
                                     <thead>
                                         <tr>
                                             <th scope="col">Id prestamo</th>
+                                            <th scope="col">Ambiente</th>
+                                            <th scope="col">Doc. responsable</th>
+                                            <th scope="col">Nom. responsable</th>
                                             <th scope="col">Fecha prestamo</th>
                                             <th scope="col">Hora prestamo</th>
-                                            <th scope="col">Ambiente</th>
-                                            <th scope="col">Fecha entrega</th>
-                                            <th scope="col">Hora entrega</th>
-                                            <th scope="col">Responsable</th>
                                             <th scope="col">observaciones</th>
                                             <th scope="col">Estado</th>
                                             <th scope="col">Acciones</th>
@@ -218,20 +213,26 @@ $nuevoPrestamo = new Prestamo();
                                         <tr>
 
                                             <td><?php echo $datos['id_prestamo']    ?></td>
+
+                                            <td><?php echo $datos['id_numero_ambiente']    ?></td>
+
+                                            <td><?php echo $datos['numero_documento']    ?></td>
+                                            <td><?php echo $datos['nombre'] . " " . $datos['apellido']   ?></td>
                                             <td><?php echo $datos['fecha_prestamo']    ?></td>
                                             <td><?php echo $datos['hora_prestamo']    ?></td>
-                                            <td><?php echo $datos['id_numero_ambiente']    ?></td>
-                                            <td><?php echo $datos['fecha_entrega']    ?></td>
-                                            <td><?php echo $datos['fecha_entrega']    ?></td>
-                                            <td><?php echo $datos['numero_documento']    ?></td>
+
+
+
                                             <td><?php echo $datos['observaciones']    ?></td>
                                             <td><?php echo $datos['estado_prestamo'] ?></td>
 
 
-                                            <!-- <td>
-                                                <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo
-                                                                                                                            $datos['id_prestamo']; ?>" style="color:white">observacion</a>
-                                                <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $datos['id_prestamo']; ?>" style="color:white">Entregar</a> -->
+                                            <td>
+                                                <!--  <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo
+                                                                                                                                $datos['id_prestamo']; ?>" style="color:white">observacion</a>-->
+                                                <!-- <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $datos['id_prestamo']; ?>&idAmbiente=<?php echo $datos['id_numero_ambiente']; ?>" style="color:white">Entregar</a> -->
+
+                                                <a class="btn btn-info bg-success" href="verPrestamosActivos.php?idprestamo=<?php echo $datos['id_prestamo']; ?>" style="color:white">Entregar</a>
                                             </td>
                                         </tr>
                                     </tbody>

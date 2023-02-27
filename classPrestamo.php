@@ -46,7 +46,6 @@ class Prestamo extends Conexion
     }
 
 
-
     public function cerrarPrestamo()
     {
         $this->conectar();
@@ -54,7 +53,9 @@ class Prestamo extends Conexion
         $cerrar_prestamo->bind_param('sssi', $this->fecha_entrega, $this->hora_entrega, $this->estado_prestamo, $this->id_prestamo);
         $cerrar_prestamo->execute();
         if ($cerrar_prestamo) {
-            header("Location: verPrestamosActivos.php");
+            echo "prestamo cerrado con exito";
+            return true;
+           
         } else {
             echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
         }
@@ -91,4 +92,18 @@ class Prestamo extends Conexion
 
         return $consulta_prestamo_cedula;
     }
+
+
+    
+    public function prestamoActivoId($id)
+    {
+        $this->conectar();
+
+        $prestamo_cedula = "SELECT * FROM `prestamo` INNER JOIN usuario ON usuario.numero_documento=prestamo.numero_documento WHERE id_prestamo=$id;";
+
+        $consulta_prestamo_id = $this->con->query($prestamo_cedula);
+
+        return $consulta_prestamo_id;
+    }
+
 }
