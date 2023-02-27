@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-02-2023 a las 20:56:02
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.2.0
+-- Tiempo de generación: 27-02-2023 a las 20:00:06
+-- Versión del servidor: 10.4.25-MariaDB
+-- Versión de PHP: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,14 +31,14 @@ CREATE TABLE `ambientes` (
   `id_numero_ambiente` int(15) NOT NULL,
   `piso` varchar(50) NOT NULL,
   `estado` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `ambientes`
 --
 
 INSERT INTO `ambientes` (`id_numero_ambiente`, `piso`, `estado`) VALUES
-(503, '5', 1),
+(503, '5', 2),
 (504, '5', 1),
 (602, '5', 1),
 (888, '3', 1),
@@ -57,7 +57,7 @@ CREATE TABLE `detalle_prestamo` (
   `serial` int(15) NOT NULL,
   `cargador` varchar(1) NOT NULL,
   `mouse` varchar(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -72,7 +72,7 @@ CREATE TABLE `elementos` (
   `modelo` varchar(50) NOT NULL,
   `placa` varchar(50) NOT NULL,
   `estado` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `elementos`
@@ -95,7 +95,7 @@ CREATE TABLE `elementos_estaticos_ambiente` (
   `modelo` varchar(100) NOT NULL,
   `placa` varchar(100) NOT NULL,
   `id_numero_ambiente` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -106,7 +106,7 @@ CREATE TABLE `elementos_estaticos_ambiente` (
 CREATE TABLE `estado_ambiente` (
   `id_estado_ambiente` int(11) NOT NULL,
   `estado_ambiente` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `estado_ambiente`
@@ -126,7 +126,7 @@ INSERT INTO `estado_ambiente` (`id_estado_ambiente`, `estado_ambiente`) VALUES
 CREATE TABLE `estado_elementos` (
   `id_estado_elemento` int(11) NOT NULL,
   `estado_elemento` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `estado_elementos`
@@ -151,7 +151,7 @@ CREATE TABLE `prestamo` (
   `id_numero_ambiente` int(15) NOT NULL,
   `numero_documento` int(15) NOT NULL,
   `estado_prestamo` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `prestamo`
@@ -170,7 +170,29 @@ INSERT INTO `prestamo` (`id_prestamo`, `fecha_prestamo`, `hora_prestamo`, `fecha
 (16, '2023-02-13', '05:40:37', NULL, NULL, 'nueva observacn\r\n\r\n\r\nhola', 999, 4212121, 'activo'),
 (17, '2023-02-13', '05:55:36', '2023-02-13', '09:10:38', NULL, 504, 4212121, ''),
 (18, '2023-02-13', '05:57:10', '2023-02-13', '09:10:15', NULL, 888, 4212121, ''),
-(19, '2023-02-13', '08:00:43', '2023-02-13', '09:10:20', 'obsrvacion', 999, 4212121, '');
+(19, '2023-02-13', '08:00:43', '2023-02-13', '09:10:20', 'obsrvacion', 999, 4212121, ''),
+(20, '2023-02-21', '08:56:22', NULL, NULL, NULL, 503, 23342347, 'activo');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `resetpasswords`
+--
+
+CREATE TABLE `resetpasswords` (
+  `id` int(11) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `resetpasswords`
+--
+
+INSERT INTO `resetpasswords` (`id`, `code`, `email`) VALUES
+(1, '163fcd214b489e', 'kevinrasanchez31@gmail.com'),
+(2, '163fcd3cc70868', 'kevinrasanchez31@gmail.com'),
+(3, '163fcd8bd93ba0', 'kevinrasanchez31@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -181,7 +203,7 @@ INSERT INTO `prestamo` (`id_prestamo`, `fecha_prestamo`, `hora_prestamo`, `fecha
 CREATE TABLE `rol` (
   `id_rol` int(15) NOT NULL,
   `nombre_rol` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `rol`
@@ -201,7 +223,7 @@ INSERT INTO `rol` (`id_rol`, `nombre_rol`) VALUES
 CREATE TABLE `tipo_dispositivo` (
   `id_tipo_dispositivo` int(11) NOT NULL,
   `tipo_dispositivo` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `tipo_dispositivo`
@@ -219,7 +241,7 @@ INSERT INTO `tipo_dispositivo` (`id_tipo_dispositivo`, `tipo_dispositivo`) VALUE
 CREATE TABLE `tipo_documento` (
   `idDocumento` int(11) NOT NULL,
   `tipo` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `tipo_documento`
@@ -248,7 +270,7 @@ CREATE TABLE `usuario` (
   `correo` varchar(100) NOT NULL,
   `contrasena` varchar(100) DEFAULT NULL,
   `id_rol` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuario`
@@ -260,6 +282,7 @@ INSERT INTO `usuario` (`numero_documento`, `nombre`, `apellido`, `tipo_documento
 (66466, 'Valeria ', 'Sepulveda', 1, 4565646, 45646, 'correo@correo.com', NULL, 3),
 (66677, 'Valeria ', 'Sepulveda', 1, 45656466, 4564666, 'correo56@correo.com', NULL, 3),
 (67778, 'andres', 'molina', 1, 64646, 4565646, 'molina@correo.com', NULL, 3),
+(123456, 'kevin', 'ramirez', 1, 0, 32311313, 'karamirez14@misena.edu.co', '827ccb0eea8a706c4c34a16891f84e7b', 1),
 (444444, 'oscar', 'cañas', 1, 2310789, 1332324, 'oscar@correo.co', NULL, 3),
 (4212121, 'Juan camilo', 'vergara', 4, 0, 214444, 'correo@correo.com', NULL, 2),
 (12242423, 'andres', 'ruiz', 1, 24324234, 423434, 'correo@correo.com', NULL, 3),
@@ -323,6 +346,12 @@ ALTER TABLE `prestamo`
   ADD KEY `id_usuarios` (`numero_documento`);
 
 --
+-- Indices de la tabla `resetpasswords`
+--
+ALTER TABLE `resetpasswords`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `rol`
 --
 ALTER TABLE `rol`
@@ -369,7 +398,13 @@ ALTER TABLE `estado_elementos`
 -- AUTO_INCREMENT de la tabla `prestamo`
 --
 ALTER TABLE `prestamo`
-  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT de la tabla `resetpasswords`
+--
+ALTER TABLE `resetpasswords`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
