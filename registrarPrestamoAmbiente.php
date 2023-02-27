@@ -99,6 +99,10 @@ $nuevoPrestamo = new Prestamo();
                 <h3 class="titulo_herencia">Prestamo de ambientes</h3>
                 <div class="buscador-int">
                     <!-- <input class="input-b btns-b" type="searc" placeholder="Buscar"> -->
+                     <form action="./RegistrarPrestamoAmbiente.php" method="post">
+                        <input class="input-b btns-b" placeholder="Buscar" type="number" id="documento" name="documento" required>
+                        <input type="submit" value="Consultar" name="consultar">
+                    </form>
 
                     
 
