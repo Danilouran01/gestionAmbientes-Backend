@@ -19,7 +19,7 @@
     if($array['contar'] > 0){
         session_start();
         $_SESSION['numero_documento'] = $numero_documento;
-        header('location: ../inicio.php');
+        header('location: ../registrarPrestamoAmbiente.php');
     }else{
         header("location: ../index.php?msg=1");
     }

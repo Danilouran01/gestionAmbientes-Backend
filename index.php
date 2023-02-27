@@ -98,7 +98,7 @@ if ($Message == 1) { ?>
                                     <input class="campos-registro" name="contrasena" id="contrasena" type="password" placeholder="Contraseña" required>
 
                                     <button class="btn-registro">Iniciar Sesión</button>
-                                    <a href="#">¿Olvidaste la contraseña?</a>
+                                    <a href="Recuperar_password/request_Reset.php">¿Olvidaste la contraseña?</a>
                                 </div>
                             </div>
                         </form>
