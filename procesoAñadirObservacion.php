@@ -10,7 +10,9 @@ if (isset($_GET['btnObservacion'])) {
 
     echo"<script>alert('observacion añadida con exito');</script>";
     
-    header("location: verPrestamosActivos.php ");
+    // header("location: verPrestamosActivos.php ");
+    header("Location: verPrestamosActivos.php?idprestamo=$id_prestamo");
+
 }
 
 

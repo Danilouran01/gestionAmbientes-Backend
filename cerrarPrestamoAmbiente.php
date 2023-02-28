@@ -21,16 +21,18 @@ if (isset($_REQUEST['idprestamo'])  && isset($_REQUEST['idAmbiente'])) {
     $cerrarPrestamo->estado_prestamo = "inactivo";
     $cerrarPrestamo->cerrarPrestamo();
 
-    $result_actuliazar = $actualizarEstadoAmbientes->actualizarEstadoAmbiente();
+    $result_actualiazar = $actualizarEstadoAmbientes->actualizarEstadoAmbiente();
     $result_cerrar = $cerrarPrestamo->cerrarPrestamo();
 
 
-    if ($result_actuliazar && $result_cerrar) {
+    if ($result_actualiazar && $result_cerrar) {
 
-        header("Location: verPrestamosActivos.php");
-        echo "correcto";
-        echo "----" .  $result_actuliazar . ".....";
-        echo $result_cerrar;
+        // header("Location: verPrestamosActivos.php");
+        header("Location: verPrestamosActivos.php?idprestamo=$id_prestamo");
+
+        // echo "correcto";
+        // echo "----" .  $result_actuliazar . ".....";
+        // echo $result_cerrar;
     }
 } else {
     echo "ocurrio un error";
