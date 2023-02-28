@@ -42,6 +42,30 @@ if ($Message == 1) { ?>
     </script>
 <?php } ?>
 
+<?php
+if ($Message == 2) { ?>
+    <script>
+        Swal.fire(
+            'Muy Bien',
+            'El link para cambiar la contraseña se acaba de enviar a tu correo electronico, Revise por favor',
+            'success'
+        )
+    </script>
+<?php } ?>
+
+<?php
+if ($Message == 3) { ?>
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Contraseña Actualizada ',
+            showConfirmButton: false,
+            timer: 2500
+        })
+    </script>
+<?php } ?>
+
 <body>
 
     <div class="barra_superior">

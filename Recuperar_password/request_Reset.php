@@ -10,6 +10,12 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 require 'config.php';
 
+if(isset($_GET['msg']))
+{
+    $Message = $_GET['msg'];
+}
+
+
 if(isset($_POST['correo'])){
 
     $emailTo = $_POST['correo'];
@@ -42,20 +48,37 @@ $mail = new PHPMailer(true);
         $mail->Subject = 'Link para recuperar tu contraseña';
         $mail->Body    = "<h1>Este es el link para cambiar tu contraseña</h1>
                             Dale <a href='$url'>Click aquí para dirigirte</a>";
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
         $mail->send();
-        echo 'El link para cambiar la contraseña se acaba de enviar a tu correo electronico, Revise por favor';
+
+        header('location: ../index.php?msg=2');
+
     } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        echo "No es posible enviar el la información a este correo. Mailer Error: {$mail->ErrorInfo}";
     }
     exit();
 };
 
 ?>
 
-<form action="" method="POST">
-    <input type="email" name="correo" placeholder="Correo Electronico" autocomplete="off">
-    <br>
-    <input type="submit" name="submit">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Contraseña</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap" rel="stylesheet">
+</head>
+<body>
+    <form action="" method="POST">
+        <input type="email" name="correo" placeholder="Correo Electronico" autocomplete="off">
+        <br>
+        <input type="submit" name="submit">
+    </form>
+</body>
+</html>
