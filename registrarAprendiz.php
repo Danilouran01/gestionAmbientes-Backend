@@ -1,6 +1,10 @@
     <?php
     include_once "./classAprendiz.php";
 
+    if(isset($_GET['msg']))
+    {
+        $Message = $_GET['msg'];
+    }
 
     if (isset($_POST['enviar'])) {
 
@@ -30,7 +34,7 @@
         echo '<script type="text/javascript">alert("Datos registrados correctamente");</script>';
 
         
-        header("location: ./index.php");
+        header("location: ./index.php?msg=5");
     }
 
 

@@ -66,6 +66,32 @@ if ($Message == 3) { ?>
     </script>
 <?php } ?>
 
+<?php
+if ($Message == 4) { ?>
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Instructor agregado correctamente',
+            showConfirmButton: false,
+            timer: 2500
+        })
+    </script>
+<?php } ?>
+
+<?php
+if ($Message == 5) { ?>
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Aprendiz agregado correctamente',
+            showConfirmButton: false,
+            timer: 2500
+        })
+    </script>
+<?php } ?>
+
 <body>
 
     <div class="barra_superior">

@@ -2,6 +2,11 @@
     <?php
     include_once "./classInstructor.php";
 
+    if(isset($_GET['msg']))
+    {
+        $Message = $_GET['msg'];
+    }
+
     if (isset($_POST['enviar'])) {
 
         $tipoDocumento = $_POST['tipoDocumento'];
@@ -28,7 +33,7 @@
         echo '<script type="text/javascript">alert("Datos registrados correctamente");</script>';
 
 
-        header("location: ./index.php");
+        header("location: ./index.php?msg=4");
     }
 
 
