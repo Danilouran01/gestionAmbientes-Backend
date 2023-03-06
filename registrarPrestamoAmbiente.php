@@ -101,7 +101,7 @@ $nuevoPrestamo = new Prestamo();
                     <!-- <input class="input-b btns-b" type="searc" placeholder="Buscar"> -->
                     <form action="./RegistrarPrestamoAmbiente.php" method="post">
                         <input class="input-b btns-b" placeholder="Buscar" type="number" id="documento" name="documento" required>
-                        <input type="submit" value="Consultar" name="consultar">
+                        <input type="submit" value="Consultar" name="consultar" class="btn-consultar" >
                     </form>
 
 
@@ -110,6 +110,7 @@ $nuevoPrestamo = new Prestamo();
                         <option value="">Filtro</option>
                     </select>
                     <button class="btn-b btns-b">Añadir ambiente</button>
+                    <a href="./ambientes_activos.php" class="btn-activos" >Ambientes activos</a>
                 </div>
                 <div class="bd-prestamo-ambientes">
                 </div>

@@ -1,0 +1,319 @@
+.parte-superior{
+    background-color: #bec0be;
+    height: 70px;
+    display: flex;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100%;
+    z-index: 5;
+}
+
+
+
+
+.dropdown-toggle{
+    transition: all .5s !important;
+    margin-right: 10px !important;
+    padding: 0px !important;
+    border-radius: 30px !important;
+    width: 50px !important;
+    position: fixed;
+    top: 10px;
+    right: 0;
+}
+
+.dropdown-toggle:focus{
+    background: #25998a !important;
+    border: 1px solid #238276 !important;
+    width: 100px !important;
+    padding-right: 10px !important;
+
+}
+
+.dropdown-item{
+    color: white !important;
+}
+
+.dropdown-menu{
+    background: #238276 !important;
+}
+
+.dropdown-item:hover{
+    background: #25998a !important;
+}
+
+body{
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+html{
+    height: 100%;
+    width: 100%;
+}
+
+.titulo_herencia{
+    color: white;
+    font-size: 20px;
+
+}
+
+.perfil{
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+}
+
+.titulo{
+    display: inline-block;
+    font-size: 30px;
+    text-align: center;
+    margin-top: 15px;
+    
+}
+
+.fa-regular{
+    display: inline-block;
+    cursor: pointer;
+    font-size: 20px;
+    
+}
+
+.logo{
+    display: inline-block;
+    width: 40px;
+    padding-top: 10px;
+}
+
+.parte-inferior{
+    display: flex;
+    width: 80%;
+    margin-top: 2px;
+}
+
+.botones-principales{
+    width: auto;
+    height: 100%;
+    border-right: 1px solid rgb(81, 250, 48);
+    border-left: 1px solid rgb(81, 250, 48);
+    background: #238276;
+    margin-right: 1px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+    
+}
+
+.btn-1{
+    display: flex;
+    width: 200px;
+    height: 35px;
+    border-radius: 10px;
+    background: #238276;
+    border: solid 1px #25998a;   
+    gap: 10px;
+    margin: 0 20px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    
+}
+.btn-1:hover{
+    background: #25998a;
+}
+
+
+.prestamos{
+    width: 80%;
+    height: 70px;
+    background-color: rgb(179, 179, 179);
+    margin-top: 1px;
+    
+    
+}
+
+.titulo-2{
+    text-align: center;
+}
+
+.titulo-2 h3 {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+
+.nav-bar{
+    display: flex;
+    text-align: center;
+    display: block;
+}
+
+.nav-inputs{
+    width: 200px;
+    height: 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(81, 250, 48);
+
+}
+
+.btn-2{
+    height: 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 1px solid rgb(81, 250, 48);
+    background: white;
+}
+
+.btn-2:hover{
+    background: rgb(81, 250, 48);
+}
+
+
+.fa-regular{
+    margin-right: 30px;
+}
+
+.flex {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+.herencia{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+
+
+
+.barra_inferior{
+    background: #bec0be;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    z-index: 10;
+}
+
+
+
+        /* HERENCIA */
+
+select{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+
+
+.buscador{
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background: #238276;
+    
+}
+
+.buscador h3{
+    display: inline-block;
+    margin: 10px;
+}
+
+.buscador-int{
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid greenyellow;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+
+}
+
+.input-b{
+    width: 100px;
+    height: 25px;
+    border-radius: 10px;
+    background: white;
+    outline: none;
+    border: 1px solid black;
+    transition: all .5s;  
+}
+
+.input-b:focus{
+    width: 25vh;
+    background: #25998a;
+}
+
+.selec-b{
+    width: auto;
+    padding: 0 5px;
+    height: 26px;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+
+}
+
+.selec-b:hover{
+    background: #25998a;
+}
+
+.btn-b{
+    width: auto;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    border: 1px solid #25998a;
+}
+
+.input-b::placeholder{
+    color: white;
+}
+
+.btns-b{
+    height: 30px;
+    border: 1px solid #25998a;
+    background: #238276;
+    color: white;
+    font-size: 14px;
+
+}
+
+.btn-b:hover{
+    background: #25998a;
+}
+
+
+
+
+.bd-prestamo-ambientes{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    max-height: 100%;
+    
+}
+
+.contenido{
+    display: flex;
+    overflow: auto;
+}
+
