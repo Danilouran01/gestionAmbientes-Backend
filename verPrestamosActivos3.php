@@ -1,13 +1,9 @@
 <?php
 require_once "./classPrestamo.php";
+require_once "./codigoTabla.php";
 
 $estadoPrestamo = new Prestamo();
 $mostrar_prestamos = $estadoPrestamo->obtenerPrestamosActivosInactivos("activo");
-
-
-
-
-
 
 ?>
 
@@ -86,7 +82,7 @@ $mostrar_prestamos = $estadoPrestamo->obtenerPrestamosActivosInactivos("activo")
 
                     </tr>
 
-               
+
 
 
 
@@ -99,80 +95,13 @@ $mostrar_prestamos = $estadoPrestamo->obtenerPrestamosActivosInactivos("activo")
 
 
          <?php
-
+ Ver_Prestamos();
 
 
     } else {
 
 
-
-
-    ?>
-
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Id prestamo</th>
-                    <th scope="col">Fecha prestamo</th>
-                    <th scope="col">Hora prestamo</th>
-                    <th scope="col">Ambiente</th>
-                    <th scope="col">Fecha entrega</th>
-                    <th scope="col">Hora entrega</th>
-                    <th scope="col">Responsable</th>
-                    <th scope="col">observaciones</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Acciones</th>
-
-
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-
-                while ($rows = $mostrar_prestamos->fetch_assoc()) {
-                ?>
-
-                    <tr>
-
-                        <td><?php echo $rows['id_prestamo']    ?></td>
-                        <td><?php echo $rows['fecha_prestamo']    ?></td>
-                        <td><?php echo $rows['hora_prestamo']    ?></td>
-                        <td><?php echo $rows['id_numero_ambiente']    ?></td>
-                        <td><?php echo $rows['fecha_entrega']    ?></td>
-                        <td><?php echo $rows['fecha_entrega']    ?></td>
-                        <td><?php echo $rows['numero_documento']    ?></td>
-                        <td><?php echo $rows['observaciones']    ?></td>
-                        <td><?php echo $rows['estado_prestamo'] ?></td>
-
-
-
-                        <td>
-                            <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo $rows['id_prestamo']; ?>" style="color:white">observacion</a>
-                            <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $rows['id_prestamo']; ?>&idAmbiente=<?php echo $rows['id_numero_ambiente']; ?>" style="color:white">Entregar</a>
-                        </td>
-
-
-
-
-
-
-
-                    </tr>
-
-                <?php
-                }
-
-                ?>
-
-
-
-
-
-            </tbody>
-        </table>
-
-    <?php
+   Ver_Prestamos();
 
     }
 
