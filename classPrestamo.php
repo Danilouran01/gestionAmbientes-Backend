@@ -28,11 +28,14 @@ class Prestamo extends Conexion
             // echo "Datos insertados correctamente";
 
             echo "<script>alert('datos registrados exitosamente');</script>";
+            $id_prestamo_Ai=mysqli_insert_id($this->con);
+            return $id_prestamo_Ai;
         } else {
             echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
         }
     }
 
+   
 
     public function obtenerPrestamosActivosInactivos($estado)
     {

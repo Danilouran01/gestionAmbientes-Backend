@@ -84,4 +84,17 @@ class Elemento extends Conexion
         $resultado = $this->con->query($sql);
         return $resultado;
     }
+
+    //----------------------------------
+
+    public function mostrarElementosDisponibles(){
+        $this->conectar();
+
+        
+       
+        $elemento_disponible= "SELECT * FROM `elementos` INNER JOIN tipo_dispositivo on tipo_dispositivo.id_tipo_dispositivo=elementos.tipo_dispositivo WHERE elementos.estado =1";
+        $resultado_elemento_disponible = $this->con->query($elemento_disponible);
+        return $resultado_elemento_disponible;
+
+    }
 }
