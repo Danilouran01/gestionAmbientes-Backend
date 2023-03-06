@@ -44,7 +44,7 @@ $nuevoPrestamo = new Prestamo();
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#" class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#editar_perfil">Editar perfil</a></li>
                 <li><a class="dropdown-item" href="./editar_usuario.php">Editar usuarios</a></li>
-                <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar sesión</a></li>
             </ul>
         </div>
 
