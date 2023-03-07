@@ -1,5 +1,8 @@
 <?php
-  
+session_start();
+if(!isset($_SESSION['numero_documento'])){
+    header("location: index.php");
+};
 include_once "./classInstructor.php";
   if (isset($_POST['enviar'])) {
 

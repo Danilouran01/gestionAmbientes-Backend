@@ -1,5 +1,9 @@
 <?php
 require_once"./classPrestamo.php";
+session_start();
+if(!isset($_SESSION['numero_documento'])){
+    header("location: index.php");
+};
 if (isset($_GET['btnObservacion'])) {
     $observacion=$_GET['observaciones'];
     $id_prestamo=$_GET['idPrestamo'];

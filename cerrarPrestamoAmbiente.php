@@ -1,6 +1,12 @@
 <?php
 include_once "./classPrestamo.php";
 include_once "./classAmbientes.php";
+
+session_start();
+if(!isset($_SESSION['numero_documento'])){
+    header("location: index.php");
+};
+
 if (isset($_REQUEST['idprestamo'])  && isset($_REQUEST['idAmbiente'])) {
     $id_prestamo = $_REQUEST['idprestamo'];
     $id_ambientes = $_REQUEST['idAmbiente'];
