@@ -19,6 +19,7 @@ class Prestamo extends Conexion
     public $estado_prestamo;
 
 
+
     public function registrarPrestamo()
     {
 
@@ -114,4 +115,12 @@ class Prestamo extends Conexion
         return $consulta_prestamo_id;
     }
 
+
+    public function PrestamoActivoElementosDocumento($documento){
+        $this->conectar();
+        $prestamo_elemento="SELECT * from usuario INNER JOIN prestamo on usuario.numero_documento= prestamo.numero_documento INNER join detalle_prestamo on detalle_prestamo.id_prestamo=prestamo.id_prestamo inner JOIN elementos on elementos.serial =detalle_prestamo.serial INNER JOIN tipo_dispositivo on tipo_dispositivo.id_tipo_dispositivo=tipo_dispositivo.id_tipo_dispositivo WHERE usuario.numero_documento=$documento and prestamo.estado_prestamo='activo'";
+        $consulta_prestamo_elemento=$this->con->query($prestamo_elemento);
+        return $consulta_prestamo_elemento;
+
+    }
 }

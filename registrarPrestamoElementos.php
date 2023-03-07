@@ -5,6 +5,7 @@ if(!isset($_SESSION['numero_documento'])){
     header("location: index.php");
 };
 $mostrarElemento = new Elemento();
+$actualizarElemento = new Elemento();
 
 
 
@@ -18,7 +19,7 @@ $nuevoPrestamo = new Prestamo();
 
 
 require_once "./classDetallePrestamo.php";
-$detallePrestamo =new DetallePrestamo();
+$detallePrestamo = new DetallePrestamo();
 ?>
 
 
@@ -141,9 +142,6 @@ $detallePrestamo =new DetallePrestamo();
 
                     if ($Elementos->num_rows == 0) {
                         echo "<center><h2>No hay dispositivos disponibles</h2></center>";
-
-
-
                     } else {
 
 
@@ -192,9 +190,9 @@ $detallePrestamo =new DetallePrestamo();
 
                         <?php
                     }
-             // fin foreach
+                    // fin foreach
 
-                 //evalua si el buscador envio algun  id , en caso que si guardamos el id capturado
+                    //evalua si el buscador envio algun  id , en caso que si guardamos el id capturado
                 } else {
                     $documento_usuario = $_POST['documento'];
                     echo $documento_usuario;
@@ -204,17 +202,14 @@ $detallePrestamo =new DetallePrestamo();
                     // var_dump($obtenerUsuarioId);
 
 
-                
+
 
                     if ($obtener_usuario_id->num_rows == 0) {
                         echo "<center><h2>Usuario no encontrado</h2></center>";
-
-
-
                     } else {
 
 
-                        $resultadoPrestamoActivo = $verificarPrestamosActivos->prestamoActivoNumeroDocumento($documento_usuario);
+                        $resultadoPrestamoActivo = $verificarPrestamosActivos->PrestamoActivoElementosDocumento($documento_usuario);
 
                         // var_dump($resultadoPrestamoActivo);
                         if ($resultadoPrestamoActivo->num_rows > 0) {
@@ -228,7 +223,7 @@ $detallePrestamo =new DetallePrestamo();
                                     <thead>
                                         <tr>
                                             <th scope="col">Id prestamo</th>
-                                            <th scope="col">Ambiente</th>
+                                            <th scope="col">Elemento</th>
                                             <th scope="col">Doc. responsable</th>
                                             <th scope="col">Nom. responsable</th>
                                             <th scope="col">Fecha prestamo</th>
@@ -246,9 +241,11 @@ $detallePrestamo =new DetallePrestamo();
 
                                             <td><?php echo $datos['id_prestamo']    ?></td>
 
-                                            <td><?php echo $datos['id_numero_ambiente']    ?></td>
+                                            <td><?php echo $datos['serial']    ?></td>
 
                                             <td><?php echo $datos['numero_documento']    ?></td>
+                                            <td><?php echo $datos['tipo_dispositivo']    ?></td>
+                                            
                                             <td><?php echo $datos['nombre'] . " " . $datos['apellido']   ?></td>
                                             <td><?php echo $datos['fecha_prestamo']    ?></td>
                                             <td><?php echo $datos['hora_prestamo']    ?></td>
@@ -273,8 +270,10 @@ $detallePrestamo =new DetallePrestamo();
                                         </tr>
                                     </tbody>
                                 </table>
+                                <br>
 
                             <?php
+
                             }
 
                             //fin verificacion prestamos 
@@ -306,12 +305,12 @@ $detallePrestamo =new DetallePrestamo();
                                             <input type="text" name="telefono" value="<?php echo $fila['telefono'] ?>" readonly>
                                             <input type="email" name="correo" value="<?php echo $fila['correo']; ?>" readonly>
                                             <select name="cargador" id="" class="select-registro">
-                                            <option value="si">Si</option>
-                                            <option value="no">No</option>
+                                                <option value="si">Si</option>
+                                                <option value="no">No</option>
                                             </select>
-                                            <select name="mouse" id="" class="select-registro" >
-                                                  <option value="no">No</option>
-                                                  <option value="si">Si</option>
+                                            <select name="mouse" id="" class="select-registro">
+                                                <option value="no">No</option>
+                                                <option value="si">Si</option>
                                             </select>
                                             <select name="rol" id="" class="select-registro">
                                                 <option value="id_rol"><?php echo $fila['nombre_rol']; ?></option>
@@ -329,8 +328,8 @@ $detallePrestamo =new DetallePrestamo();
                                     echo "<center><h2>No hay dispositivos disponibles</h2></center>";
                                 } else {
                                 ?>
-                       <input class="btn-registro btn-registro-dispositivo" type="submit" value="prestar" name=prestar>
-                                
+                                    <input class="btn-registro btn-registro-dispositivo" type="submit" value="prestar" name=prestar>
+
 
                                     <table class="table">
                                         <thead>
@@ -362,7 +361,7 @@ $detallePrestamo =new DetallePrestamo();
                                                     <td><input type="checkbox" name="equipos[]" value="<?php echo $Elemento['serial']; ?>"></td>
                                                     <td><input type="radio" name="cargador_<?php echo $Elemento['serial'] ?>" value="si"></td>
                                                     <td><input type="radio" name="mouse_<?php echo $Elemento['serial'] ?>" value="si"></td>
-                        
+
                                                 </tr>
 
                                             <?php
@@ -375,7 +374,7 @@ $detallePrestamo =new DetallePrestamo();
 
 
                                     <label for="">observaciones</label><br>
-                                <textarea rows="10" cols="40" name="observaciones" placeholder=""></textarea>
+                                    <textarea rows="10" cols="40" name="observaciones" placeholder=""></textarea>
 
 
                                 <?php
@@ -385,7 +384,7 @@ $detallePrestamo =new DetallePrestamo();
 
 
 
-                                
+
 
 
                             </form>
@@ -394,105 +393,103 @@ $detallePrestamo =new DetallePrestamo();
 
                 <?php
                         }
-                   
                     }
-
                 }
 
 
                 ?>
-   
 
 
 
 
-<?php
+
+                <?php
 
 
 
-if (isset($_POST['prestar'])) {
+                if (isset($_POST['prestar'])) {
 
-    // $ambiente = $_POST['inputselect'];
-    $numeroCedula = $_POST['numeroCedula'];
-    $equipos_seleccionados=$_POST['equipos'];
-    $mouse=$_POST['mouse'];
-    // $cargador=$_POST['cargador'];
+                    // $ambiente = $_POST['inputselect'];
+                    $numeroCedula = $_POST['numeroCedula'];
+                    $equipos_seleccionados = $_POST['equipos'];
+                    $mouse = $_POST['mouse'];
+                    // $cargador=$_POST['cargador'];
 
-    echo $numeroCedula ."-";
-echo $equipos_seleccionados[0];
+                    echo $numeroCedula . "-";
+                    echo $equipos_seleccionados[0];
 
-    if (empty($_POST['observaciones'])) {
-        $observaciones = NULL;
-    } else {
-        $observaciones = $_POST['observaciones'];
-    }
-
-
-    $nuevoPrestamo->id_prestamo = NULL;
-    $nuevoPrestamo->fecha_prestamo = date('Y-m-d');
-    $nuevoPrestamo->hora_prestamo = date('h:i:s');
-    $nuevoPrestamo->fecha_entrega = NULL;
-    $nuevoPrestamo->hora_entrega =  NULL;
-    $nuevoPrestamo->observaciones = $observaciones;
-    $nuevoPrestamo->id_numero_ambiente = NULL;
-    $nuevoPrestamo->numero_documento = $numeroCedula;
-    $nuevoPrestamo->estado_prestamo = "activo";
-    // $nuevoPrestamo->registrarPrestamo();
-    $id=$nuevoPrestamo->registrarPrestamo();
-    echo "id: " . $id ;
-
-    // $nuevoPrestamo
+                    if (empty($_POST['observaciones'])) {
+                        $observaciones = NULL;
+                    } else {
+                        $observaciones = $_POST['observaciones'];
+                    }
 
 
+                    $nuevoPrestamo->id_prestamo = NULL;
+                    $nuevoPrestamo->fecha_prestamo = date('Y-m-d');
+                    $nuevoPrestamo->hora_prestamo = date('h:i:s');
+                    $nuevoPrestamo->fecha_entrega = NULL;
+                    $nuevoPrestamo->hora_entrega =  NULL;
+                    $nuevoPrestamo->observaciones = $observaciones;
+                    $nuevoPrestamo->id_numero_ambiente = NULL;
+                    $nuevoPrestamo->numero_documento = $numeroCedula;
+                    $nuevoPrestamo->estado_prestamo = "activo";
+                    // $nuevoPrestamo->registrarPrestamo();
+                    $id = $nuevoPrestamo->registrarPrestamo();
+                    echo "id: " . $id;
 
-    foreach ($equipos_seleccionados as $equipo) {
-      
-    echo "------ " . $equipo . "-----";
-
-    $cargador = isset($_POST['cargador_' . $equipo]) ? $_POST['cargador_' . $equipo] : 'no';
-    $mouse = isset($_POST['mouse_' . $equipo]) ? $_POST['mouse_' . $equipo] : 'no';
-    
-   $detallePrestamo->id_detalle_prestamo=NULL;
-   $detallePrestamo->cantidad=NULL;
-   $detallePrestamo->id_prestamo=$id;
-   $detallePrestamo->serial=$equipo;
-   $detallePrestamo->cargador=$cargador;
-   $detallePrestamo->mouse=$mouse;
-    $detallePrestamo->registrarDetallePrestamo();
-
-
-    echo $cargador ." ". $equipo ."<br>";
-    echo $mouse ." ". $equipo ."<br>";
-
-
-      }
+                    // $nuevoPrestamo
 
 
 
-    // date_default_timezone_set("UTC");
+                    foreach ($equipos_seleccionados as $equipo) {
+
+                        echo "------ " . $equipo . "-----";
+
+                        $cargador = isset($_POST['cargador_' . $equipo]) ? $_POST['cargador_' . $equipo] : 'no';
+                        $mouse = isset($_POST['mouse_' . $equipo]) ? $_POST['mouse_' . $equipo] : 'no';
+
+                        $detallePrestamo->id_detalle_prestamo = NULL;
+                        $detallePrestamo->cantidad = NULL;
+                        $detallePrestamo->id_prestamo = $id;
+                        $detallePrestamo->serial = $equipo;
+                        $detallePrestamo->cargador = $cargador;
+                        $detallePrestamo->mouse = $mouse;
+                        $detallePrestamo->registrarDetallePrestamo();
 
 
-    // $hora = date('h:i:s');
-    // $fecha = date('d-m-Y');
-    // $fecha2 = date('d-m-Y  h:i:s');
 
-    // echo $ambiente[0] . "-------------";
-    // echo $numeroCedula . "-------------";
-    // echo $hora . "----------------";
-    // echo $fecha . "--------------";
-    // echo $fecha2;
+
+                        echo $cargador . " " . $equipo . "<br>";
+                        echo $mouse . " " . $equipo . "<br>";
+                    }
 
 
 
-    // header("location: verPrestamosActivos.php");
-
-    //  echo "<script>alert('datos registrados exitosamente');</script>";
-}
+                    // date_default_timezone_set("UTC");
 
 
-?>
+                    // $hora = date('h:i:s');
+                    // $fecha = date('d-m-Y');
+                    // $fecha2 = date('d-m-Y  h:i:s');
 
-</div>
+                    // echo $ambiente[0] . "-------------";
+                    // echo $numeroCedula . "-------------";
+                    // echo $hora . "----------------";
+                    // echo $fecha . "--------------";
+                    // echo $fecha2;
+
+
+
+                    // header("location: verPrestamosActivos.php");
+
+                    //  echo "<script>alert('datos registrados exitosamente');</script>";
+                }
+
+
+                ?>
+
+            </div>
         </div>
     </div>
     <div class="barra_inferior">
@@ -502,12 +499,12 @@ echo $equipos_seleccionados[0];
 
 
 
-      
 
-<!-- <button class="btn-1 btn-0">Prestamo de dispositivos</button>
+
+    <!-- <button class="btn-1 btn-0">Prestamo de dispositivos</button>
     <button class="btn-1" type="submit" >Prestamo de ambientes</button>
     <button class="btn-1">Registro de administrador</button> -->
- <!-- <script>
+    <!-- <script>
   // Obtener todos los radios
   const radios = document.querySelectorAll('input[type="radio"]');
 
@@ -523,14 +520,7 @@ echo $equipos_seleccionados[0];
       }
     });
   }); -->
-</script>
-    </body>
+    </script>
+</body>
+
 </html>
-
-
-
-
-
-
-
-           
