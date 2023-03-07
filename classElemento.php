@@ -97,4 +97,16 @@ class Elemento extends Conexion
         return $resultado_elemento_disponible;
 
     }
+
+
+    public function ActualizarEstadoElemento(){
+
+    $this->conectar();
+     $actualizar_elemento=mysqli_prepare($this->con,"UPDATE `elementos` SET `estado`=? WHERE `serial`=?");
+     $actualizar_elemento->bind_param("ii",$this->estado,$this->serial);
+     $actualizar_elemento->execute();
+
+
+
+    }
 }
