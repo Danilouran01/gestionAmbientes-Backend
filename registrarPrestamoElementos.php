@@ -1,11 +1,8 @@
 <?php
 require_once "./classElemento.php";
-session_start();
-if(!isset($_SESSION['numero_documento'])){
-    header("location: index.php");
-};
 $mostrarElemento = new Elemento();
 $actualizarElemento = new Elemento();
+
 
 
 
@@ -20,6 +17,11 @@ $nuevoPrestamo = new Prestamo();
 
 require_once "./classDetallePrestamo.php";
 $detallePrestamo = new DetallePrestamo();
+
+
+
+$consulta_tipo_dispositivo = $mostrarElemento->tipoElemenento();
+$consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
 ?>
 
 
@@ -30,7 +32,7 @@ $detallePrestamo = new DetallePrestamo();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./Css/prestamo_ambientes.css">
+    <link rel="stylesheet" type="text/css" href="./Css/prestamo_dispositivos.css">
     <script src="https://kit.fontawesome.com/503089e863.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
@@ -57,6 +59,63 @@ $detallePrestamo = new DetallePrestamo();
             </ul>
         </div>
 
+
+        <!-- MODAL NUEVO DISPOSITVO -->
+
+        <div class="modal fade" id="nuevo_dispositivo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir nuevo dispositivo</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="registro-div registro_usuario-input">
+                            <form class="registro registro_usuario" id="registro" action="./registrarElemento.php" method="post">
+                                <div class="registro-input registro-usuario-input">
+                                    <div class="rgts-input rgts-usuario-input">
+                                        <select class="campos-registro select" name="tipoDispositivo" id="" class="select-registro">
+                                            <?php
+                                            foreach ($consulta_tipo_dispositivo as $row) { ?>
+
+
+                                                <option value="<?php echo $row['id_tipo_dispositivo']   ?>"><?php echo $row['tipo_dispositivo']   ?></option>
+
+                                            <?php
+
+                                            }
+                                            ?>
+                                        </select>
+                                        <input class="campos-registro" type="text" placeholder="Serial" name="serial" required>
+                                        <input class="campos-registro" type="text" placeholder="Marca" name="marca" required>
+                                        <input class="campos-registro" type="text" placeholder="Modelo" class="input-number" name="modelo" required>
+                                        <input class="campos-registro" type="text" placeholder="PLaca" class="input-number" name="placa" required>
+
+                                        <select class="campos-registro select" name="estado" id="" class="select-registro">
+                                            <?php
+                                            foreach ($consulta_estado_dispositivo as $estado) { ?>
+
+
+                                                <option value="<?php echo $estado['id_tipo_dispositivo']   ?>"><?php echo $estado['tipo_dispositivo']   ?></option>
+
+                                            <?php
+
+                                            }
+                                            ?>
+
+                                        </select>
+
+                                        <input class="btn-registro btn-registro-usuario" type="submit" value="Registrar dispositivo" name="enviarElemento">
+
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- MODAL EDITAR USUARIO -->
 
@@ -118,12 +177,12 @@ $detallePrestamo = new DetallePrestamo();
                     <select class="selec-b btns-b" name="" id="">
                         <option value="">Filtro</option>
                     </select>
-                    <button class="btn-b btns-b">Añadir ambiente</button>
+                    <button class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#nuevo_dispositivo">Añadir dispositivo</button>
                 </div>
                 <div class="bd-prestamo-ambientes">
                 </div>
             </div>
-            <div class="contenido">
+            <div class="contenido-ml">
 
 
 
@@ -245,7 +304,7 @@ $detallePrestamo = new DetallePrestamo();
 
                                             <td><?php echo $datos['numero_documento']    ?></td>
                                             <td><?php echo $datos['tipo_dispositivo']    ?></td>
-                                            
+
                                             <td><?php echo $datos['nombre'] . " " . $datos['apellido']   ?></td>
                                             <td><?php echo $datos['fecha_prestamo']    ?></td>
                                             <td><?php echo $datos['hora_prestamo']    ?></td>
@@ -304,14 +363,7 @@ $detallePrestamo = new DetallePrestamo();
                                             <input type="text" name="apellido" value="<?php echo $fila['apellido'] ?>" class="input-number" readonly>
                                             <input type="text" name="telefono" value="<?php echo $fila['telefono'] ?>" readonly>
                                             <input type="email" name="correo" value="<?php echo $fila['correo']; ?>" readonly>
-                                            <select name="cargador" id="" class="select-registro">
-                                                <option value="si">Si</option>
-                                                <option value="no">No</option>
-                                            </select>
-                                            <select name="mouse" id="" class="select-registro">
-                                                <option value="no">No</option>
-                                                <option value="si">Si</option>
-                                            </select>
+
                                             <select name="rol" id="" class="select-registro">
                                                 <option value="id_rol"><?php echo $fila['nombre_rol']; ?></option>
                                             </select>
@@ -339,6 +391,9 @@ $detallePrestamo = new DetallePrestamo();
                                                 <th scope="col">Tipo</th>
                                                 <th scope="col">marca</th>
                                                 <th scope="col">modelo</th>
+                                                <th scope="col">------</th>
+                                                <th scope="col">Cargador</th>
+                                                <th scope="col">Mouse</th>
 
 
                                             </tr>
@@ -359,6 +414,14 @@ $detallePrestamo = new DetallePrestamo();
                                                     <td><?php echo $Elemento['marca'] ?></td>
                                                     <td><?php echo $Elemento['modelo'] ?></td>
                                                     <td><input type="checkbox" name="equipos[]" value="<?php echo $Elemento['serial']; ?>"></td>
+                                                    <!-- <td><select name="cargador" id="" class="select-registro">
+                                                            <option value="si">Si</option>
+                                                            <option value="no">No</option>
+                                                        </select></td>
+                                                    <td></td><select name="mouse" id="" class="select-registro">
+                                                        <option value="no">No</option>
+                                                        <option value="si">Si</option>
+                                                    </select></td> -->
                                                     <td><input type="radio" name="cargador_<?php echo $Elemento['serial'] ?>" value="si"></td>
                                                     <td><input type="radio" name="mouse_<?php echo $Elemento['serial'] ?>" value="si"></td>
 
@@ -412,7 +475,7 @@ $detallePrestamo = new DetallePrestamo();
                     // $ambiente = $_POST['inputselect'];
                     $numeroCedula = $_POST['numeroCedula'];
                     $equipos_seleccionados = $_POST['equipos'];
-                    $mouse = $_POST['mouse'];
+                    // $mouse = $_POST['mouse'];
                     // $cargador=$_POST['cargador'];
 
                     echo $numeroCedula . "-";
@@ -457,6 +520,10 @@ $detallePrestamo = new DetallePrestamo();
                         $detallePrestamo->mouse = $mouse;
                         $detallePrestamo->registrarDetallePrestamo();
 
+                        $actualizarElemento->serial = $equipo;
+                        $actualizarElemento->estado = 2;
+                        $actualizarElemento->ActualizarEstadoElemento();
+
 
 
 
@@ -493,6 +560,8 @@ $detallePrestamo = new DetallePrestamo();
         </div>
     </div>
     <div class="barra_inferior">
+
+
     </div>
 
 

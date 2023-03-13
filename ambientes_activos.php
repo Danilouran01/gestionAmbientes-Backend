@@ -1,10 +1,4 @@
 <?php
-
-session_start();
-if(!isset($_SESSION['numero_documento'])){
-    header("location: index.php");
-};
-
 require_once "./classAmbientes.php";
 $verAmbiente = new Ambientes();
 $actualizarEstadoAmbiente = new Ambientes();

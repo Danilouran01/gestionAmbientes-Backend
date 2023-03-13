@@ -1,11 +1,6 @@
 <?php
 require_once "./classPrestamo.php";
 
-session_start();
-if(!isset($_SESSION['numero_documento'])){
-    header("location: index.php");
-};
-
 $estadoPrestamo = new Prestamo();
 $mostrar_prestamos = $estadoPrestamo->obtenerPrestamosActivosInactivos("activo");
 

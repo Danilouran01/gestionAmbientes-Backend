@@ -1,11 +1,6 @@
 <?php
 require_once "./conexionPoo.php";
 
-session_start();
-if(!isset($_SESSION['numero_documento'])){
-    header("location: index.php");
-};
-
 class Prestamo extends Conexion
 {
     public $id_prestamo;
@@ -75,7 +70,8 @@ class Prestamo extends Conexion
 
         $this->conectar();
 
-        $prestamos_id = "SELECT * FROM `prestamo` WHERE `id_prestamo`=$id";
+        $prestamos_id = "SELECT * FROM `prestamo` INNER JOIN usuario ON usuario.numero_documento=prestamo.numero_documento  WHERE `id_prestamo`=$id  or prestamo.numero_documento= $id ";
+        
         $consultar_prestamos_id = $this->con->query($prestamos_id);
         return $consultar_prestamos_id;
     }

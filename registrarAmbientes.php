@@ -1,9 +1,6 @@
 <?php
   include_once "./classAmbientes.php";
-  session_start();
-  if(!isset($_SESSION['numero_documento'])){
-      header("location: index.php");
-  };
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,9 +1,4 @@
 <?php
-session_start();
-if(!isset($_SESSION['numero_documento'])){
-    header("location: index.php");
-};
-
 $documentoInstructor = $_REQUEST['documento'];
 
 require_once "./classInstructor.php";

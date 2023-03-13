@@ -1,10 +1,5 @@
 <?php
 require_once "./classAmbientes.php";
-session_start();
-if(!isset($_SESSION['numero_documento'])){
-    header("location: index.php");
-};
-
 $verAmbiente = new Ambientes();
 $actualizarEstadoAmbiente = new Ambientes();
 
@@ -97,7 +92,7 @@ $nuevoPrestamo = new Prestamo();
     <div class="flex">
         <div class="botones-principales">
             <a href="./registrarPrestamoAmbiente.php" class="btn-1">Prestamo de ambientes</a>
-            <a href="./prestamo_dispositivos.php" class="btn-1 btn-0">Prestamo de dispositivos</a>
+            <a href="./registrarPrestamoElementos.php" class="btn-1 btn-0">Prestamo de dispositivos</a>
         </div>
         <div class="herencia">
             <div class="buscador">
@@ -385,8 +380,9 @@ $nuevoPrestamo = new Prestamo();
                 $actualizarEstadoAmbiente->actualizarEstadoAmbiente();
 
 
-
-                date_default_timezone_set("UTC");
+                echo date_default_timezone_get();
+                date_default_timezone_set("America/Bogota");
+                echo date_default_timezone_get();
 
 
                 $hora = date('h:i:s');
