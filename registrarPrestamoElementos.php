@@ -96,7 +96,7 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
                                             foreach ($consulta_estado_dispositivo as $estado) { ?>
 
 
-                                                <option value="<?php echo $estado['id_tipo_dispositivo']   ?>"><?php echo $estado['tipo_dispositivo']   ?></option>
+                                                <option value="<?php echo $estado['id_estado_elemento']   ?>"><?php echo $estado['estado_elemento']   ?></option>
 
                                             <?php
 
@@ -190,6 +190,21 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
 
 
                 <?php
+
+                if (isset($_REQUEST['serial'])) {
+                    $serialprestamo = $_REQUEST['serial'];
+                 ?>
+                    <script>
+                        Swal.fire(
+                            'Elemento registrado con exito',"exito",
+                            
+                            'success'
+                        )
+                    </script>
+
+
+                    <?php
+                }
                 if (!isset($_POST['consultar'])) {
 
 
@@ -205,7 +220,7 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
 
 
 
-                ?>
+                    ?>
                         <table class="table">
                             <thead>
                                 <tr>

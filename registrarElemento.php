@@ -18,10 +18,17 @@
         $elemento->modelo = $modelo;
         $elemento->placa = $placa;
         $elemento->estado = $estado;
-        $elemento->registrarElemento();
+        // $elemento->registrarElemento();
         $j=$elemento->registrarElemento();
-        //fin
+        if($j){
 
+        header("Location: registrarPrestamoElementos.php?serial=$serial");
+
+        }
+
+        var_dump($j);
+        echo "-----". $j;
+//  echo  "----------" . $j;
       
 
 

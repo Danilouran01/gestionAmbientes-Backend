@@ -30,9 +30,13 @@ class Elemento extends Conexion
         $insertElemento->execute();
         if ($insertElemento) {
             echo "Datos insertados correctamente";
+            return true;
+
         } else {
             echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
         }
+
+        // return $insertElemento;
     }
 
 
