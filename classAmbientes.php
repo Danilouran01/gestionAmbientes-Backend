@@ -18,8 +18,10 @@ class Ambientes extends conexion
         $pre->execute();
         if ($pre) {
             echo "Datos insertados correctamente";
+            return true;
         } else {
             echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
+            return false;
         }
         $this->con->close();
     }
@@ -47,7 +49,7 @@ class Ambientes extends conexion
     public function obtenerAmbientePorId($id)
     {
         $this->conectar();
-        $sql = "SELECT `id_numero_ambiente`, `piso`, estado_ambiente FROM `ambientes` inner JOIN estado_ambiente ON ambientes.estado=estado_ambiente.id_estado_ambiente WHERE id_numero_ambiente='$id' ";
+        $sql = "SELECT *  FROM `ambientes` inner JOIN estado_ambiente ON ambientes.estado=estado_ambiente.id_estado_ambiente WHERE id_numero_ambiente='$id' ";
         $resultado = $this->con->query($sql);
         return $resultado;
         $this->con->close();
@@ -83,7 +85,7 @@ class Ambientes extends conexion
         $modificarAmbiente->bind_param("isii", $this->id_ambiente, $this->piso, $this->estado, $this->id_ambiente);
         $modificarAmbiente->execute();
         if ($modificarAmbiente) {
-            header("Location: ver_ambiente.php");
+            return true;
         } else {
             echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
         }
@@ -126,7 +128,24 @@ class Ambientes extends conexion
     if ($resultado_sql){
         return  $resultado_sql;
     }else{
-        echo "erro: " . mysqli_error($this->con);
+        echo "error: " . mysqli_error($this->con);
+    } 
+    
+    $this->con->close();
+
+    }
+
+
+    public function estadoAmbienteDiferenteActual($estado){
+        $this->conectar();
+        
+    $estado_ambiente = "SELECT * FROM `estado_ambiente` Where id_estado_ambiente != $estado ";
+    $resultado_estado_ambiente = $this->con->query($estado_ambiente );
+
+    if ($resultado_estado_ambiente){
+        return  $resultado_estado_ambiente;
+    }else{
+        echo "error: " . mysqli_error($this->con);
     } 
     
     $this->con->close();

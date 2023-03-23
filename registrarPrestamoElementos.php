@@ -54,7 +54,7 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#" class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#editar_perfil">Editar perfil</a></li>
-                <li><a class="dropdown-item" href="./editar_usuario.php">Editar usuarios</a></li>
+                <li><a class="dropdown-item" href="./ver_usuario.php">Editar usuarios</a></li>
                 <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar sesión</a></li>
             </ul>
         </div>
@@ -178,6 +178,8 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
                         <option value="">Filtro</option>
                     </select>
                     <button class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#nuevo_dispositivo">Añadir dispositivo</button>
+                    <a href="./ver_elemento.php" class="btn-activos">Elementos </a>
+
                 </div>
                 <div class="bd-prestamo-ambientes">
                 </div>
@@ -189,22 +191,9 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
 
 
 
+
+
                 <?php
-
-                if (isset($_REQUEST['serial'])) {
-                    $serialprestamo = $_REQUEST['serial'];
-                 ?>
-                    <script>
-                        Swal.fire(
-                            'Elemento registrado con exito',"exito",
-                            
-                            'success'
-                        )
-                    </script>
-
-
-                    <?php
-                }
                 if (!isset($_POST['consultar'])) {
 
 
@@ -220,9 +209,9 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
 
 
 
-                    ?>
-                        <table class="table">
-                            <thead>
+                ?>
+                        <table class="table table-striped">
+                            <thead class="dark">
                                 <tr>
                                     <th scope="col">serial</th>
                                     <th scope="col">placa</th>
@@ -291,24 +280,31 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
                             echo "<center><h2>Usuario con prestamos activos </h2></center>";
 
 
-                            while ($datos = $resultadoPrestamoActivo->fetch_assoc()) { ?>
+                        ?>
 
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Id prestamo</th>
-                                            <th scope="col">Elemento</th>
-                                            <th scope="col">Doc. responsable</th>
-                                            <th scope="col">Nom. responsable</th>
-                                            <th scope="col">Fecha prestamo</th>
-                                            <th scope="col">Hora prestamo</th>
-                                            <th scope="col">observaciones</th>
-                                            <th scope="col">Estado</th>
-                                            <th scope="col">Acciones</th>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id prestamo</th>
+                                        <th scope="col">Elemento</th>
+                                        <th scope="col">tipo dispositivo</th>
+
+                                        <th scope="col">Doc. responsable</th>
+                                        <th scope="col">Nom. responsable</th>
+                                        <th scope="col">Fecha prestamo</th>
+                                        <th scope="col">Hora prestamo</th>
+                                        <th scope="col">observaciones</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Acciones</th>
 
 
-                                        </tr>
-                                    </thead>
+                                    </tr>
+                                </thead>
+                                <?php
+                                $contador = 0;
+                                while ($datos = $resultadoPrestamoActivo->fetch_assoc())
+                                     { $contador += 1;?>
+
                                     <tbody>
 
                                         <tr>
@@ -316,9 +312,9 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
                                             <td><?php echo $datos['id_prestamo']    ?></td>
 
                                             <td><?php echo $datos['serial']    ?></td>
+                                            <td><?php echo $datos['tipo_dispositivo']    ?></td>
 
                                             <td><?php echo $datos['numero_documento']    ?></td>
-                                            <td><?php echo $datos['tipo_dispositivo']    ?></td>
 
                                             <td><?php echo $datos['nombre'] . " " . $datos['apellido']   ?></td>
                                             <td><?php echo $datos['fecha_prestamo']    ?></td>
@@ -329,26 +325,33 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
                                             <td><?php echo $datos['observaciones']    ?></td>
                                             <td><?php echo $datos['estado_prestamo'] ?></td>
 
+                                            
+                                                <td>
+                                                <?php if ($contador==1) {
+                                                    # code...
+                                                ?>
+                                                    <!--  <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo
+                                                                                                                                    $datos['id_prestamo']; ?>" style="color:white">observacion</a>-->
+                                                    <!-- <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $datos['id_prestamo']; ?>&idAmbiente=<?php echo $datos['id_numero_ambiente']; ?>" style="color:white">Entregar</a> -->
 
-                                            <td>
-                                                <!--  <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo
-                                                                                                                                $datos['id_prestamo']; ?>" style="color:white">observacion</a>-->
-                                                <!-- <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $datos['id_prestamo']; ?>&idAmbiente=<?php echo $datos['id_numero_ambiente']; ?>" style="color:white">Entregar</a> -->
+                                                    <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo $datos['id_prestamo']; ?>" style="color:white">observacion</a>
 
-                                                <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo $datos['id_prestamo']; ?>" style="color:white">observacion</a>
+                                                    <!-- <a class="btn btn-info bg-success" href="verPrestamosActivos.php?idprestamo=<?php echo $datos['id_prestamo']; ?>" style="color:white">Entregar</a> -->
 
-                                                <!-- <a class="btn btn-info bg-success" href="verPrestamosActivos.php?idprestamo=<?php echo $datos['id_prestamo']; ?>" style="color:white">Entregar</a> -->
-
-                                                <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $datos['id_prestamo']; ?>&idAmbiente=<?php echo $datos['id_numero_ambiente']; ?>" style="color:white">Entregar</a>
-                                            </td>
+                                                    <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $datos['id_prestamo']; ?>&idAmbiente=<?php echo $datos['id_numero_ambiente']; ?>" style="color:white">Entregar</a>
+                                                    <?php } ?> 
+                                                </td>
+                                           
                                         </tr>
                                     </tbody>
-                                </table>
-                                <br>
+                                <?php
+                                }
+                                ?>
+                            </table>
+                            <br>
 
-                            <?php
+                        <?php
 
-                            }
 
                             //fin verificacion prestamos 
 
@@ -358,7 +361,7 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
 
 
                             $fila = $obtener_usuario_id->fetch_assoc();
-                            ?>
+                        ?>
                             <form action="./registrarPrestamoElementos.php" method="post">
 
 
@@ -406,7 +409,7 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
                                                 <th scope="col">Tipo</th>
                                                 <th scope="col">marca</th>
                                                 <th scope="col">modelo</th>
-                                                <th scope="col">------</th>
+                                                <th scope="col">seleccionarlo</th>
                                                 <th scope="col">Cargador</th>
                                                 <th scope="col">Mouse</th>
 
@@ -437,8 +440,8 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
                                                         <option value="no">No</option>
                                                         <option value="si">Si</option>
                                                     </select></td> -->
-                                                    <td><input type="radio" name="cargador_<?php echo $Elemento['serial'] ?>" value="si"></td>
-                                                    <td><input type="radio" name="mouse_<?php echo $Elemento['serial'] ?>" value="si"></td>
+                                                    <td><input type="checkbox" name="cargador_<?php echo $Elemento['serial'] ?>" value="si"></td>
+                                                    <td><input type="checkbox" name="mouse_<?php echo $Elemento['serial'] ?>" value="si"></td>
 
                                                 </tr>
 
@@ -570,6 +573,25 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
 
 
                 ?>
+
+
+                <?php
+
+                if (isset($_REQUEST['serial'])) {
+                    $serialprestamo = $_REQUEST['serial']; ?>
+
+                    <script>
+                        setTimeout(function() {
+                            var mensaje = "datos registrados exitosamente equipo: <?php echo $serialprestamo ?>";
+                            alert(mensaje);
+                        }, 500);
+                    </script>
+
+                <?php } ?>
+
+
+
+
 
             </div>
         </div>

@@ -4,6 +4,8 @@ $verAmbiente = new Ambientes();
 $actualizarEstadoAmbiente = new Ambientes();
 
 
+
+
 require_once "./classInstructor.php";
 $mostrarInstructor = new Instructor();
 
@@ -43,9 +45,55 @@ $nuevoPrestamo = new Prestamo();
             </button>
             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#" class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#editar_perfil">Editar perfil</a></li>
-                <li><a class="dropdown-item" href="./editar_usuario.php">Editar usuarios</a></li>
+                <li><a class="dropdown-item" href="./ver_usuario.php">Editar usuarios</a></li>
                 <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar sesión</a></li>
             </ul>
+        </div>
+
+
+        <!-- MODAL NUEVO DISPOSITVO -->
+
+
+        <div class="modal fade" id="nuevo_ambiente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir nuevo ambiente</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="registro-div registro_usuario-input">
+                            <form class="registro registro_usuario" id="registro" action="./registrarAmbientes.php" method="post">
+                                <div class="registro-input registro-usuario-input">
+                                    <div class="rgts-input rgts-usuario-input">
+
+                                        <input class="campos-registro" type="text" name="numeroAmbiente" placeholder="numero ambiente" required>
+                                        <input class="campos-registro" type="text" name="numeroPiso" placeholder="numero piso" required>
+                                        <select class="campos-registro select" name="estadoAmbiente" id="" class="select-registro">
+                                            <?php
+                                            $estado_ambientes = $verAmbiente->estadoAmbiente();
+                                            foreach ($estado_ambientes as $estado_ambiente) {
+
+                                            ?>
+                                                <option value="<?php echo $estado_ambiente['id_estado_ambiente']; ?>"> <?php echo $estado_ambiente['estado_ambiente']; ?></option>
+
+                                            <?php
+
+                                            }
+
+                                            ?>
+
+                                        </select>
+
+                                        <input class="btn-registro btn-registro-ambiente" type="submit" value="registrar" name="registrar">
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -101,16 +149,20 @@ $nuevoPrestamo = new Prestamo();
                     <!-- <input class="input-b btns-b" type="searc" placeholder="Buscar"> -->
                     <form action="./RegistrarPrestamoAmbiente.php" method="post">
                         <input class="input-b btns-b" placeholder="Buscar" type="number" id="documento" name="documento" required>
-                        <input type="submit" value="Consultar" name="consultar" class="btn-consultar" >
+                        <input type="submit" value="Consultar" name="consultar" class="btn-consultar">
                     </form>
 
 
 
-                    <select class="selec-b btns-b" name="" id="">
+                    <!-- <select class="selec-b btns-b" name="" id="">
                         <option value="">Filtro</option>
-                    </select>
-                    <button class="btn-b btns-b">Añadir ambiente</button>
-                    <a href="./ambientes_activos.php" class="btn-activos" >Ambientes activos</a>
+                    </select> -->
+
+                    <button class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#nuevo_ambiente">Añadir ambiente</button>
+
+                    <a href="./verPrestamosActivos.php" class="btn-activos">Prestamo Ambientes </a>
+                    <a href="./ver_ambiente.php" class="btn-activos">Ambientes </a>
+
                 </div>
                 <div class="bd-prestamo-ambientes">
                 </div>
@@ -402,8 +454,23 @@ $nuevoPrestamo = new Prestamo();
                 //  echo "<script>alert('datos registrados exitosamente');</script>";
             }
 
-
             ?>
+
+
+            <?php
+
+
+            if (isset($_REQUEST['ambiente'])) {
+                $serialprestamo = $_REQUEST['ambiente']; ?>
+
+                <script>
+                    setTimeout(function() {
+                        var mensaje = "datos registrados exitosamente ambiente: <?php echo $serialprestamo ?>";
+                        alert(mensaje);
+                    }, 500);
+                </script>
+
+            <?php } ?>
 
 
 

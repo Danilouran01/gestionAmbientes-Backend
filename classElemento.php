@@ -43,7 +43,8 @@ class Elemento extends Conexion
     public function mostrarElemento()
     {
         $this->conectar();
-        $sql = "SELECT * FROM `elementos`";
+        $sql = "SELECT * FROM `elementos` INNER JOIN estado_elementos on estado_elementos.id_estado_elemento=elementos.estado INNER JOIN tipo_dispositivo ON tipo_dispositivo.id_tipo_dispositivo =elementos.tipo_dispositivo ORDER BY elementos.serial ASC;
+        ";
         $result = $this->con->query($sql);
         return $result;
     }
@@ -57,7 +58,8 @@ class Elemento extends Conexion
         $modificarElemento->bind_param("sssssi", $this->tipoDispositivo, $this->marca, $this->modelo, $this->placa, $this->estado, $this->serial);
         $modificarElemento->execute();
         if ($modificarElemento) {
-            header("Location: ver_elemento.php");
+           echo "Elemento modificado con exito";
+           return true;
         } else {
             echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
         }
@@ -86,7 +88,8 @@ class Elemento extends Conexion
     public function obtenerElementoPorSerial($serial)
     {
         $this->conectar();
-        $sql = "SELECT * FROM `elementos` WHERE serial='$serial' ";
+        $sql = " SELECT * FROM `elementos` INNER JOIN estado_elementos on estado_elementos.id_estado_elemento=elementos.estado INNER JOIN tipo_dispositivo ON tipo_dispositivo.id_tipo_dispositivo =elementos.tipo_dispositivo
+        WHERE serial='$serial' ";
         $resultado = $this->con->query($sql);
         return $resultado;
     }
@@ -129,5 +132,32 @@ class Elemento extends Conexion
         $consulta_estado_dispositivo = mysqli_query($this->con, $estado_dispositivo);
 
         return $consulta_estado_dispositivo;
+    }
+
+
+    public function tipoDispositivoDiferenteAlActual($tipo){
+        $this->conectar();
+        $tipo_dispositivo="SELECT * FROM `tipo_dispositivo` WHERE id_tipo_dispositivo != $tipo";
+        $tipo_dispositivo_consulta=mysqli_query($this->con,$tipo_dispositivo);
+        // return $tipo_dispositivo_consulta;
+        if($tipo_dispositivo_consulta){
+            return $tipo_dispositivo_consulta;
+        }else{
+            echo "error : " . mysqli_error($this->con) ;
+        }
+    }
+
+
+    
+    public function estadoDispositivoDiferenteAlActual($estado){
+        $this->conectar();
+        $estado_dispositivo="SELECT `id_estado_elemento`, `estado_elemento` FROM `estado_elementos` WHERE id_estado_elemento != $estado;";
+        $estado_dispositivo_consulta=mysqli_query($this->con,$estado_dispositivo);
+        // return $estado_dispositivo_consulta;
+        if( $estado_dispositivo_consulta){
+            return  $estado_dispositivo_consulta;
+        }else{
+            echo "error : " . mysqli_error($this->con) ;
+        }
     }
 }

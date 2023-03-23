@@ -38,13 +38,13 @@ class Prestamo extends Conexion
 
    
 
-    public function obtenerPrestamosActivosInactivos($estado)
+    public function obtenerPrestamosActivosInactivos()
     {
 
 
         $this->conectar();
 
-        $prestamos_activos = "SELECT `id_prestamo`, `fecha_prestamo`, `hora_prestamo`, `fecha_entrega`, `hora_entrega`, `observaciones`, `id_numero_ambiente`, `numero_documento`, `estado_prestamo` FROM `prestamo` ORDER BY prestamo.id_prestamo DESC";
+        $prestamos_activos = "SELECT `id_prestamo`, `fecha_prestamo`, `hora_prestamo`, `fecha_entrega`, `hora_entrega`, `observaciones`, `id_numero_ambiente`, `numero_documento`, `estado_prestamo` FROM `prestamo` WHERE id_numero_ambiente IS NOT NULL ORDER BY prestamo.id_prestamo DESC;";
         $consulatr_prestamos_activos = $this->con->query($prestamos_activos);
         return $consulatr_prestamos_activos;
     }

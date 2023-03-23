@@ -43,6 +43,33 @@ class Usuario extends Conexion
     }
 
 
+    public function listarUsuario()
+    {
+        $this->conectar();
+
+        $listar_usuario = "SELECT `numero_documento`, `nombre`, `apellido`, `tipo`, `numero_ficha`, `telefono`, `correo`, `nombre_rol` FROM tipo_documento INNER JOIN usuario on usuario.tipo_documento=tipo_documento.idDocumento INNER JOIN rol ON rol.id_rol=usuario.id_rol  ";
+        $consulta_listar_usuario = $this->con->query($listar_usuario);
+        return $consulta_listar_usuario;
+    }
+
+
+    public function filtrarUsuarioIdNombreRol($busqueda,$rol){
+        $this->conectar();
+
+        $filtrar_usuario="SELECT * ,usuario.id_rol as rol FROM tipo_documento INNER JOIN usuario on usuario.tipo_documento=tipo_documento.idDocumento INNER JOIN rol ON rol.id_rol=usuario.id_rol WHERE numero_documento='$busqueda'OR (nombre LIKE '%$busqueda%' OR apellido LIKE '%$busqueda%' OR CONCAT(nombre, ' ', apellido) LIKE '%$busqueda%')OR usuario.id_rol='$rol';";
+        $sql_filtrar_usario=$this->con->query($filtrar_usuario);
+
+        if ($sql_filtrar_usario) {
+            return $sql_filtrar_usario;
+        }else{
+            echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
+
+            
+            
+        }
+       
+
+    }
     public function mostrarUsuario($rol)
     {
         $this->conectar();
@@ -90,7 +117,7 @@ class Usuario extends Conexion
         $sqlModificar->bind_param("ssissssii",$this->nombre,$this->apellido,$this->tipoDocumento,$this->ficha,$this->telefono,$this->correo,$this->contrasena,$this->rol,$this->numeroDocumento);
         $sqlModificar->execute();
         if ($sqlModificar) {
-            header("Location: ver_instructor.php");
+            return true;
         } else {
             echo "No se pudieron insertar los datos, error: " . mysqli_error($this->con);
         }
