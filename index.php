@@ -85,7 +85,7 @@ if ($Message == 5) { ?>
         Swal.fire({
             position: 'top-end',
             icon: 'success',
-            title: 'Aprendiz agregado correctamente',
+            title: 'Invitado agregado correctamente',
             showConfirmButton: false,
             timer: 2500
         })
@@ -122,7 +122,7 @@ if ($Message == 5) { ?>
             <a href="#" class="btn_rol">
                 <img class="img_rol" src="./images/Boton Aprendiz.png" alt="">
             </a>
-            <h3>Aprendiz</h3>
+            <h3>Invitado</h3>
         </div>
     </div>
 
@@ -208,12 +208,12 @@ if ($Message == 5) { ?>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Registro Aprendiz</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Registro invitado</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="registro-div registro_usuario-input">
-                        <form class="registro registro_usuario" id="registro" method="post" action="./registrarAprendiz.php">
+                        <form class="registro registro_usuario" id="registro" method="post" action="./registrarInvitado.php">
                             <div class="registro-input registro-usuario-input">
                                 <div class="rgts-input rgts-usuario-input">
 
@@ -235,7 +235,7 @@ if ($Message == 5) { ?>
                                     <input class="campos-registro" type="text" placeholder="Apellido" name="apellido">
 
 
-                                    <input class="campos-registro" type="number" placeholder="Numero de ficha" class="input-number" name="ficha">
+                                    <input class="campos-registro" type="text" placeholder="Centro" class="input-number" name="centro">
                                     <input class="campos-registro" type="number" placeholder="Telefono" class="input-number" name="telefono">
                                     <input class="campos-registro" type="email" placeholder="Correo" name="correo">
 

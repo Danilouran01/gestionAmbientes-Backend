@@ -25,7 +25,8 @@
         $instructor->telefono = $telefono;
         $instructor->correo = $correo;
         $instructor->rol = 2;
-        $instructor->setFicha(0);
+        $instructor->centro=NULL;
+        $instructor->setFicha(NULL);
         $instructor->setContrasena(NULL);
 
         $instructor->registrarUsuario();

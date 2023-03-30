@@ -10,6 +10,7 @@ class Usuario extends Conexion
     public $telefono;
     public $correo;
     public $rol;
+    public $centro;
     private $ficha;
     private $contrasena;
 
@@ -32,8 +33,8 @@ class Usuario extends Conexion
     {
         $this->conectar();
 
-        $consulta_usuario_instructor = mysqli_prepare($this->con, "INSERT INTO `usuario`(`numero_documento`, `nombre`, `apellido`, `tipo_documento`, `numero_ficha`, `telefono`, `correo`, `contrasena`, `id_rol`) VALUES (?,?,?,?,?,?,?,?,?)");
-        $consulta_usuario_instructor->bind_param("issiiissi", $this->numeroDocumento, $this->nombre, $this->apellido, $this->tipoDocumento, $this->ficha, $this->telefono, $this->correo, $this->contrasena, $this->rol);
+        $consulta_usuario_instructor = mysqli_prepare($this->con, "INSERT INTO `usuario`(`numero_documento`, `nombre`, `apellido`, `tipo_documento`, `numero_ficha`, `centro`, `telefono`, `correo`, `contrasena`, `id_rol`) VALUES (?,?,?,?,?,?,?,?,?,?)");
+        $consulta_usuario_instructor->bind_param("issiisissi", $this->numeroDocumento, $this->nombre, $this->apellido, $this->tipoDocumento, $this->ficha,$this->centro, $this->telefono, $this->correo, $this->contrasena, $this->rol);
         $consulta_usuario_instructor->execute();
         if ($consulta_usuario_instructor) {
             echo "Datos insertados correctamente";
@@ -113,8 +114,8 @@ class Usuario extends Conexion
     public function modificarUsuario(){
         $this->conectar();
 
-        $sqlModificar=mysqli_prepare($this->con,"UPDATE `usuario` SET `nombre`=?,`apellido`=?,`tipo_documento`=?,`numero_ficha`=?,`telefono`=?,`correo`=?,`contrasena`=?,`id_rol`=? WHERE `numero_documento`=? ");
-        $sqlModificar->bind_param("ssissssii",$this->nombre,$this->apellido,$this->tipoDocumento,$this->ficha,$this->telefono,$this->correo,$this->contrasena,$this->rol,$this->numeroDocumento);
+        $sqlModificar=mysqli_prepare($this->con,"UPDATE `usuario` SET `nombre`=?,`apellido`=?,`tipo_documento`=?,`numero_ficha`=?,`centro`=?,`telefono`=?,`correo`=?,`contrasena`=?,`id_rol`=? WHERE `numero_documento`=? ");
+        $sqlModificar->bind_param("ssisssssii",$this->nombre,$this->apellido,$this->tipoDocumento,$this->ficha,$this->centro,$this->telefono,$this->correo,$this->contrasena,$this->rol,$this->numeroDocumento);
         $sqlModificar->execute();
         if ($sqlModificar) {
             return true;

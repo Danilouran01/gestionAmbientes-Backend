@@ -29,7 +29,7 @@ class Ambientes extends conexion
     public function mostrarAmbiente()
     {
         $this->conectar();
-        $sql = "SELECT `id_numero_ambiente`, `piso`, estado_ambiente,`id_estado_ambiente` FROM `ambientes` inner JOIN estado_ambiente ON ambientes.estado=estado_ambiente.id_estado_ambiente";
+        $sql = "SELECT `id_numero_ambiente`, `piso`, estado_ambiente,`id_estado_ambiente`,`cantidad_sillas` FROM `ambientes` inner JOIN estado_ambiente ON ambientes.estado=estado_ambiente.id_estado_ambiente";
         $resultado = $this->con->query($sql);
         return $resultado;
         $this->con->close();
@@ -151,6 +151,16 @@ class Ambientes extends conexion
     $this->con->close();
 
     }
+
+
+    public function verElementosEstaticosId($id){
+        $this->conectar();
+        $sql="SELECT * FROM ambientes INNER JOIN ambiente_elemento on ambiente_elemento.id_ambiente_elemento<=ambientes.id_numero_ambiente INNER JOIN elementos_estaticos_ambiente on elementos_estaticos_ambiente.id_elemento_estatico=ambiente_elemento.id_elemento_estatico INNER JOIN categoria_elemento on categoria_elemento.id_categoria=elementos_estaticos_ambiente.categoria_elemento WHERE ambiente_elemento.id_numero_ambiente=$id and ambientes.id_numero_ambiente=$id;";
+    ;
+    $sql_con=$this->con->query($sql);
+    return $sql_con;
+    }
+    
 
 
 }

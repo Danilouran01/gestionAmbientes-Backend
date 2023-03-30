@@ -1,19 +1,22 @@
 <?php
 require_once "./classAmbientes.php";
-$verAmbiente = new Ambientes();
-$actualizarEstadoAmbiente = new Ambientes();
+if (isset($_REQUEST['serial'])) {
+  $serial=$_REQUEST['serial'];
+  
+}
+
+$verAmbiente= new Ambientes();
+$informacion_ambiente=$verAmbiente->obtenerAmbientePorId($serial);
+$informacion=$informacion_ambiente->fetch_assoc();
+
+$elementos=$verAmbiente->verElementosEstaticosId($serial);
 
 
 
-
-require_once "./classInstructor.php";
-$mostrarInstructor = new Instructor();
-
-
-require_once "./classPrestamo.php";
-$verificarPrestamosActivos = new Prestamo();
-$nuevoPrestamo = new Prestamo();
 ?>
+
+
+
 
 
 <!DOCTYPE html>
@@ -148,11 +151,11 @@ border: none;
     </div>
 
 
-    <div class="flex">
+    <!-- <div class="flex">
         <div class="botones-principales">
             <a href="./registrarPrestamoAmbiente.php" class="btn-1">Prestamo de ambientes</a>
             <a href="./registrarPrestamoElementos.php" class="btn-1 btn-0">Prestamo de dispositivos</a>
-        </div>
+        </div> -->
         <div class="herencia">
             <div class="buscador">
                 <h3 class="titulo_herencia">Prestamo de ambientes</h3>
@@ -178,190 +181,46 @@ border: none;
                 <div class="bd-prestamo-ambientes">
                 </div>
             </div>
-            <div class="contenido-ml">
-
-                
-
-            <?php
 
 
 
-if (isset($_REQUEST['id_ambiente']) || isset($_REQUEST['consultar'])) {
-    $id_ambiente = $_REQUEST['id_ambiente'];
+   <center><h2>informacion Ambiente : <?php echo $informacion['id_numero_ambiente']; ?></h3></center> <br>
 
-    require_once "./classAmbientes.php";
-    $mostrarAmbiente= new Ambientes();
-    $ambientes = $mostrarAmbiente->obtenerAmbientePorId($id_ambiente);
     
-
-    if ($ambientes->num_rows < 1) {  ?>
-        <script>
-     setTimeout(function() {
-         var mensaje = "ambiente no encontrado "
-         alert(mensaje);
-     }, 300);
- </script>
-  <?php   
- } else { 
+    <h3>piso: <?php echo $informacion['piso'];  ?></h3>
+    <h3>estado:<?php echo $informacion['estado_ambiente'];  ?></h3>
 
 
+   <h4>cantidad sillas :  <?php echo $informacion['cantidad_sillas']; ?></h4> 
 
-
+   <table class="table table-striped table-dark">
+  <thead>
+    <tr>
+      <th scope="col">serial</th>
+      <th scope="col">categoria</th>
+      <th scope="col">marca</th>
+      <th scope="col">modelo</th>
+    </tr>
+  </thead>
+  <tbody>
+<?php  foreach ($elementos as $elemento) {
+    # code...
 ?>
-
-    <form action="./modificarAmbientes.php" method="post">
-
-        
-        
+    <tr>
+      <th><?php echo $elemento['id_elemento_estatico'];?></th>
+      <td><?php echo $elemento['nombre_categoria'];?></td>
+      <td><?php  echo $elemento['marca'];?></td>
+      <td><?php echo $elemento['modelo'];?></td>
+    </tr>
     <?php
-                foreach ($ambientes as $ambiente_id) {
+    }?>
+  </tbody>
+</table>
 
-                    // $dis=$fila['tipo_dispositivo'];
-                    // echo $fila['serial'] . " " . $fila['tipo_dispositivo'] . " " . $fila['marca'] . " " . $fila['modelo'] . " " . $fila['placa'] . " " . $fila['estado'] .   "<br>";
-            ?>
-<!-- //     <td><input class="btn btn-info bg-success" type="submit" name="enviarElemnto" value="Guardar Modificacion" style="color:white">
-
-// <a class="btn btn-info bg-success" href="eliminarElemento.php?serial=<?php echo $fila['serial']; ?>" style="color:white" onclick="return confirmacionEliminar()">Eliminar</a> -->
-</td>
-        <table class="table ">
-            <thead>
-                <tr>
-                    <th scope="col">ambiente</th>
-                    <th scope="col">piso</th>
-                    <th scope="col">estado</th>
-                    <th scope="col">acciones</th>
-
-                </tr>
-            </thead>
-            <tbody>
+   
 
 
 
-
-                    <tr>
-
-                        <td><input type="text" value="<?php echo $ambiente_id['id_numero_ambiente'] ?>" name="numeroAmbiente" readonly></td>
-
-                      
-
-
-
-                        <td><input type="text" value="<?php echo $ambiente_id['piso'] ?>" name="numeroPiso"></td>
-
-                        <td><select name="estadoAmbiente" id="">
-                                <option value="<?php echo $ambiente_id['id_estado_ambiente'] ?>"><?php echo $ambiente_id['estado_ambiente'] ?> </option>  
-
-                                <?php
-                                $estado_ambientes = $mostrarAmbiente->estadoAmbienteDiferenteActual($ambiente_id['id_estado_ambiente']);
-                                var_dump($estado_ambientes);
-                                foreach ($estado_ambientes as $estado_ambiente) { ?>
-                                <option value="<?php echo $estado_ambiente['id_estado_ambiente'] ?>"><?php echo $estado_ambiente['estado_ambiente'] ?> </option>  
-
-
-
-                                <?php  # code...
-                                } ?>
-                            </select></td>
-                      
-                        <!-- <td><a href="modificarElemento.php?serial=<?php echo $fila['serial']; ?>" style="color:white">Editar</a> -->
-                        <td><input class="btn btn-info bg-success" type="submit" name="modificar" value="Guardar Modificacion" style="color:white">
-
-                            <a class="btn btn-info bg-success" href="eliminarElemento.php?serial=<?php echo $fila['serial']; ?>" style="color:white" onclick="return confirmacionEliminar()">Eliminar</a>
-                            
-
-                            <a class="btn btn-info bg-success" href="verInformacionAmbiente.php?serial=<?php echo $fila['serial']; ?>" style="color:white">informacion</a>
-
-                        </td>
-                    </tr>
-                <?php
-                }
-                ?>
-            </tbody>
-        </table>
-
-
-    </form>
-
-
-<?php
-
-}
-}
-?>
-
-
-
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">numero</th>
-                            <th scope="col">piso</th>
-                            <th scope="col">estado</th>
-                            <th scope="col">acciones</th>
-
-
-
-
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <?php
-                        require_once "./classAmbientes.php";
-                        $verAmbiente = new Ambientes();
-                        $resultado = $verAmbiente->mostrarAmbiente();
-                        ?>
-                        <?php
-                        while ($filas = $resultado->fetch_assoc()) {
-
-                        ?>
-                            <tr>
-                                <td><?php echo $filas['id_numero_ambiente']; ?></td>
-                                <td><?php echo $filas['piso']; ?></td>
-                                <td><?php echo $filas['estado_ambiente'] ?></td>
-
-                                <?php
-
-                                // if ($filas['id_estado_ambiente'] == 1) { ?>
-                                    <td><a class="btn btn-info bg-success" href="ver_ambiente.php?id_ambiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">Editar</a>
-                                    <<a class="btn btn-info bg-success" href="eliminarAmbiente.php?idAmbiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white" onclick="return confirmacionEliminar() ">Eliminar</a>
-
-                                    <a class="btn btn-info bg-success" href="verInformacionAmbiente.php?serial=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">informacion</a>
-                               
-
-                                    
-                                <?php
-                                // } //else { ?>
-
-                                    <!-- <td><a class="btn btn-info bg-success" href="ver_ambiente.php?id_ambiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">Editar</a>
-                                    <a class="btn btn-info bg-success" href="eliminarAmbiente.php?idAmbiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white" onclick="return confirmacionEliminar() " >Eliminar</a>
-                                    <a class="btn btn-info bg-success" href="verInformacionAmbiente.php?serial=<?php echo $filas['serial']; ?>" style="color:white">informacion</a></td> -->
-                                    
-
-
-
-                                <?php
-                                // }
-
-
-
-
-                                ?>
-                            </tr>
-                        <?php
-                        }
-
-                        ?>
-                    </tbody>
-                </table>
-
-
-            </div>
-        </div>
-    </div>
-    <div class="barra_inferior">
-    </div>
-
+    
 </body>
-
 </html>

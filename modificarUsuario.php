@@ -11,15 +11,15 @@ include_once "./classUsuario.php";
       $correo = $_POST['correo'];
       $rol = $_POST['rol'];
 
-      if (isset($_POST['ficha'])) {
-        $ficha=$_POST['ficha'];
+      if (isset($_POST['centro'])) {
+        $centro=$_POST['centro'];
       }else{
-        $ficha=0;
+        $centro=NULL;
       }
       if (isset($_POST['contrasena'])) {
         $contrasena=$_POST['contrasena'];
       }else{
-        $contrasena=0;
+        $contrasena=NULL;
       }
       
   
@@ -31,7 +31,7 @@ include_once "./classUsuario.php";
       $usuario->telefono=$telefono;
       $usuario->correo=$correo;
       $usuario->rol=$rol;
-      $usuario->setFicha($ficha);
+      $usuario->setFicha($centro);
       $usuario->setContrasena($contrasena);
      $usuario_modificado= $usuario->modificarUsuario();
 
