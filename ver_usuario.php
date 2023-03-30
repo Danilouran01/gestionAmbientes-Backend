@@ -335,7 +335,6 @@
                         ?>
 
 <center><div style=" width: 50%;"  class="col-sm-6 mx-auto">
-<h3>Modificar Usuario</h3>
 
 
                                 <form action="./modificarUsuario.php" method="post">
@@ -422,7 +421,7 @@
 
                                 </form>
 
-</div> </center><br><br>
+</div> </center><br>br
                         
 
 
