@@ -1,6 +1,6 @@
 
   function confirmacionEliminar(){
-    var respuesta=confirm("¿Esta seguro de eliminar el usuario?");
+    var respuesta=confirm("¿Esta seguro de eliminar el registro?");
     if (respuesta==true) {
       return true;
       
@@ -12,6 +12,17 @@
 
   function confirmacionModificar(){
     var respuesta=confirm("¿Esta seguro de modificar el registro?");
+    if (respuesta==true) {
+      return true;
+      
+    }else{
+      return false;
+
+    }
+  }
+
+  function confirmacionEliminarElemento(){
+    var respuesta=confirm("¿Esta seguro de eliminar el registro?");
     if (respuesta==true) {
       return true;
       

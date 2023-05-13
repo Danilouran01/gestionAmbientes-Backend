@@ -1,0 +1,12 @@
+{
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.28",
+        "realrashid/sweet-alert": "*"
+    },
+
+"config": {
+    "process-timeout": 1800
+}
+
+  
+}

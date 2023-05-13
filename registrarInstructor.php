@@ -1,9 +1,8 @@
 
-    <?php
+    <?php 
     include_once "./classInstructor.php";
 
-    if(isset($_GET['msg']))
-    {
+    if (isset($_GET['msg'])) {
         $Message = $_GET['msg'];
     }
 
@@ -11,11 +10,10 @@
 
         $tipoDocumento = $_POST['tipoDocumento'];
         $numeroCedula = $_POST['numeroCedula'];
-        $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
         $telefono = $_POST['telefono'];
-        $correo = $_POST['correo'];
-
+        $nombre = strtolower($_POST['nombre']);
+        $apellido = strtolower($_POST['apellido']);
+        $correo = strtolower($_POST['correo']);
 
         $instructor = new Instructor();
         $instructor->tipoDocumento = $tipoDocumento;
@@ -25,7 +23,7 @@
         $instructor->telefono = $telefono;
         $instructor->correo = $correo;
         $instructor->rol = 2;
-        $instructor->centro=NULL;
+        $instructor->centro = NULL;
         $instructor->setFicha(NULL);
         $instructor->setContrasena(NULL);
 

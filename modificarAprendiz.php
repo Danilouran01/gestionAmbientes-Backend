@@ -1,4 +1,4 @@
-<?php
+<?php 
 $documentoAprendiz = $_REQUEST['documento'];
 echo $documentoAprendiz;
 

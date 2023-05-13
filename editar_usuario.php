@@ -59,162 +59,20 @@
         </div>
       </div>
       <div class="contenido">
-        <p></p>
+
+
+
+
+      
       </div>
     </div>
   <!-- </div> -->
   <div class="barra_inferior">
   </div>
 
-  <!-- MODAL APRENDIZ -->
-
-  <div class="modal fade" id="registrar_aprendiz" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Registro Aprendiz</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="registro-div registro_usuario-input">
-            <form class="registro registro_usuario" id="registro">
-              <div class="registro-input registro-usuario-input">
-                <div class="rgts-input rgts-usuario-input">
-                  <input class="campos-registro" type="text" placeholder="Nombre">
-                  <input class="campos-registro" type="text" placeholder="Apellido">
-                  <select class="campos-registro select" name="" id="" class="select-registro">
-                    <option value="" disabled selected>Tipo de documento</option>
-                    <option value="">Cedula</option>
-                    <option value="">Tarjeta de identidad</option>
-                    <option value="">Cedula de extranjeria</option>
-                    <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number">
-                    <input class="campos-registro" type="number" placeholder="Numero de ficha" class="input-number">
-                    <input class="campos-registro" type="number" placeholder="Telefono" class="input-number">
-                    <input class="campos-registro" type="email" placeholder="Correo">
-                    <button class="btn-registro btn-registro-usuario">Registrar aprendiz</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL INSTRUCTOR -->
-
-  <div class="modal fade" id="registrar_instructor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Registro Instructor</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="registro-div registro_usuario-input">
-            <form class="registro registro_usuario" id="registro">
-              <div class="registro-input registro-usuario-input">
-                <div class="rgts-input rgts-usuario-input">
-                  <input class="campos-registro" type="text" placeholder="Nombre">
-                  <input class="campos-registro" type="text" placeholder="Apellido">
-                  <select class="campos-registro select" name="" id="" class="select-registro">
-                    <option value="" disabled selected>Tipo de documento</option>
-                    <option value="">Cedula</option>
-                    <option value="">Tarjeta de identidad</option>
-                    <option value="">Cedula de extranjeria</option>
-                    <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number">
-                    <input class="campos-registro" type="number" placeholder="Telefono" class="input-number">
-                    <input class="campos-registro" type="email" placeholder="Correo">
-                    <button class="btn-registro btn-registro-usuario">Registrar instructor</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL ADMINISTRADOR -->
-
-  <div class="modal fade" id="registrar_administrador" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Registro administrador</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="registro-div registro_usuario-input">
-            <form class="registro registro_usuario" id="registro">
-              <div class="registro-input registro-usuario-input">
-                <div class="rgts-input rgts-usuario-input">
-                  <input class="campos-registro" type="text" placeholder="Nombres">
-                  <input class="campos-registro" type="text" placeholder="Apellidos">
-                  <select class="campos-registro select" name="" id="" class="select-registro">
-                    <option value="" disabled selected>Tipo de documento</option>
-                    <option value="">Cedula</option>
-                    <option value="">Tarjeta de identidad</option>
-                    <option value="">Cedula de extranjeria</option>
-                    <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number">
-                    <input class="campos-registro" type="number" placeholder="Telefono" class="input-number">
-                    <input class="campos-registro" type="email" placeholder="Correo">
-                    <input class="campos-registro" type="password" placeholder="Contraseña">
-                    <button class="btn-registro btn-registro-usuario">Registrar administrador</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- MODAL EDITAR PERFIL -->
-
-
-  <div class="modal fade" id="editar_perfil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Editar perfil</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="registro-div registro_usuario-input">
-            <form class="registro registro_usuario" id="registro">
-              <div class="registro-input registro-usuario-input">
-                <div class="rgts-input rgts-usuario-input">
-                  <input class="campos-registro" type="text" placeholder="Nombres">
-                  <input class="campos-registro" type="text" placeholder="Apellidos">
-                  <select class="campos-registro select" name="" id="" class="select-registro">
-                    <option value="" disabled selected>Tipo de documento</option>
-                    <option value="">Cedula</option>
-                    <option value="">Tarjeta de identidad</option>
-                    <option value="">Cedula de extranjeria</option>
-                    <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number">
-                    <input class="campos-registro" type="number" placeholder="Telefono" class="input-number">
-                    <input class="campos-registro" type="email" placeholder="Correo">
-                    <input class="campos-registro" type="password" placeholder="Contraseña">
-                    <button class="btn-registro btn-registro-usuario">Guardar</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
 
 </body>
 
-<!-- <button class="btn-1 btn-0">Prestamo de dispositivos</button>
-    <button class="btn-1" type="submit" >Prestamo de ambientes</button>
-    <button class="btn-1">Registro de administrador</button> -->
 
 
 </html>

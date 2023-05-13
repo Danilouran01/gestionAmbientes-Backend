@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 
 class Conexion{
@@ -10,7 +10,7 @@ class Conexion{
      if ($this->con->connect_errno) {
         echo "Fallo al conectar a MySQL: (" . $this->con->connect_errno . ") " . $this->con->connect_error;
        }
-    //    echo $this->con->host_info . " Funciono la conexion Poo\n";
+    // echo $this->con->host_info . " Funciono la conexion Poo\n";
     }
     
 }

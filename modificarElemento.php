@@ -1,26 +1,4 @@
-<!-- 
-    <?php
-
-
-
-    $serial = $_REQUEST['serial'];
-
-    require_once "./classElemento.php";
-    $verElementoId = new Elemento();
-    $resultado = $verElementoId->obtenerElementoPorSerial($serial);
-    $row = $resultado->fetch_assoc();
-
-    ?> -->
-
-<!--    
-                    <select name="estado" id="" class="select-registro">
-                        <option value="disponible">disponible</option>
-                        <option value="ocupado">ocupado</option>
-                        <option value="mantenimiento">en mantenimiento</option>
-                    </select> -->
-
-    
-    <?php
+<?php 
     require_once "./classElemento.php";
 
     if (isset($_POST['enviarElemnto']) && !empty($_POST['enviarElemnto'])) {

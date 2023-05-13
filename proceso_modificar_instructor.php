@@ -1,4 +1,4 @@
-<?php
+<?php 
   
 include_once "./classInstructor.php";
   if (isset($_POST['enviar'])) {

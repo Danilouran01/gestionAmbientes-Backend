@@ -1,4 +1,13 @@
-<?php
+<?php session_start();
+if(!isset($_SESSION['numero_documento'])){
+    header("location: ./index.php");
+    exit();
+}
+
+// Aquí va el código de la clase
+
+
+
 require_once "./classAmbientes.php";
 $verAmbiente = new Ambientes();
 $actualizarEstadoAmbiente = new Ambientes();
@@ -6,8 +15,9 @@ $actualizarEstadoAmbiente = new Ambientes();
 
 
 
-require_once "./classInstructor.php";
-$mostrarInstructor = new Instructor();
+require_once "./classUsuario.php";
+$mostrarUsuario = new Usuario();
+$usuarioFiltrado = new Usuario();
 
 
 require_once "./classPrestamo.php";
@@ -49,119 +59,134 @@ $nuevoPrestamo = new Prestamo();
                 <li><a class="dropdown-item" href="cerrar_sesion.php">Cerrar sesión</a></li>
             </ul>
         </div>
+    </div>
+
+    <!-- MODAL NUEVO DISPOSITVO -->
 
 
-        <!-- MODAL NUEVO DISPOSITVO -->
+    <div class="modal fade" id="nuevo_ambiente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir nuevo ambiente</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="registro-div registro_usuario-input">
+                        <form class="registro registro_usuario" id="registro" action="./registrarAmbientes.php" method="post">
+                            <div class="registro-input registro-usuario-input">
+                                <div class="rgts-input rgts-usuario-input">
 
+                                    <input class="campos-registro" type="text" name="numeroAmbiente" placeholder="numero ambiente" required>
+                                    <input class="campos-registro" type="text" name="numeroPiso" placeholder="numero piso" required>
 
-        <div class="modal fade" id="nuevo_ambiente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir nuevo ambiente</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="registro-div registro_usuario-input">
-                            <form class="registro registro_usuario" id="registro" action="./registrarAmbientes.php" method="post">
-                                <div class="registro-input registro-usuario-input">
-                                    <div class="rgts-input rgts-usuario-input">
+                                    <select class="campos-registro select" name="lineaFormacion" id="" class="select-registro">
+                                        <?php
+                                        $lineas_formacion = $verAmbiente->mostrarLineaFormacion();;
+                                        foreach ($lineas_formacion as $linea_formacion) {
 
-                                        <input class="campos-registro" type="text" name="numeroAmbiente" placeholder="numero ambiente" required>
-                                        <input class="campos-registro" type="text" name="numeroPiso" placeholder="numero piso" required>
-                                        <select class="campos-registro select" name="estadoAmbiente" id="" class="select-registro">
-                                            <?php
-                                            $estado_ambientes = $verAmbiente->estadoAmbiente();
-                                            foreach ($estado_ambientes as $estado_ambiente) {
+                                        ?>
+                                            <option value="<?php echo $linea_formacion['id_linea']; ?>"> <?php echo $linea_formacion['nombre_linea']; ?></option>
 
-                                            ?>
-                                                <option value="<?php echo $estado_ambiente['id_estado_ambiente']; ?>"> <?php echo $estado_ambiente['estado_ambiente']; ?></option>
+                                        <?php
 
-                                            <?php
+                                        }
 
-                                            }
+                                        ?>
 
-                                            ?>
+                                    </select>
 
-                                        </select>
+                                    <input class="campos-registro" type="text" name="cantSillas" placeholder="Cantidad sillas">
 
-                                        <input class="btn-registro btn-registro-ambiente" type="submit" value="registrar" name="registrar">
+                                    <select class="campos-registro select" name="estadoAmbiente" id="" class="select-registro">
+                                        <?php
+                                        $estado_ambientes = $verAmbiente->estadoAmbiente();
+                                        foreach ($estado_ambientes as $estado_ambiente) {
 
-                                    </div>
+                                        ?>
+                                            <option value="<?php echo $estado_ambiente['id_estado_ambiente']; ?>"> <?php echo $estado_ambiente['estado_ambiente']; ?></option>
+
+                                        <?php
+
+                                        }
+
+                                        ?>
+
+                                    </select>
+
+                                    <input class="btn-registro btn-registro-ambiente" type="submit" value="registrar" name="registrar">
+
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-
-
-        <!-- MODAL EDITAR USUARIO -->
-
-        <div class="modal fade" id="editar_perfil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar perfil</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="registro-div registro_usuario-input">
-                            <form class="registro registro_usuario" id="registro">
-                                <div class="registro-input registro-usuario-input">
-                                    <div class="rgts-input rgts-usuario-input">
-                                        <input class="campos-registro" type="text" placeholder="Nombres">
-                                        <input class="campos-registro" type="text" placeholder="Apellidos">
-                                        <select class="campos-registro select" name="" id="" class="select-registro">
-                                            <option value="" disabled selected>Tipo de documento</option>
-                                            <option value="">Cedula</option>
-                                            <option value="">Tarjeta de identidad</option>
-                                            <option value="">Cedula de extranjeria</option>
-                                            <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number">
-                                            <input class="campos-registro" type="number" placeholder="Telefono" class="input-number">
-                                            <input class="campos-registro" type="email" placeholder="Correo">
-                                            <input class="campos-registro" type="password" placeholder="Contraseña">
-                                            <button class="btn-registro btn-registro-usuario">Guardar</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
     </div>
 
 
-    <div class="flex">
-        <div class="botones-principales">
-            <a href="./registrarPrestamoAmbiente.php" class="btn-1">Prestamo de ambientes</a>
-            <a href="./registrarPrestamoElementos.php" class="btn-1 btn-0">Prestamo de dispositivos</a>
+    <!-- MODAL EDITAR USUARIO -->
+
+    <div class="modal fade" id="editar_perfil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar perfil</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="registro-div registro_usuario-input">
+                        <form class="registro registro_usuario" id="registro">
+                            <div class="registro-input registro-usuario-input">
+                                <div class="rgts-input rgts-usuario-input">
+                                    <input class="campos-registro" type="text" placeholder="Nombres">
+                                    <input class="campos-registro" type="text" placeholder="Apellidos">
+                                    <select class="campos-registro select" name="" id="" class="select-registro">
+                                        <option value="" disabled selected>Tipo de documento</option>
+                                        <option value="">Cedula</option>
+                                        <option value="">Tarjeta de identidad</option>
+                                        <option value="">Cedula de extranjeria</option>
+                                        <input class="campos-registro" type="number" placeholder="Numero de documento" class="input-number">
+                                        <input class="campos-registro" type="number" placeholder="Telefono" class="input-number">
+                                        <input class="campos-registro" type="email" placeholder="Correo">
+                                        <input class="campos-registro" type="password" placeholder="Contraseña">
+                                        <button class="btn-registro btn-registro-usuario">Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+
+
+
+
+
+
+    <div class="flex">
         <div class="herencia">
             <div class="buscador">
                 <h3 class="titulo_herencia">Prestamo de ambientes</h3>
                 <div class="buscador-int">
                     <!-- <input class="input-b btns-b" type="searc" placeholder="Buscar"> -->
                     <form action="./RegistrarPrestamoAmbiente.php" method="post">
-                        <input class="input-b btns-b" placeholder="Buscar" type="number" id="documento" name="documento" required>
+                        <input class="input-b btns-b" placeholder="Buscar" type="text" id="documento" name="documento" required>
                         <input type="submit" value="Consultar" name="consultar" class="btn-consultar">
                     </form>
 
 
 
-                    <!-- <select class="selec-b btns-b" name="" id="">
-                        <option value="">Filtro</option>
-                    </select> -->
 
                     <button class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#nuevo_ambiente">Añadir ambiente</button>
 
-                    <a href="./verPrestamosActivos.php" class="btn-activos">Prestamo Ambientes </a>
-                    <a href="./ver_ambiente.php" class="btn-activos">Ambientes </a>
+                    <a href="./verPrestamosActivos.php" class="btn-activos">Historial</a>
+                    <a href="./ver_ambiente.php" class="btn-activos">Ambiente</a>
+                    <a href="./registrarPrestamoElementos.php" class="btn-activos">Prestamo elementos</a>
+
+
 
                 </div>
                 <div class="bd-prestamo-ambientes">
@@ -171,33 +196,29 @@ $nuevoPrestamo = new Prestamo();
 
 
 
-                <!-- <form action="./prestamo_ambientes.php" method="post">
-                    <input  class="input-b btns-b"  placeholder="Buscar" type="number" id="documento" name="documento" 
-                     required>
-                    <input type="submit" value="Consultar" name="consultar">
-                </form> -->
-
-
-
                 <?php
-                if (!isset($_POST['consultar'])) { ?>
+
+
+                if (!isset($_REQUEST['consultar'])) { ?>
 
 
                     <?php
                     $resultado = $verAmbiente->mostrarAmbienteEstado();
 
-                    // var_dump($resultado);
-
                     if ($resultado->num_rows == 0) {
                         echo "<center><h2>No hay ambientes disponibles</h2></center>";
                     } else {
                     ?>
+                    <h4 class="text-center mt-2" >Ambientes disponibles</h4>
+                    <div class="text-center">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">numero</th>
-                                    <th scope="col">piso</th>
-                                    <th scope="col">estado</th>
+                                    <th scope="col" class="text-center">Numero</th>
+                                    <th scope="col"  class="text-center">Piso</th>
+                                    <th scope="col"  class="text-center">Linea formacion</th>
+                                    <th scope="col"  class="text-center">Estado</th>
+                                    <th scope="col"  class="text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -209,9 +230,12 @@ $nuevoPrestamo = new Prestamo();
                                     if ($filas['id_estado_ambiente'] == 1) { ?>
 
                                         <tr>
-                                            <td><?php echo $filas['id_numero_ambiente']; ?></td>
-                                            <td><?php echo $filas['piso']; ?></td>
-                                            <td><?php echo $filas['estado_ambiente'] ?></td>
+                                            <td class="text-center"><?php echo $filas['id_numero_ambiente']; ?></td>
+                                            <td class="text-center"><?php echo $filas['piso']; ?></td>
+                                            <td class="text-center"><?php echo $filas['nombre_linea']; ?></td>
+                                            <td class="text-center"><?php echo $filas['estado_ambiente'] ?></td>
+                                            <td class="text-center"> <a class="btn btn-info bg-success" href="verInformacionAmbiente.php?idAmbiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">informacion</a>
+                                            </td class="text-center">
                                         </tr>
 
                                 <?php
@@ -222,45 +246,97 @@ $nuevoPrestamo = new Prestamo();
                             </tbody>
                         </table>
 
+                        </div>
 
 
+
+                    <?php
+                    }
+                } else {
+                    $documento_usuario = $_REQUEST['documento'];
+                    echo $documento_usuario;
+
+                    $usuarios_filtrados = $usuarioFiltrado->filtrarUsuarioIdNombreRol($documento_usuario, 0);
+
+
+
+
+                    if ($usuarios_filtrados->num_rows < 1) {
+                        echo "<script>setTimeout(function(){ alert('Usuario no encontrado'); }, 100);</script>";
+                    } elseif ($usuarios_filtrados->num_rows > 1) { ?>
+
+
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">Tipo documento</th>
+                                    <th scope="col" class="text-center">N° documento</th>
+                                    <th scope="col" class="text-center">Nombre</th>
+                                    <th scope="col" class="text-center">Apellido</th>
+                                    <th scope="col" class="text-center">Correo</th>
+                                    <th scope="col" class="text-center">Telefono</th>
+                                    <th scope="col" class="text-center">Rol</th>
+                                    <th scope="col" class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+
+
+                                foreach ($usuarios_filtrados as $usuarios_filtrado) {
+
+                                ?>
+
+                                    <tr>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['tipo'] ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['numero_documento'] ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['nombre'] ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['apellido'] ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['correo']  ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['telefono']  ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['nombre_rol']  ?></td>
+                                        <td class="text-center">
+                                            <a class="btn btn-info bg-success" href="RegistrarPrestamoAmbiente.php?documento=<?php echo $usuarios_filtrado['numero_documento']; ?>&consultar=<?php echo $usuarios_filtrado['numero_documento']; ?>" style="color:white">seleccionar usuario</a>
+
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
 
 
                         <?php
-                    }
-                } else {
-                    $documentoInstructor = $_POST['documento'];
-                    echo $documentoInstructor;
-
-                    $obtenerUsuarioId = $mostrarInstructor->obtenerUsuarioIdRol($documentoInstructor, 2);
-
-                    // var_dump($obtenerUsuarioId);
-
-                    if ($obtenerUsuarioId->num_rows == 0) {
-                        echo "<center><h2>Usuario no encontrado</h2></center>";
                     } else {
+                      
+                        foreach ($usuarios_filtrados as $usuarios_filtrado) {
+                            $cedula = $usuarios_filtrado['numero_documento'];
+                        }
+
+                        $obtenerUsuarioId = $mostrarUsuario->obtenerUsuarioId($cedula);
 
 
-                        $resultadoPrestamoActivo = $verificarPrestamosActivos->prestamoActivoNumeroDocumento($documentoInstructor);
+                        $resultadoPrestamoActivo = $verificarPrestamosActivos->prestamoActivoAmbienteNumeroDocumento($cedula);
 
                         // var_dump($resultadoPrestamoActivo);
                         if ($resultadoPrestamoActivo->num_rows > 0) {
 
-                            echo "<center><h2>Usuario con prestamos activos </h2></center>";
+                            echo "<center><h4>Usuario con prestamos activos </h4></center>";
                             while ($datos = $resultadoPrestamoActivo->fetch_assoc()) { ?>
 
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Id prestamo</th>
-                                            <th scope="col">Ambiente</th>
-                                            <th scope="col">Doc. responsable</th>
-                                            <th scope="col">Nom. responsable</th>
-                                            <th scope="col">Fecha prestamo</th>
-                                            <th scope="col">Hora prestamo</th>
-                                            <th scope="col">observaciones</th>
-                                            <th scope="col">Estado</th>
-                                            <th scope="col">Acciones</th>
+                                            <th scope="col" class="text-center">Id prestamo</th>
+                                            <th scope="col" class="text-center">Ambiente</th>
+                                            <th scope="col" class="text-center">Doc. responsable</th>
+                                            <th scope="col" class="text-center">Nom. responsable</th>
+                                            <th scope="col" class="text-center">Fecha prestamo</th>
+                                            <th scope="col" class="text-center">Hora prestamo</th>
+                                            <th scope="col" class="text-center">observaciones</th>
+                                            <th scope="col" class="text-center">Estado</th>
+                                            <th scope="col" class="text-center">Acciones</th>
 
 
                                         </tr>
@@ -269,29 +345,36 @@ $nuevoPrestamo = new Prestamo();
 
                                         <tr>
 
-                                            <td><?php echo $datos['id_prestamo']    ?></td>
+                                            <td class="text-center"><?php echo $datos['id_prestamo']    ?></td>
 
-                                            <td><?php echo $datos['id_numero_ambiente']    ?></td>
+                                            <td class="text-center"><?php echo $datos['id_numero_ambiente']    ?></td>
 
-                                            <td><?php echo $datos['numero_documento']    ?></td>
-                                            <td><?php echo $datos['nombre'] . " " . $datos['apellido']   ?></td>
-                                            <td><?php echo $datos['fecha_prestamo']    ?></td>
-                                            <td><?php echo $datos['hora_prestamo']    ?></td>
-
-
-
-                                            <td><?php echo $datos['observaciones']    ?></td>
-                                            <td><?php echo $datos['estado_prestamo'] ?></td>
+                                            <td class="text-center"><?php echo $datos['numero_documento']    ?></td>
+                                            <td class="text-center"><?php echo $datos['nombre'] . " " . $datos['apellido']   ?></td>
+                                            <td class="text-center"><?php echo $datos['fecha_prestamo']    ?></td>
+                                            <td class="text-center"><?php echo $datos['hora_prestamo']    ?></td>
 
 
-                                            <td>
-                                                <!--  <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo
-                                                                                                                                $datos['id_prestamo']; ?>" style="color:white">observacion</a>-->
-                                                <!-- <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $datos['id_prestamo']; ?>&idAmbiente=<?php echo $datos['id_numero_ambiente']; ?>" style="color:white">Entregar</a> -->
 
-                                                <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo $datos['id_prestamo']; ?>" style="color:white">observacion</a>
+                                            <td class="text-center"><?php if ($datos['observaciones'] != NULL) { ?>
+                                                <spa data-bs-toggle="tooltip" data-placement="top" title="<?php echo $datos['observaciones'] ?>">
+                                                        <i class="fas fa-file"></i>
+                                                 </span>
+                                                <?php
+                                                } else { ?>
+                                                <i class="fas fa-exclamation-triangle"></i>
 
-                                                <!-- <a class="btn btn-info bg-success" href="verPrestamosActivos.php?idprestamo=<?php echo $datos['id_prestamo']; ?>" style="color:white">Entregar</a> -->
+                                                    <?php   }
+                                                    ?>
+                                                    
+                                            </td>
+                                            <td class="text-center"><?php echo $datos['estado_prestamo'] ?></td>
+
+
+                                            <td class="text-center">
+                                                <a class="btn btn-info bg-success" href="verPrestamosActivos.php?idprestamoDocumento=<?php echo $datos['id_prestamo']; ?>&idEleccion=2" style="color:white">Detalle</a>
+                                                
+
 
                                                 <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $datos['id_prestamo']; ?>&idAmbiente=<?php echo $datos['id_numero_ambiente']; ?>" style="color:white">Entregar</a>
                                             </td>
@@ -307,49 +390,78 @@ $nuevoPrestamo = new Prestamo();
                             <form action="./RegistrarPrestamoAmbiente.php" method="post">
 
 
+                                <center>
+                                    <h3>Informacion usuario</h3>
+                                </center>
+                              
 
-                                <div class="registro-div registro_usuario-input">
-                                    <h3>Datos Instructor</h3>
-                                    <input class="btn-registro btn-registro-dispositivo" type="submit" value="prestar" name=prestar>
-                                    <div class="registro-input registro-usuario-input">
-                                        <div class="rgts-input rgts-usuario-input">
 
-                                            <select name="tipoDocumento" id="" class="select-registro">
-                                                <option value=<?php echo $fila['idDocumento']; ?>><?php echo $fila['tipo'] ?> </option>
-                                            </select>
+                                <!-- este input es type hidden para poder tener la cedula del usuario sin mostrarlo -->
+                                <input type="hidden" name="numeroCedula" value=<?php echo $fila['numero_documento'] ?> class="input-number" readonly>
 
-                                            <input type="number" name="numeroCedula" value=<?php echo $fila['numero_documento'] ?> class="input-number" readonly>
-                                            <input type="text" name="nombre" value="<?php echo $fila['nombre'] ?>" readonly>
-                                            <input type="text" name="apellido" value="<?php echo $fila['apellido'] ?>" class="input-number" readonly>
-                                            <input type="text" name="telefono" value="<?php echo $fila['telefono'] ?>" readonly>
-                                            <input type="email" name="correo" value="<?php echo $fila['correo']; ?>" readonly>
-                                            <select name="rol" id="" class="select-registro">
-                                                <option value="id_rol"><?php echo $fila['nombre_rol']; ?></option>
-                                            </select>
 
-                                        </div>
-                                    </div>
-                                </div>
+                                <table class="table table-striped table-dark">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-center">Tipo documento</th>
+                                            <th scope="col" class="text-center">N° documento</th>
+                                            <th scope="col" class="text-center">Nombre</th>
+                                            <th scope="col" class="text-center">Apellido</th>
+                                            <th scope="col" class="text-center">Correo</th>
+                                            <th scope="col" class="text-center">Telefono</th>
+                                            <th scope="col" class="text-center">Rol</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+
+
+                                        foreach ($usuarios_filtrados as $usuarios_filtrado) {
+
+                                        ?>
+
+                                            <tr>
+                                                <td class="text-center"><?php echo $usuarios_filtrado['tipo'] ?></td>
+                                                <td class="text-center"><?php echo $usuarios_filtrado['numero_documento'] ?></td>
+                                                <td class="text-center"><?php echo $usuarios_filtrado['nombre'] ?></td>
+                                                <td class="text-center"><?php echo $usuarios_filtrado['apellido'] ?></td>
+                                                <td class="text-center"><?php echo $usuarios_filtrado['correo']  ?></td>
+                                                <td class="text-center"><?php echo $usuarios_filtrado['telefono']  ?></td>
+                                                <td class="text-center"><?php echo $usuarios_filtrado['nombre_rol']  ?></td>
+                                                <td class="text-center">
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
 
 
                                 <?php
-                                require_once "./classAmbientes.php";
+
                                 $verAmbiente = new Ambientes();
                                 $resultados = $verAmbiente->mostrarAmbienteEstado();
 
-                                // var_dump($resultados);
 
                                 if ($resultados->num_rows == 0) {
                                     echo "<center><h2>No hay ambientes disponibles</h2></center>";
                                 } else {
                                 ?>
+                                    <input class="btn-registro btn-registro-dispositivo" type="submit" value="prestar" name=prestar>
 
+                                    <center>
+                                        <h3>Ambientes</h3>
+                                    </center>
                                     <table class="table">
                                         <thead>
                                             <tr>
                                                 <th scope="col">numero</th>
                                                 <th scope="col">piso</th>
+                                                <th scope="col">Linea</th>
                                                 <th scope="col">estado</th>
+                                                <th scope="col">Check</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -363,7 +475,10 @@ $nuevoPrestamo = new Prestamo();
                                                     <tr>
                                                         <td><?php echo $filas['id_numero_ambiente']; ?></td>
                                                         <td><?php echo $filas['piso']; ?></td>
+                                                        <td><?php echo $filas['nombre_linea']; ?></td>
                                                         <td><?php echo $filas['estado_ambiente'] ?></td>
+
+
 
                                                         <td> <input type="radio" value="<?php echo $filas['id_numero_ambiente']; ?>" name='inputselect[]' class="chkseleccion"></td>
                                                     </tr>
@@ -378,8 +493,9 @@ $nuevoPrestamo = new Prestamo();
 
 
 
-                                    <label for="">observaciones</label><br>
-                                    <textarea rows="10" cols="40" name="observaciones" placeholder=""></textarea>
+                                    <center><label for="">observaciones</label><br>
+                                        <textarea rows="10" cols="40" name="observaciones" placeholder=""></textarea>
+                                    </center>
 
 
                             </form>
@@ -413,6 +529,11 @@ $nuevoPrestamo = new Prestamo();
                 }
 
 
+                echo date_default_timezone_get();
+                date_default_timezone_set("America/Bogota");
+                echo date_default_timezone_get();
+
+
 
                 $nuevoPrestamo->id_prestamo = NULL;
                 $nuevoPrestamo->fecha_prestamo = date('Y-m-d');
@@ -423,29 +544,28 @@ $nuevoPrestamo = new Prestamo();
                 $nuevoPrestamo->id_numero_ambiente = $ambiente[0];
                 $nuevoPrestamo->numero_documento = $numeroCedula;
                 $nuevoPrestamo->estado_prestamo = "activo";
-                $nuevoPrestamo->registrarPrestamo();
+                $id_prestamo = $nuevoPrestamo->registrarPrestamo();
 
 
 
                 $actualizarEstadoAmbiente->id_ambiente = $ambiente[0];
                 $actualizarEstadoAmbiente->estado = 2;
-                $actualizarEstadoAmbiente->actualizarEstadoAmbiente();
+                $resultado_prestamo = $actualizarEstadoAmbiente->actualizarEstadoAmbiente();
 
 
-                echo date_default_timezone_get();
-                date_default_timezone_set("America/Bogota");
-                echo date_default_timezone_get();
+                if ($resultado_prestamo) {
+                    header("Location: RegistrarPrestamoAmbiente.php?id_prestamo=$id_prestamo");
+                }
 
+                // $hora = date('h:i:s');
+                // $fecha = date('d-m-Y');
+                // $fecha2 = date('d-m-Y  h:i:s');
 
-                $hora = date('h:i:s');
-                $fecha = date('d-m-Y');
-                $fecha2 = date('d-m-Y  h:i:s');
-
-                echo $ambiente[0] . "-------------";
-                echo $numeroCedula . "-------------";
-                echo $hora . "----------------";
-                echo $fecha . "--------------";
-                echo $fecha2;
+                // echo $ambiente[0] . "-------------";
+                // echo $numeroCedula . "-------------";
+                // echo $hora . "----------------";
+                // echo $fecha . "--------------";
+                // echo $fecha2;
 
 
 
@@ -460,25 +580,28 @@ $nuevoPrestamo = new Prestamo();
             <?php
 
 
-            if (isset($_REQUEST['ambiente'])) {
-                $serialprestamo = $_REQUEST['ambiente']; ?>
+            if (isset($_REQUEST['id_prestamo'])) {
+                $serialprestamo = $_REQUEST['id_prestamo']; ?>
 
                 <script>
                     setTimeout(function() {
-                        var mensaje = "datos registrados exitosamente ambiente: <?php echo $serialprestamo ?>";
+                        var mensaje = "datos registrados exitosamente, id_prestamo: <?php echo $serialprestamo ?>";
                         alert(mensaje);
                     }, 500);
                 </script>
 
-            <?php } ?>
+            <?php
+                // header("Location: RegistrarPrestamoAmbiente.php"); 
+            } ?>
 
 
 
             </div>
         </div>
     </div>
-    <div class="barra_inferior">
-    </div>
+    <!-- <div class="barra_inferior">
+    </div> -->
+
 
 
 </body>

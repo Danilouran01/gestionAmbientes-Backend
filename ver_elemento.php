@@ -1,9 +1,12 @@
-<?php
+<?php 
 require_once "./classElemento.php";
 $verElemento = new Elemento();
 $result = $verElemento->mostrarElemento();
-$consulta_tipo_dispositivo=$verElemento->tipoElemenento();
-$consulta_estado_dispositivo=$verElemento->estadoElemento();
+$consulta_tipo_dispositivo = $verElemento->tipoElemenento();
+$consulta_estado_dispositivo = $verElemento->estadoElemento();
+
+
+
 
 ?>
 
@@ -28,13 +31,13 @@ $consulta_estado_dispositivo=$verElemento->estadoElemento();
 
     <script src="js/funcion.js"></script>
     <style>
+        table input,
+        select {
+            border: none;
 
-        table input,select {
-  border: none;
-  
-}
+        }
 
-/* table select{
+        /* table select{
   border: none;
 } */
     </style>
@@ -87,7 +90,7 @@ $consulta_estado_dispositivo=$verElemento->estadoElemento();
                                         <input class="campos-registro" type="text" placeholder="Serial" name="serial" required>
                                         <input class="campos-registro" type="text" placeholder="Marca" name="marca" required>
                                         <input class="campos-registro" type="text" placeholder="Modelo" class="input-number" name="modelo" required>
-                                        <input class="campos-registro" type="text" placeholder="PLaca" class="input-number" name="placa" required>
+                                        <input class="campos-registro" type="text" placeholder="PLaca" class="input-number" name="placa">
 
                                         <select class="campos-registro select" name="estado" id="" class="select-registro">
                                             <?php
@@ -103,7 +106,7 @@ $consulta_estado_dispositivo=$verElemento->estadoElemento();
 
                                         </select>
 
-                                        <input class="btn-registro btn-registro-usuario" type="submit" value="Registrar dispositivo" name="enviarElemento">
+                                        <input class="btn-registro btn-registro-usuario" type="submit" value="Registrar dispositivo" name="registrarElemento">
 
 
                                     </div>
@@ -155,57 +158,69 @@ $consulta_estado_dispositivo=$verElemento->estadoElemento();
     </div>
 
 
-    <div class="flex">
-        <div class="botones-principales">
+    <!-- <div class="flex"> -->
+    <!-- <div class="botones-principales">
             <a href="./registrarPrestamoAmbiente.php" class="btn-1">Prestamo de ambientes</a>
             <a href="./prestamo_dispositivos.php" class="btn-1 btn-0">Prestamo de dispositivos</a>
-        </div>
-        <div class="herencia">
-            <div class="buscador">
-                <h3 class="titulo_herencia">Prestamo de ambientes</h3>
-                <div class="buscador-int">
-                    <!-- <input class="input-b btns-b" type="searc" placeholder="Buscar"> -->
-                    <form action="./ver_elemento.php" method="post">
-                        <input class="input-b btns-b" placeholder="Buscar" type="number" id="documento" name="serial" required>
-                        <input type="submit" value="Consultar" name="consultar">
-                    </form>
+        </div> -->
+    <div class="herencia">
+        <div class="buscador">
+            <h3 class="titulo_herencia">Prestamo de ambientes</h3>
+            <div class="buscador-int">
+                <!-- <input class="input-b btns-b" type="searc" placeholder="Buscar"> -->
+                <form action="./ver_elemento.php" method="post">
+                    <input class="input-b btns-b" placeholder="Buscar" type="text" id="" name="serial" required>
+                    <input type="submit" value="Consultar" name="consultar" class="btn-consultar">
+                </form>
 
 
 
-                    <select class="selec-b btns-b" name="" id="">
-                        <option value="">Filtro</option>
-                    </select>
-                    <button class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#nuevo_dispositivo">Añadir dispositivo</button>
-                    <!-- <a href="./ver_elemento.php" class="btn-activos">Elementos </a> -->
+                <!-- <select class="selec-b btns-b" name="" id="">
+                    <option value="">Filtro</option>
+                </select> -->
+                <button class="btn-activos" data-bs-toggle="modal" data-bs-target="#nuevo_dispositivo">Añadir dispositivo</button>
+                <!-- <a href="./ver_elemento.php" class="btn-activos">Elementos </a> -->
+                <a href="./registrarPrestamoAmbiente.php" class="btn-activos">Prestamo de ambientes</a>
+                <a href="./registrarPrestamoElementos.php" class="btn-activos">Prestamo de dispositivos</a>
 
-                </div>
-                <div class="bd-prestamo-ambientes">
-                </div>
+
             </div>
-            <div class="contenido-ml">
+            <div class="bd-prestamo-ambientes">
+            </div>
+        </div>
+        <div class="contenido-ml">
+            <center><a href="./verElementosEstaticos.php" class="btn-b btns-b">Elementos estaticos</a>
+                <a href="./ver_elemento.php" class="btn-b btns-b">Elementos oficina</a>
+            </center>
+
+            <form action=".//excelElementosOficina.php" method="post" enctype="multipart/form-data">
+                <label for="archivo_excel">Seleccione el archivo Excel:</label>
+                <input type="file" name="archivo_excel" id="archivo_excel" accept=".xlsx,.xls">
+
+                <input type="submit" name="submit" value="Procesar">
+            </form>
+
+
+            <?php
 
 
 
-                <?php
+            if (isset($_REQUEST['serial']) || isset($_REQUEST['consultar'])) {
+                $id_elemento = $_REQUEST['serial'];
 
+                require_once "./classElemento.php";
+                $verElementoId = new Elemento();
+                $elementos = $verElementoId->obtenerElementoPorSerial($id_elemento);
 
-
-                if (isset($_REQUEST['serial']) || isset($_REQUEST['consultar'])) {
-                    $id_elemento = $_REQUEST['serial'];
-
-                    require_once "./classElemento.php";
-                    $verElementoId = new Elemento();
-                    $elementos = $verElementoId->obtenerElementoPorSerial($id_elemento);
-
-                    if ($elementos->num_rows < 1) {  ?>
-                           <script>
+                if ($elementos->num_rows < 1) {  ?>
+                    <script>
                         setTimeout(function() {
                             var mensaje = "Elemento no encontrado "
                             alert(mensaje);
                         }, 300);
                     </script>
-                     <?php   
-                    } else { 
+                <?php
+                } else {
 
 
 
@@ -213,18 +228,22 @@ $consulta_estado_dispositivo=$verElemento->estadoElemento();
                 ?>
 
                     <form action="./modificarElemento.php" method="post">
+                        <center>
+                            <h5>Dar click sobre el recuadro que desea modifcar y posteriormente presione guardar</h5>
+                        </center>
+
 
                         <table class="table ">
                             <thead>
                                 <tr>
-                                    <th scope="col">Serial</th>
-                                    <th scope="col">tipo dispositivo</th>
-                                    <th scope="col">marca</th>
-                                    <th scope="col">modelo</th>
-                                    <th scope="col">placa</th>
-                                    <th scope="col">estado</th>
-                                    <th scope="col">acciones</th>
-
+                                    <th scope="col" class="text-center">Serial</th>
+                                    <th scope="col" class="text-center" >tipo dispositivo</th>
+                                    <th scope="col" class="text-center">marca</th>
+                                    <th scope="col" class="text-center">modelo</th>
+                                    <th scope="col" class="text-center">placa</th>
+                                    <th scope="col" class="text-center">estado</th>
+                                    <th scope="col" class="text-center">acciones</th>
+ 
 
 
                                 </tr>
@@ -242,10 +261,12 @@ $consulta_estado_dispositivo=$verElemento->estadoElemento();
                                 ?>
                                     <tr>
 
-                                        <td><input type="text" value="<?php echo $fila['serial'] ?>" name="serial" readonly></td>
+                                        <td class="text-center"><input class="text-center" type="text" value="<?php echo $fila['serial'] ?>" name="serial" readonly></td>
 
-                                        <td><select name="tipoDispositivo" id="">
-                                                <option value="<?php echo $fila['id_tipo_dispositivo'] ?>"><?php echo $fila['tipo_dispositivo'] ?> </option>  
+
+                                        <td class="text-center" >
+                                        <select name="tipoDispositivo" id="">
+                                                <option value="<?php echo $fila['id_tipo_dispositivo'] ?>"><?php echo $fila['tipo_dispositivo'] ?> </option>
 
                                                 <?php
                                                 $tipo_dispositivos = $verElemento->tipoDispositivoDiferenteAlActual($fila['id_tipo_dispositivo']);
@@ -253,18 +274,27 @@ $consulta_estado_dispositivo=$verElemento->estadoElemento();
                                                 foreach ($tipo_dispositivos as $tipo_dispositivo) { ?>
                                                     <option value="<?php echo $tipo_dispositivo['id_tipo_dispositivo'] ?>"><?php echo $tipo_dispositivo['tipo_dispositivo'] ?></option>
 
-
-
                                                 <?php  # code...
                                                 } ?>
+
                                             </select></td>
 
+                                        <td><input class="text-center" type="text" value="<?php echo $fila['marca'] ?>" name="marca"></td>
 
 
-                                        <td><input type="text" value="<?php echo $fila['marca'] ?>" name="marca"></td>
-                                        <td><input type="text" value="<?php echo $fila['modelo'] ?>" name="modelo"></td>
-                                        <td><input type="text" value="<?php echo $fila['placa'] ?>" name="placa"></td>
-                                        <td><select name="estado" id="">
+
+                                
+
+                                        <td class="text-center"><input class="text-center" type="text" value="<?php echo $fila['modelo'] ?>" name="modelo"></td>
+                                        <?php if ($fila['placa'] == NULL) { ?>
+
+                                            <td class="text-center"><input class="text-center" type="text" value="<?php echo "sin placa"; ?>" name="placa"></td>
+                                        <?php   # code...
+                                        } else { ?>
+                                            <td class="text-center"><input class="text-center"  type="text" value="<?php echo $fila['placa'] ?>" name="placa"></td>
+                                        <?php   # code...
+                                        } ?>
+                                        <td class="text-center"><select class="text-center" name="estado" id="">
                                                 <option value="<?php echo $fila['id_estado_elemento']   ?>"><?php echo $fila['estado_elemento']   ?></option>
                                                 <?php
                                                 $estado_dispositivos = $verElemento->estadoDispositivoDiferenteAlActual($fila['id_estado_elemento']);
@@ -277,9 +307,9 @@ $consulta_estado_dispositivo=$verElemento->estadoElemento();
                                                 <?php  # code...
                                                 } ?>
 
-                                            </select </select></td>
+                                            </select></td>
                                         <!-- <td><a href="modificarElemento.php?serial=<?php echo $fila['serial']; ?>" style="color:white">Editar</a> -->
-                                        <td><input class="btn btn-info bg-success" type="submit" name="enviarElemnto" value="Guardar Modificacion" style="color:white">
+                                        <td class="text-center"><input class="btn btn-info bg-success" type="submit" name="enviarElemnto" value="Guardar " style="color:white">
 
                                             <a class="btn btn-info bg-success" href="eliminarElemento.php?serial=<?php echo $fila['serial']; ?>" style="color:white" onclick="return confirmacionEliminar()">Eliminar</a>
                                         </td>
@@ -294,67 +324,120 @@ $consulta_estado_dispositivo=$verElemento->estadoElemento();
                     </form>
 
 
-                <?php
+            <?php
 
                 }
             }
-                ?>
+            ?>
+
+            <center>
+                <h3>Elementos</h3>
+            </center>
+
+
+            <table class=" table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Serial</th>
+                        <th scope="col"  class="text-center">tipo dispositivo</th>
+                        <th scope="col"  class="text-center">marca</th>
+                        <th scope="col"  class="text-center">modelo</th>
+                        <!-- <th scope="col">placa</th> -->
+                        <th scope="col"  class="text-center">estado</th>
+                        <th scope="col"  class="text-center">acciones</th>
 
 
 
-                <table class="table">
-                    <thead  >
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <?php
+
+                    ?>
+                    <?php
+                    while ($fila = $result->fetch_assoc()) {
+                        // echo $fila['serial'] . " " . $fila['tipo_dispositivo'] . " " . $fila['marca'] . " " . $fila['modelo'] . " " . $fila['placa'] . " " . $fila['estado'] .   "<br>";
+                    ?>
                         <tr>
-                            <th scope="col">Serial</th>
-                            <th scope="col">tipo dispositivo</th>
-                            <th scope="col">marca</th>
-                            <th scope="col">modelo</th>
-                            <th scope="col">placa</th>
-                            <th scope="col">estado</th>
-                            <th scope="col">acciones</th>
-
-
-
+                            <td  class="text-center"><?php echo $fila['serial'] ?></td>
+                            <td  class="text-center"><?php echo $fila['tipo_dispositivo'] ?></td>
+                            <td  class="text-center"><?php echo $fila['marca'] ?></td>
+                            <td  class="text-center"><?php echo $fila['modelo'] ?></td>
+                            <!-- <td><?php echo $fila['placa'] ?></td> -->
+                            <td  class="text-center"><?php echo $fila['estado_elemento'] ?></td>
+                            <td  class="text-center"><a class="btn btn-info bg-success" href="ver_elemento.php?serial=<?php echo $fila['serial']; ?>" style="color:white">Editar</a>
+                                <a class="btn btn-info bg-success" href="eliminarElemento.php?serial=<?php echo $fila['serial']; ?>" style="color:white" onclick="return confirmacionEliminar() ">Eliminar </a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-
-                        <?php
-
-                        ?>
-                        <?php
-                        while ($fila = $result->fetch_assoc()) {
-                            // echo $fila['serial'] . " " . $fila['tipo_dispositivo'] . " " . $fila['marca'] . " " . $fila['modelo'] . " " . $fila['placa'] . " " . $fila['estado'] .   "<br>";
-                        ?>
-                            <tr>
-                                <td><?php echo $fila['serial'] ?></td>
-                                <td><?php echo $fila['tipo_dispositivo'] ?></td>
-                                <td><?php echo $fila['marca'] ?></td>
-                                <td><?php echo $fila['modelo'] ?></td>
-                                <td><?php echo $fila['placa'] ?></td>
-                                <td><?php echo $fila['estado_elemento'] ?></td>
-                                <td><a class="btn btn-info bg-success" href="ver_elemento.php?serial=<?php echo $fila['serial']; ?>" style="color:white">Editar</a>
-                                    <a class="btn btn-info bg-success" href="eliminarElemento.php?serial=<?php echo $fila['serial']; ?>" style="color:white" onclick="return confirmacionEliminar() ">Eliminar  </a>
-                                </td>
-                            </tr>
-                        <?php
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+            </table>
 
 
 
-            </div>
         </div>
     </div>
+    <!-- </div> -->
     <div class="barra_inferior">
 
 
     </div>
 
 
+    
+    <?php
+if(isset($_REQUEST['registro'])) {
+    $serialprestamo = $_REQUEST['registro']; ?>
 
+    <script>
+        setTimeout(function() {
+            var mensaje = "datos registrados exitosamente";
+            alert(mensaje);
+        }, 500);
+    </script> 
+<?php }
+if(isset($_REQUEST['registroFallido'])) {
+    $serialprestamo = $_REQUEST['registroFallido']; ?>
+
+    <script>
+        setTimeout(function() {
+            var mensaje = "por favor cargue un documento de excel";
+            alert(mensaje);
+        }, 500);
+    </script> 
+<?php }
+
+if(isset($_REQUEST['idElemento'])) {
+    $idElemento = $_REQUEST['idElemento']; ?>
+
+    <script>
+        setTimeout(function() {
+            var mensaje = "Elemento <?php echo $idElemento ?> registrado exitosamente";
+            alert(mensaje);
+        }, 500);
+    </script> 
+<?php } 
+
+
+
+
+if (isset($_REQUEST['serialElemento'])) {
+    $serial_elemento = $_REQUEST['serialElemento']; ?>
+
+    <script>
+        setTimeout(function() {
+            var mensaje = "Elemento <?php echo $serial_elemento ?> eliminado con exito. ";
+            alert(mensaje);
+        }, 500);
+    </script>
+
+ <?php } 
+
+
+?>
 </body>
 
 </html>

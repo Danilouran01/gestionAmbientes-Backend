@@ -1,12 +1,3 @@
-.parte-superior{
-    background-color: #bec0be;
-    height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    z-index: 5;
-}
 
 
 
@@ -179,13 +170,7 @@ html{
     margin-right: 30px;
 }
 
-.flex {
-    display: flex;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-}
+
 
 .herencia{
     display: flex;
@@ -311,10 +296,6 @@ select{
     
 }
 
-.contenido{
-    display: flex;
-    overflow: auto;
-}
 
 
        

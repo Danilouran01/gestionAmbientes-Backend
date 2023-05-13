@@ -1,9 +1,16 @@
-<?php
+<?php 
+require_once "./classUsuario.php";
+
+$listarUsuario = new Usuario();
+$usuarios = $listarUsuario->listarUsuario();
+
+ $usuarioFiltrado = new Usuario();
 
 
-
+// $resultado = $listarInstructor->mostrarUsuario(2);
 
 ?>
+
 
 
 <!DOCTYPE html>
@@ -33,15 +40,7 @@
 </head>
 
 <body>
-    <?php
-    require_once "./classUsuario.php";
 
-    $listarUsuario = new Usuario();
-    $usuarios = $listarUsuario->listarUsuario();
-
-    // $resultado = $listarInstructor->mostrarUsuario(2);
-
-    ?>
 
     <div class="parte-superior">
         <img class="logo" src="./images/logo sena.png" alt="">
@@ -244,10 +243,6 @@
 
 
     <!-- <div class="flex"> -->
-    <!-- <div class="botones-principales">
-            <a href="./registrarPrestamoAmbiente.php" class="btn-1">Prestamo de ambientes</a>
-            <a href="./registrarPrestamoElementos.php" class="btn-1 btn-0">Prestamo de dispositivos</a>
-        </div> -->
     <div class="herencia">
         <div class="buscador">
             <h3 class="titulo_herencia">Editar usuario</h3>
@@ -267,22 +262,23 @@
                         <option value="0">Todos</option>
                         <option value="1">Administradores</option>
                         <option value="2">instructores</option>
-                        <option value="3">Aprendiz</option>
+                        <option value="3">Invitado</option>
 
                     </select>
 
-                    <input type="submit" value="Consultar" name="consultar">
+                    <input type="submit" value="Consultar" name="consultar" class="btn-consultar">
 
                 </form>
                 <button class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#registrar_aprendiz">Registrar aprendiz</button>
                 <button class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#registrar_instructor">Registrar instructor</button>
                 <button class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#registrar_administrador">Registrar administrador</button>
+                <a href="./registrarPrestamoAmbiente.php" class="btn-activos">Prestar ambiente</a>
 
             </div>
             <div class="bd-prestamo-ambientes">
             </div>
         </div>
-        <div class="">
+        <div class="contenido">
 
             <?php
             if (isset($_REQUEST['consultar'])  || isset($_REQUEST['documento'])) {
@@ -299,24 +295,22 @@
 
                 if (isset($_REQUEST['rol'])) {
                     $rol = $_REQUEST['rol'];
+
+                  
                 } else {
                     $rol = 0;
                 }
 
+          
 
 
-                echo  "rol" . $rol;
-
-                echo "rrr" . $busqueda;
-
-                $usuarioFiltrado = new Usuario();
 
                 $usuarios_filtrados = $usuarioFiltrado->filtrarUsuarioIdNombreRol($busqueda, $rol);
-                var_dump($usuarios_filtrados);
-                //  var_dump($usuarios_filtrados);
+                
 
                 if ($usuarios_filtrados->num_rows < 1) {
-                    echo "<h3>Usuario no encontrado</h3>";
+                    echo "<script>setTimeout(function(){ alert('Usuario no encontrado'); }, 100);</script>";
+
                 } else {
 
 
@@ -334,76 +328,90 @@
 
                         ?>
 
-<center><div style=" width: 50%;"  class="col-sm-6 mx-auto">
+                            <center>
+                                <div style=" width: 50%;" class="col-sm-6 mx-auto">
+
+                                
+
+                                
 
 
-                                <form action="./modificarUsuario.php" method="post">
-
-
-
-
-
-                             
-
-                                    <label for="">Tipo documento</label>
-
-                                    <select name="tipoDocumento" id="" class="select-registro">
-                                        <option value=<?php echo $usuarios_filtrado['idDocumento']; ?>><?php echo $usuarios_filtrado['tipo'] ?> </option>
-                                        <?php
-                                        $resultadoSelect = $listarUsuario->obtenerTipoDocumento($usuarios_filtrado['idDocumento']);
-
-                                        foreach ($resultadoSelect as $rows) { ?>
-                                            <option value="<?php echo $rows['idDocumento']; ?>"> <?php echo $rows['tipo']; ?></option>
-
-                                        <?php
-                                        }
-
-                                        ?>
-
-
-                                    </select><br>
-
-
-                                    <label for=""> N° documento</label>
-                                    <input type="text" name="numeroCedula" value="<?php echo $usuarios_filtrado['numero_documento'] ?>"><br>
-
-                                    <label for="">Nombre</label>
-                                    <input type="text" name="nombre" value="<?php echo $usuarios_filtrado['nombre'] ?>"><br>
-
-                                    <label for=""> Apellido</label>
-                                    <input type="text" name="apellido" value="<?php echo $usuarios_filtrado['apellido'] ?>"> <br>
-                                    <label for="">Cooreo</label>
-
-                                    <input type="text" name="correo" value="<?php echo $usuarios_filtrado['correo']  ?>"> <br>
-
-                                    <label for="">Telefono</label>
-                                    <input type="text" name="telefono" value="<?php echo $usuarios_filtrado['telefono']  ?>"> <br>
+                                    <form action="./modificarUsuario.php" method="post">
 
 
 
-                                    <?php if ($usuarios_filtrado['contrasena'] != null) { ?>
-
-                                        <label for="">Contraseña</label>
-
-                                        <input type="text" name="contrasena" value="<?php echo $usuarios_filtrado['contrasena']  ?>">
 
 
-                                    <?php } ?> 
-                                    
-                                    
-                                    
-                                    
-                                    <?php if ($usuarios_filtrado['numero_ficha'] != 0) { ?> 
-                                        
-                                        <input type="text" name="ficha" value="<?php echo $usuarios_filtrado['numero_ficha']  ?>">
-                                        
-                                        <?php }  ?> 
-                                        
-                                    
+
+   <h3>Modificar <?php  echo $usuarios_filtrado['nombre_rol'] ?></h3>
+                                        <label for="">Tipo documento</label>
+
+                                        <select name="tipoDocumento" id="" class="select-registro">
+                                            <option value=<?php echo $usuarios_filtrado['idDocumento']; ?>><?php echo $usuarios_filtrado['tipo'] ?> </option>
+                                            <?php
+                                            $resultadoSelect = $listarUsuario->obtenerTipoDocumento($usuarios_filtrado['idDocumento']);
+
+                                            foreach ($resultadoSelect as $rows) { ?>
+                                                <option value="<?php echo $rows['idDocumento']; ?>"> <?php echo $rows['tipo']; ?></option>
+
+                                            <?php
+                                            }
+
+                                            ?>
+
+
+                                        </select><br>
+
+
+                                        <label for=""> N° documento</label>
+                                        <input type="text" name="numeroCedula" value="<?php echo $usuarios_filtrado['numero_documento'] ?>" readonly><br>
+
+                                        <label for="">Nombre</label>
+                                        <input type="text" name="nombre" value="<?php echo $usuarios_filtrado['nombre'] ?>"><br>
+
+                                        <label for=""> Apellido</label>
+                                        <input type="text" name="apellido" value="<?php echo $usuarios_filtrado['apellido'] ?>"> <br>
+                                        <label for="">Cooreo</label>
+
+                                        <input type="text" name="correo" value="<?php echo $usuarios_filtrado['correo']  ?>"> <br>
+
+                                        <label for="">Telefono</label>
+                                        <input type="text" name="telefono" value="<?php echo $usuarios_filtrado['telefono']  ?>"> <br>
+
+
+
+                                        <?php if ($usuarios_filtrado['contrasena'] != null) { ?>
+
+                                            <label for="">Contraseña</label>
+
+                                            <input type="text" name="contrasena" value="<?php echo $usuarios_filtrado['contrasena']  ?>"> <br>
+                                            
+                                            
+    
+       
+                                        <?php } ?>
+
+
+
+
+                                        <?php if ($usuarios_filtrado['numero_ficha'] != 0) { ?>
+
+                                            <input type="text" name="ficha" value="<?php echo $usuarios_filtrado['numero_ficha']  ?>">
+
+                                        <?php }  ?>
+
+
+                                        <?php if ($usuarios_filtrado['centro'] != null) { ?>
+                                                    <label for="">Centro</label>
+                                            <input type="text" name="centro" value="<?php echo $usuarios_filtrado['centro']  ?>"><br>
+
+                                        <?php }  ?>
+
+
                                         <label for="">rol</label>
                                         <select name="rol" id="" class="select-registro">
-                                        <option value=<?php echo $usuarios_filtrado['id_rol']; ?>>
-                                        <?php echo $usuarios_filtrado['nombre_rol'] ?> </option>
+                                            <option value=<?php echo $usuarios_filtrado['id_rol']; ?>>
+                                                <?php echo $usuarios_filtrado['nombre_rol'] ?> </option>
 
 
 
@@ -419,28 +427,29 @@
 
 
 
-                                </form>
+                                    </form>
 
-</div> </center><br>br
-                        
-
-
-                            <?php
-                        }
-                            ?>
-
-
+                                </div>
+                            </center><br>
 
 
 
                         <?php
+                        }
+                        ?>
+
+
+
+
+
+                    <?php
 
                     } else { ?>
 
 
 
-                            <?php
-                            ?>
+                        <?php
+                        ?>
 
 
 
@@ -454,136 +463,121 @@
 
 
 
-                            <table class="table table-striped table-dark">
-                                <thead>
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">Tipo documento</th>
+                                    <th scope="col" class="text-center">N° documento</th>
+                                    <th scope="col" class="text-center">Nombre</th>
+                                    <th scope="col" class="text-center">Apellido</th>
+                                    <th scope="col" class="text-center">Correo</th>
+                                    <th scope="col" class="text-center">Telefono</th>
+                                    <th scope="col" class="text-center">Rol</th>
+                                    <th scope="col" class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+
+
+                                foreach ($usuarios_filtrados as $usuarios_filtrado) {
+
+                                ?>
+
                                     <tr>
-                                        <th scope="col" class="text-center">Tipo documento</th>
-                                        <th scope="col" class="text-center">N° documento</th>
-                                        <th scope="col" class="text-center">Nombre</th>
-                                        <th scope="col" class="text-center">Apellido</th>
-                                        <th scope="col" class="text-center">Correo</th>
-                                        <th scope="col" class="text-center">Telefono</th>
-                                        <th scope="col" class="text-center">Rol</th>
-                                        <th scope="col" class="text-center">Acciones</th>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['tipo'] ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['numero_documento'] ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['nombre'] ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['apellido'] ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['correo']  ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['telefono']  ?></td>
+                                        <td class="text-center"><?php echo $usuarios_filtrado['nombre_rol']  ?></td>
+                                        <td class="text-center">
+                                            <a class="btn btn-info bg-success" href="ver_usuario.php?documento=<?php echo $usuarios_filtrado['numero_documento']; ?>" style="color:white">Editar</a>
+
+                                            <a class="btn btn-info bg-success" href="eliminarUsuario.php?documento=<?php echo $usuarios_filtrado['numero_documento']; ?>" style="color:white" onclick="return confirmacionEliminar() ">Eliminar</a>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-
-
-                                    foreach ($usuarios_filtrados as $usuarios_filtrado) {
-
-                                    ?>
-
-                                        <tr>
-                                            <td class="text-center"><?php echo $usuarios_filtrado['tipo'] ?></td>
-                                            <td class="text-center"><?php echo $usuarios_filtrado['numero_documento'] ?></td>
-                                            <td class="text-center"><?php echo $usuarios_filtrado['nombre'] ?></td>
-                                            <td class="text-center"><?php echo $usuarios_filtrado['apellido'] ?></td>
-                                            <td class="text-center"><?php echo $usuarios_filtrado['correo']  ?></td>
-                                            <td class="text-center"><?php echo $usuarios_filtrado['telefono']  ?></td>
-                                            <td class="text-center"><?php echo $usuarios_filtrado['nombre_rol']  ?></td>
-                                            <td class="text-center">
-                                                <a class="btn btn-info bg-success" href="ver_usuario.php?documento=<?php echo $usuarios_filtrado['numero_documento']; ?>" style="color:white">Editar</a>
-
-                                                <a class="btn btn-info bg-success" href="eliminarUsuario.php?documento=<?php echo $usuarios_filtrado['numero_documento']; ?>" style="color:white" onclick="return confirmacionEliminar() ">Eliminar</a>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-
-
+                                <?php
+                                }
+                                ?>
                             </tbody>
-                            </table>
-                            </form>
+                        </table>
 
 
-                <?php
+                        </tbody>
+                        </table>
+                        </form>
+
+
+            <?php
                     }
                 }
             }
-                ?>
+            ?>
 
-                <!--   //  falta estilo -->
+            <!--   //  falta estilo -->
 
-                <center>
-                    <h3>Usuarios</h3>
-                </center>
+            <center>
+                <h3>Usuarios</h3>
+            </center>
 
 
-                <table class="table table-striped ">
-                    <thead>
+            <table class="table table-striped ">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Tipo documento</th>
+                        <th scope="col" class="text-center">N° documento</th>
+                        <th scope="col" class="text-center">Nombre</th>
+                        <th scope="col" class="text-center">Apellido</th>
+                        <th scope="col" class="text-center">Correo</th>
+                        <th scope="col" class="text-center">Telefono</th>
+                        <th scope="col" class="text-center">Rol</th>
+                        <th scope="col" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <?php
+
+
+                    foreach ($usuarios as $usuario) {
+
+                    ?>
                         <tr>
-                            <th scope="col" class="text-center">Tipo documento</th>
-                            <th scope="col" class="text-center">N° documento</th>
-                            <th scope="col" class="text-center">Nombre</th>
-                            <th scope="col" class="text-center">Apellido</th>
-                            <th scope="col" class="text-center">Correo</th>
-                            <th scope="col" class="text-center">Telefono</th>
-                            <th scope="col" class="text-center">Rol</th>
-                            <th scope="col" class="text-center">Acciones</th>
+                            <td class="text-center"><?php echo $usuario['tipo'] ?></td>
+                            <td class="text-center"><?php echo $usuario['numero_documento'] ?></td>
+                            <td class="text-center"><?php echo $usuario['nombre'] ?></td>
+                            <td class="text-center"><?php echo $usuario['apellido'] ?></td>
+                            <td class="text-center"><?php echo $usuario['correo']  ?></td>
+                            <td class="text-center"><?php echo $usuario['telefono']  ?></td>
+                            <td class="text-center"><?php echo $usuario['nombre_rol']  ?></td>
+                            <td class="text-center">
+                                <a class="btn btn-info bg-success" href="ver_usuario.php?documento=<?php echo $usuario['numero_documento']; ?>" style="color:white">Editar</a>
+                                <!-- <?php echo $usuario['id_rol'] ?> -->
+
+                                <!-- <a  class="btn btn-info bg-success"href="#" class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#editar_usuario" data-id="<?php echo $usuario['numero_documento'];   ?>">Editar</a> -->
+
+                                <a class="btn btn-info bg-success" href="eliminarUsuario.php?documento=<?php echo $usuario['numero_documento']; ?>" style="color:white" onclick="return confirmacionEliminar() ">Eliminar</a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-
-                        <?php
-
-
-                        foreach ($usuarios as $usuario) {
-
-                        ?>
-                            <tr>
-                                <td class="text-center"><?php echo $usuario['tipo'] ?></td>
-                                <td class="text-center"><?php echo $usuario['numero_documento'] ?></td>
-                                <td class="text-center"><?php echo $usuario['nombre'] ?></td>
-                                <td class="text-center"><?php echo $usuario['apellido'] ?></td>
-                                <td class="text-center"><?php echo $usuario['correo']  ?></td>
-                                <td class="text-center"><?php echo $usuario['telefono']  ?></td>
-                                <td class="text-center"><?php echo $usuario['nombre_rol']  ?></td>
-                                <td class="text-center">
-                                    <a class="btn btn-info bg-success" href="ver_usuario.php?documento=<?php echo $usuario['numero_documento']; ?>" style="color:white">Editar</a>
-                                    <!-- <?php echo $usuario['id_rol'] ?> -->
-
-                                    <!-- <a  class="btn btn-info bg-success"href="#" class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#editar_usuario" data-id="<?php echo $usuario['numero_documento'];   ?>">Editar</a> -->
-
-                                    <a class="btn btn-info bg-success" href="eliminarUsuario.php?documento=<?php echo $usuario['numero_documento']; ?>" style="color:white" onclick="return confirmacionEliminar() ">Eliminar</a>
-                                </td>
-                            </tr>
-                        <?php
-                        }
-                        ?>
-                    </tbody>
-                </table>
-
-
+                    <?php
+                    }
+                    ?>
                 </tbody>
-                </table>
+            </table>
+
+
+            </tbody>
+            </table>
 
 
 
 
+<!-- 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        </div>
+        </div> -->
     </div>
     <!-- </div> -->
     <div class="barra_inferior">

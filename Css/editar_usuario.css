@@ -1,12 +1,3 @@
-.parte-superior{
-    background-color: #bec0be;
-    height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    z-index: 5;
-}
 
 
 
@@ -311,10 +302,6 @@ select{
     
 }
 
-.contenido{
-    display: flex;
-    overflow: auto;
-}
 
 
 

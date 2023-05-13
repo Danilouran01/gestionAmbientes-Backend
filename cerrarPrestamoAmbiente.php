@@ -1,4 +1,4 @@
-<?php
+<?php 
 include_once "./classPrestamo.php";
 include_once "./classAmbientes.php";
 if (isset($_REQUEST['idprestamo'])  && isset($_REQUEST['idAmbiente'])) {
@@ -28,7 +28,7 @@ if (isset($_REQUEST['idprestamo'])  && isset($_REQUEST['idAmbiente'])) {
     if ($result_actualiazar && $result_cerrar) {
 
         // header("Location: verPrestamosActivos.php");
-        header("Location: verPrestamosActivos.php?idprestamo=$id_prestamo");
+        header("Location: verPrestamosActivos.php?idprestamoDocumento=$id_prestamo&idEleccion=2");
 
         // echo "correcto";
         // echo "----" .  $result_actuliazar . ".....";

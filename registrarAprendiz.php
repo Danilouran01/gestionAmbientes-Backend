@@ -1,4 +1,4 @@
-    <?php
+    <?php  
     include_once "./classAprendiz.php";
 
     if(isset($_GET['msg']))

@@ -98,7 +98,32 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .btn-activos:hover{
     background: #25998a;
+
+
+}.contenido{
+    overflow: auto;
+    
 }
+
+.parte-superior{
+    background-color: #bec0be;
+    height: 70px;
+    display: flex;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100%;
+    z-index: 100 !important;
+}
+
+.flex {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 50 !important;
+}
+
 
 
 

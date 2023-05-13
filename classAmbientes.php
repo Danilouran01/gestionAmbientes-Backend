@@ -1,4 +1,4 @@
-<?php
+<?php 
 require_once "./conexionPoo.php";
 
 
@@ -7,14 +7,16 @@ class Ambientes extends conexion
     public $id_ambiente;
     public $piso;
     public $estado;
+    public $linea_formacion;
+    public $sillas;
 
 
     public function registrarAmbiente()
     {
         $this->conectar();
 
-        $pre = mysqli_prepare($this->con, "INSERT INTO `ambientes`(`id_numero_ambiente`, `piso`, `estado`) VALUES (?,?,?)");
-        $pre->bind_param("iii", $this->id_ambiente, $this->piso, $this->estado);
+        $pre = mysqli_prepare($this->con, "INSERT INTO `ambientes`(`id_numero_ambiente`, `piso`, `linea_formacion`, `estado`, `cantidad_sillas`) VALUES (?,?,?,?,?)");
+        $pre->bind_param("iiiii", $this->id_ambiente, $this->piso,$this->linea_formacion, $this->estado,$this->sillas);
         $pre->execute();
         if ($pre) {
             echo "Datos insertados correctamente";
@@ -29,7 +31,7 @@ class Ambientes extends conexion
     public function mostrarAmbiente()
     {
         $this->conectar();
-        $sql = "SELECT `id_numero_ambiente`, `piso`, estado_ambiente,`id_estado_ambiente`,`cantidad_sillas` FROM `ambientes` inner JOIN estado_ambiente ON ambientes.estado=estado_ambiente.id_estado_ambiente";
+        $sql = "SELECT id_numero_ambiente, `piso`,`nombre_linea`, estado_ambiente,`id_estado_ambiente`,`cantidad_sillas` FROM `ambientes` inner JOIN estado_ambiente ON ambientes.estado=estado_ambiente.id_estado_ambiente INNER JOIN linea_formacion on linea_formacion.id_linea=ambientes.linea_formacion";
         $resultado = $this->con->query($sql);
         return $resultado;
         $this->con->close();
@@ -39,7 +41,7 @@ class Ambientes extends conexion
     public function mostrarAmbienteEstado()
     {
         $this->conectar();
-        $sql = "SELECT `id_numero_ambiente`, `piso`, estado_ambiente,`id_estado_ambiente` FROM `ambientes` inner JOIN estado_ambiente ON ambientes.estado=estado_ambiente.id_estado_ambiente WHERE id_estado_ambiente=1";
+        $sql = "SELECT id_numero_ambiente, `piso`,`nombre_linea`, estado_ambiente,`id_estado_ambiente`,`cantidad_sillas` FROM `ambientes` inner JOIN estado_ambiente ON ambientes.estado=estado_ambiente.id_estado_ambiente INNER JOIN linea_formacion on linea_formacion.id_linea=ambientes.linea_formacion WHERE id_estado_ambiente=1";
         $resultado = $this->con->query($sql);
         return $resultado;
         $this->con->close();
@@ -81,8 +83,8 @@ class Ambientes extends conexion
     {
         $this->conectar();
 
-        $modificarAmbiente = mysqli_prepare($this->con, "UPDATE `ambientes` SET `id_numero_ambiente`=?,`piso`=?,`estado`=? WHERE id_numero_ambiente=?");
-        $modificarAmbiente->bind_param("isii", $this->id_ambiente, $this->piso, $this->estado, $this->id_ambiente);
+        $modificarAmbiente = mysqli_prepare($this->con, "UPDATE `ambientes` SET `id_numero_ambiente`=?,`piso`=?,`linea_formacion`=?,`estado`=?,`cantidad_sillas`=? WHERE id_numero_ambiente=?");
+        $modificarAmbiente->bind_param("iiiiii", $this->id_ambiente, $this->piso,$this->linea_formacion, $this->estado,$this->sillas,$this->id_ambiente);
         $modificarAmbiente->execute();
         if ($modificarAmbiente) {
             return true;
@@ -119,48 +121,53 @@ class Ambientes extends conexion
     }
 
 
-    public function estadoAmbiente(){
+    public function estadoAmbiente()
+    {
         $this->conectar();
-        
-    $sql_estado = "SELECT * FROM `estado_ambiente`";
-    $resultado_sql= $this->con->query($sql_estado);
 
-    if ($resultado_sql){
-        return  $resultado_sql;
-    }else{
-        echo "error: " . mysqli_error($this->con);
+        $sql_estado = "SELECT * FROM `estado_ambiente`";
+        $resultado_sql = $this->con->query($sql_estado);
+
+        if ($resultado_sql) {
+            return  $resultado_sql;
+        } else {
+            echo "error: " . mysqli_error($this->con);
+        }
+
+        $this->con->close();
+    }
+
+
+    public function estadoAmbienteDiferenteActual($estado)
+    {
+        $this->conectar();
+
+        $estado_ambiente = "SELECT * FROM `estado_ambiente` Where id_estado_ambiente != $estado ";
+        $resultado_estado_ambiente = $this->con->query($estado_ambiente);
+
+        if ($resultado_estado_ambiente) {
+            return  $resultado_estado_ambiente;
+        } else {
+            echo "error: " . mysqli_error($this->con);
+        }
+
+        $this->con->close();
+    }
+
+
+    public function mostrarLineaFormacion(){
+        $this->conectar();
+
+        $linea_formacion="SELECT `id_linea`, `nombre_linea` FROM `linea_formacion` ";
+        $consulta_linea_formacion=$this->con->query($linea_formacion);
+        if ($consulta_linea_formacion) {
+            return $consulta_linea_formacion;
+        }else{
+            echo "error al mostrar datos";
+        }
     } 
-    
-    $this->con->close();
-
-    }
 
 
-    public function estadoAmbienteDiferenteActual($estado){
-        $this->conectar();
-        
-    $estado_ambiente = "SELECT * FROM `estado_ambiente` Where id_estado_ambiente != $estado ";
-    $resultado_estado_ambiente = $this->con->query($estado_ambiente );
 
-    if ($resultado_estado_ambiente){
-        return  $resultado_estado_ambiente;
-    }else{
-        echo "error: " . mysqli_error($this->con);
-    } 
-    
-    $this->con->close();
-
-    }
-
-
-    public function verElementosEstaticosId($id){
-        $this->conectar();
-        $sql="SELECT * FROM ambientes INNER JOIN ambiente_elemento on ambiente_elemento.id_ambiente_elemento<=ambientes.id_numero_ambiente INNER JOIN elementos_estaticos_ambiente on elementos_estaticos_ambiente.id_elemento_estatico=ambiente_elemento.id_elemento_estatico INNER JOIN categoria_elemento on categoria_elemento.id_categoria=elementos_estaticos_ambiente.categoria_elemento WHERE ambiente_elemento.id_numero_ambiente=$id and ambientes.id_numero_ambiente=$id;";
-    ;
-    $sql_con=$this->con->query($sql);
-    return $sql_con;
-    }
-    
-
-
+   
 }

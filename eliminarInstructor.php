@@ -1,4 +1,4 @@
-<?php
+<?php 
 require_once "./classInstructor.php";
 $documento_instructor=$_REQUEST['documento'];
 $url="ver_instructor.php";

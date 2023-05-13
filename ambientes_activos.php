@@ -1,4 +1,9 @@
-<?php
+<?php 
+
+
+
+
+
 require_once "./classAmbientes.php";
 $verAmbiente = new Ambientes();
 $actualizarEstadoAmbiente = new Ambientes();

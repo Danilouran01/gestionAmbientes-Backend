@@ -1,13 +1,9 @@
-<?php
+<?php 
 require_once "./classAmbientes.php";
 $verAmbiente = new Ambientes();
 $actualizarEstadoAmbiente = new Ambientes();
 
 
-
-
-require_once "./classInstructor.php";
-$mostrarInstructor = new Instructor();
 
 
 require_once "./classPrestamo.php";
@@ -61,11 +57,10 @@ border: none;
             </ul>
         </div>
 
+    <!-- MODAL NUEVO DISPOSITVO -->
 
-        <!-- MODAL NUEVO DISPOSITVO -->
 
-
-        <div class="modal fade" id="nuevo_ambiente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="nuevo_ambiente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -80,6 +75,25 @@ border: none;
 
                                         <input class="campos-registro" type="text" name="numeroAmbiente" placeholder="numero ambiente" required>
                                         <input class="campos-registro" type="text" name="numeroPiso" placeholder="numero piso" required>
+                                        
+                                        <select class="campos-registro select" name="lineaFormacion" id="" class="select-registro">
+                                            <?php
+                                            $lineas_formacion = $verAmbiente->mostrarLineaFormacion();;
+                                            foreach ($lineas_formacion as $linea_formacion) {
+
+                                            ?>
+                                                <option value="<?php echo $linea_formacion['id_linea']; ?>"> <?php echo $linea_formacion['nombre_linea']; ?></option>
+
+                                            <?php
+
+                                            }
+
+                                            ?>
+
+                                        </select>
+                                        
+                                        <input class="campos-registro" type="text" name="cantSillas" placeholder="Cantidad sillas">
+
                                         <select class="campos-registro select" name="estadoAmbiente" id="" class="select-registro">
                                             <?php
                                             $estado_ambientes = $verAmbiente->estadoAmbiente();
@@ -148,14 +162,14 @@ border: none;
     </div>
 
 
-    <div class="flex">
+    <!-- <div class="flex">
         <div class="botones-principales">
             <a href="./registrarPrestamoAmbiente.php" class="btn-1">Prestamo de ambientes</a>
             <a href="./registrarPrestamoElementos.php" class="btn-1 btn-0">Prestamo de dispositivos</a>
-        </div>
+        </div> -->
         <div class="herencia">
             <div class="buscador">
-                <h3 class="titulo_herencia">Prestamo de ambientes</h3>
+                <h3 class="titulo_herencia">Historial</h3>
                 <div class="buscador-int">
                     <!-- <input class="input-b btns-b" type="searc" placeholder="Buscar"> -->
                     <form action="./ver_ambiente.php" method="post">
@@ -171,14 +185,16 @@ border: none;
 
                     <button class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#nuevo_ambiente">Añadir ambiente</button>
 
-                    <a href="./verPrestamosActivos.php" class="btn-activos">Prestamo Ambientes </a>
-                    <a href="./verPrestamosActivos.php" class="btn-activos">Ambientes </a>
+                    <a href="./registrarPrestamoAmbiente.php" class="btn-activos">Prestar ambientes </a>
+                    <a href="#" class="btn-activos">Generar reporte </a>
+                    
+
 
                 </div>
                 <div class="bd-prestamo-ambientes">
                 </div>
             </div>
-            <div class="contenido-ml">
+            <div class="contenido">
 
                 
 
@@ -228,6 +244,8 @@ if (isset($_REQUEST['id_ambiente']) || isset($_REQUEST['consultar'])) {
                 <tr>
                     <th scope="col">ambiente</th>
                     <th scope="col">piso</th>
+                    <th scope="col">linea formacion</th>
+                    <th scope="col">sillas</th>
                     <th scope="col">estado</th>
                     <th scope="col">acciones</th>
 
@@ -247,6 +265,24 @@ if (isset($_REQUEST['id_ambiente']) || isset($_REQUEST['consultar'])) {
 
 
                         <td><input type="text" value="<?php echo $ambiente_id['piso'] ?>" name="numeroPiso"></td>
+                        <td> <select class="" name="lineaFormacion" id="" class="select-registro">
+                                            <?php
+                                            $lineas_formacion = $verAmbiente->mostrarLineaFormacion();;
+                                            foreach ($lineas_formacion as $linea_formacion) {
+
+                                            ?>
+                                                <option value="<?php echo $linea_formacion['id_linea']; ?>"> <?php echo $linea_formacion['nombre_linea']; ?></option>
+
+                                            <?php
+
+                                            }
+
+                                            ?>
+
+                                        </select>
+                                        </td>
+                            <td><input type="text" value="<?php echo $ambiente_id['cantidad_sillas'] ?>" name="cantSillas"></td>
+
 
                         <td><select name="estadoAmbiente" id="">
                                 <option value="<?php echo $ambiente_id['id_estado_ambiente'] ?>"><?php echo $ambiente_id['estado_ambiente'] ?> </option>  
@@ -269,7 +305,7 @@ if (isset($_REQUEST['id_ambiente']) || isset($_REQUEST['consultar'])) {
                             <a class="btn btn-info bg-success" href="eliminarElemento.php?serial=<?php echo $fila['serial']; ?>" style="color:white" onclick="return confirmacionEliminar()">Eliminar</a>
                             
 
-                            <a class="btn btn-info bg-success" href="verInformacionAmbiente.php?serial=<?php echo $fila['serial']; ?>" style="color:white">informacion</a>
+                            <a class="btn btn-info bg-success" href="verInformacionAmbiente.php?idAmbiente=<?php echo $fila['serial']; ?>" style="color:white">informacion</a>
 
                         </td>
                     </tr>
@@ -296,6 +332,7 @@ if (isset($_REQUEST['id_ambiente']) || isset($_REQUEST['consultar'])) {
                         <tr>
                             <th scope="col">numero</th>
                             <th scope="col">piso</th>
+                            <th scope="col">Linea formacion</th>
                             <th scope="col">estado</th>
                             <th scope="col">acciones</th>
 
@@ -318,16 +355,18 @@ if (isset($_REQUEST['id_ambiente']) || isset($_REQUEST['consultar'])) {
                             <tr>
                                 <td><?php echo $filas['id_numero_ambiente']; ?></td>
                                 <td><?php echo $filas['piso']; ?></td>
+                                <td><?php echo $filas['nombre_linea']; ?></td>
                                 <td><?php echo $filas['estado_ambiente'] ?></td>
 
                                 <?php
 
                                 // if ($filas['id_estado_ambiente'] == 1) { ?>
                                     <td><a class="btn btn-info bg-success" href="ver_ambiente.php?id_ambiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">Editar</a>
-                                    <<a class="btn btn-info bg-success" href="eliminarAmbiente.php?idAmbiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white" onclick="return confirmacionEliminar() ">Eliminar</a>
+                                    <a class="btn btn-info bg-success" href="eliminarAmbiente.php?idAmbiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white" onclick="return confirmacionEliminar() ">Eliminar</a>
 
-                                    <a class="btn btn-info bg-success" href="verInformacionAmbiente.php?serial=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">informacion</a>
-                               
+                                    <a class="btn btn-info bg-success" href="verInformacionAmbiente.php?idAmbiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white">informacion</a>
+                                    <a class="btn btn-info bg-success" href="asociarAmbienteElemento.php?idAmbiente=<?php echo $filas['id_numero_ambiente']; ?>" style="color:white"> + Elementos</a>
+
 
                                     
                                 <?php

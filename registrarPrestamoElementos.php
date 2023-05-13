@@ -1,13 +1,16 @@
-<?php
+<?php session_start();
+if(!isset($_SESSION['numero_documento'])){
+    header("location: ./index.php");
+    exit();
+}
 require_once "./classElemento.php";
 $mostrarElemento = new Elemento();
 $actualizarElemento = new Elemento();
 
 
-
-
 require_once "./classUsuario.php";
 $mostrarUsuario = new Usuario();
+$usuarioFiltrado = new Usuario();
 
 
 require_once "./classPrestamo.php";
@@ -22,6 +25,11 @@ $detallePrestamo = new DetallePrestamo();
 
 $consulta_tipo_dispositivo = $mostrarElemento->tipoElemenento();
 $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
+
+if(!empty($_REQUEST['usuario'] ) && $_REQUEST['usuario']== 'false' ){
+    echo "<script>setTimeout(function(){ alert('Usuario no encontrado'); }, 500);</script>";
+
+}
 ?>
 
 
@@ -41,6 +49,19 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap" rel="stylesheet">
     <title>Gestión de ambientes</title>
+    <style>
+   
+
+.form-busc {
+    display: flex;
+    align-items: center;
+    /* margin-top: 10px; */
+}
+
+
+
+
+    </style> 
 </head>
 
 <body>
@@ -157,282 +178,396 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
     </div>
 
 
-    <div class="flex">
-        <div class="botones-principales">
-            <a href="./registrarPrestamoAmbiente.php" class="btn-1">Prestamo de ambientes</a>
-            <a href="./prestamo_dispositivos.php" class="btn-1 btn-0">Prestamo de dispositivos</a>
-        </div>
-        <div class="herencia">
-            <div class="buscador">
-                <h3 class="titulo_herencia">Prestamo de ambientes</h3>
-                <div class="buscador-int">
-                    <!-- <input class="input-b btns-b" type="searc" placeholder="Buscar"> -->
-                    <form action="./registrarPrestamoElementos.php" method="post">
-                        <input class="input-b btns-b" placeholder="Buscar" type="number" id="documento" name="documento" required>
-                        <input type="submit" value="Consultar" name="consultar">
-                    </form>
+  
+    <div class="herencia">
+        <div class="buscador">
+            <h3 class="titulo_herencia">Prestamo de elementos</h3>
+            <div class="buscador-int">
+                <!-- <input class="input-b btns-b" type="searc" placeholder="Buscar"> -->
+                <form class="form-busc" action="./registrarPrestamoElementos.php" method="post">
+                    <input class="input-b btns-b" placeholder="Buscar" type="text" id="documento" name="documento" required>
+                    <input type="submit" value="Consultar" name="consultar" class="btn-consultar">
+                </form>
 
 
 
-                    <select class="selec-b btns-b" name="" id="">
-                        <option value="">Filtro</option>
-                    </select>
-                    <button class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#nuevo_dispositivo">Añadir dispositivo</button>
-                    <a href="./ver_elemento.php" class="btn-activos">Elementos </a>
+               
+                <button class="btn-b btns-b" data-bs-toggle="modal" data-bs-target="#nuevo_dispositivo">Añadir dispositivo</button>
+                <a href="./verElementosEstaticos.php" class="btn-activos">Elementos </a>
+                <a href="./registrarPrestamoAmbiente.php" class="btn-activos">Prestamo de ambientes</a>
+                <a href="./verPrestamosElementos.php" class="btn-activos">Historial</a>
+                <!-- <a href="./registrarPrestamoElementos.php" class="btn-1 btn-0">Prestamo de dispositivos</a> -->
 
-                </div>
-                <div class="bd-prestamo-ambientes">
-                </div>
+
             </div>
-            <div class="contenido-ml">
+            
+        </div>
+        <div class="contenido-ml">
 
 
 
+
+
+
+
+
+            <?php
+            if (!isset($_REQUEST['consultar'])) {
+
+
+
+                $Elementos = $mostrarElemento->mostrarElementosDisponibles();
+
+
+                // var_dump($Elementos);
+
+                if ($Elementos->num_rows == 0) {
+                    echo "<center><h2>No hay dispositivos disponibles</h2></center>";
+                } else {
+
+
+
+            ?>      <h4 class="text-center" style="margin-top: 10px;">Dispositivos disponibles</h4>
+                    <table class="table">
+                        <thead class="table table-striped ">
+                            <tr>
+                                <th scope="col" class="text-center">Serial</th>
+                                <!-- <th scope="col">placa</th> -->
+                                <th scope="col" class="text-center">Tipo</th>
+                                <th scope="col" class="text-center">Marca</th>
+                                <th scope="col" class="text-center">Modelo</th>
+                                <th scope="col" class="text-center">Informacion</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            <?php
+
+                            foreach ($Elementos as $Elemento) {
+
+                            ?>
+
+                                <tr>
+                                    <td class="text-center"><?php echo $Elemento['serial']; ?></td>
+                                    <td class="text-center"><?php echo $Elemento['tipo_dispositivo'] ?></td>
+                                    <td class="text-center"><?php echo $Elemento['marca'] ?></td>
+                                    <td class="text-center"><?php echo $Elemento['modelo'] ?></td>
+                                    <td class="text-center">
+                                    <a class="btn btn-info bg-success" href="ver_elemento.php?serial=<?php echo $Elemento['serial'];?>" style="color:white">informacion</a>
+                                    </td>
+                                </tr>
+
+                            <?php
+
+                            }
+                            ?>
+
+                        </tbody>
+                    </table>
 
 
 
 
 
                 <?php
-                if (!isset($_POST['consultar'])) {
+                }
+                // fin foreach
+
+                //evalua si el buscador envio algun  id , en caso que si guardamos el id capturado
+            } else {
+                $documento_usuario = $_REQUEST['documento'];
+                echo $documento_usuario;
+
+                $usuarios_filtrados = $usuarioFiltrado->filtrarUsuarioIdNombreRol($documento_usuario, 0);
 
 
 
-                    $Elementos = $mostrarElemento->mostrarElementosDisponibles();
+
+                if ($usuarios_filtrados->num_rows < 1) {
+
+                    header("Location: registrarPrestamoElementos.php?usuario=false");
+                    
+                } elseif ($usuarios_filtrados->num_rows > 1) { ?>
 
 
-                    // var_dump($Elementos);
+                    <table class="table table-striped ">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">Tipo documento</th>
+                                <th scope="col" class="text-center">N° documento</th>
+                                <th scope="col" class="text-center">Nombre</th>
+                                <th scope="col" class="text-center">Apellido</th>
+                                <th scope="col" class="text-center">Correo</th>
+                                <th scope="col" class="text-center">Telefono</th>
+                                <th scope="col" class="text-center">Rol</th>
+                                <th scope="col" class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
 
-                    if ($Elementos->num_rows == 0) {
-                        echo "<center><h2>No hay dispositivos disponibles</h2></center>";
-                    } else {
 
+                            foreach ($usuarios_filtrados as $usuarios_filtrado) {
 
+                            ?>
 
-                ?>
-                        <table class="table table-striped">
-                            <thead class="dark">
                                 <tr>
-                                    <th scope="col">serial</th>
-                                    <th scope="col">placa</th>
-                                    <th scope="col">Tipo</th>
-                                    <th scope="col">marca</th>
-                                    <th scope="col">modelo</th>
+                                    <td class="text-center"><?php echo $usuarios_filtrado['tipo'] ?></td>
+                                    <td class="text-center"><?php echo $usuarios_filtrado['numero_documento'] ?></td>
+                                    <td class="text-center"><?php echo $usuarios_filtrado['nombre'] ?></td>
+                                    <td class="text-center"><?php echo $usuarios_filtrado['apellido'] ?></td>
+                                    <td class="text-center"><?php echo $usuarios_filtrado['correo']  ?></td>
+                                    <td class="text-center"><?php echo $usuarios_filtrado['telefono']  ?></td>
+                                    <td class="text-center"><?php echo $usuarios_filtrado['nombre_rol']  ?></td>
+                                    <td class="text-center">
+                                        <a class="btn btn-info bg-success" href="RegistrarPrestamoElementos.php?documento=<?php echo $usuarios_filtrado['numero_documento']; ?>&consultar=<?php echo $usuarios_filtrado['numero_documento']; ?>" style="color:white">seleccionar usuario</a>
+
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                    <?php
+                } else {
+
+                    //    foreach para obtener el numero de cedula del Usuario
+                    foreach ($usuarios_filtrados as $usuarios_filtrado) {
+                        $cedula = $usuarios_filtrado['numero_documento'];
+                    }
+
+                    $obtener_usuario_id = $mostrarUsuario->obtenerUsuarioId($cedula);
+
+
+                    //   se realiza el llmado del metodo  PrestamoActivoElementosDocumento($cedula); el primero para mostrar solo 
+                    // una vez el id 
+                    //   del prestamo, el nombre, la cedula y los botones de entrega 
+                    $resultadoPrestamoActivos = $verificarPrestamosActivos->PrestamoActivoElementosDocumento($cedula);
+                    // el segundo para mostrar los elementos asociados al prestamo 
+                    //ya que si el llmado al metodo se realiza solo una vez,al mostrar los campos id 
+                    //   del prestamo, el nombre, la cedula y los botones de entrega,en la tabña se muestra apartir de la segunda  fila 
+
+                    $resultadoPrestamoActivo = $verificarPrestamosActivos->PrestamoActivoElementosDocumento($cedula);
+
+                    // var_dump($resultadoPrestamoActivo);
+                    if ($resultadoPrestamoActivo->num_rows > 0) {
+
+                        echo "<center><h2>Usuario con prestamos activos </h2></center>";
+
+                        $dato = $resultadoPrestamoActivos->fetch_assoc(); ?>
+
+                        <center>
+                            <h3 style="margin: auto;">Prestamo <?php echo $dato['id_prestamo'] ?></h3>
+                        </center>
+
+
+                        <center> <a class="btn btn-info bg-success" href="./VerDetallePrestamoElementos.php?idPrestamo=<?php echo $dato['id_prestamo']; ?>" style="color:white">Detalle Prestamo</a>
+
+
+                            <a class="btn btn-info bg-success" href="cerrarPrestamoElementos.php?idprestamo=<?php echo $dato['id_prestamo']; ?>" style="color:white">Entregar</a>
+                        </center>
+
+
+                        <h3>cedula: <?php echo $dato['numero_documento']    ?></h3>
+                        <h3>nombre: <?php echo $dato['nombre'] . " " . $dato['apellido']   ?></h3>
+
+
+
+
+
+                        <?php
+                        // $contadorPrestamo +=1;
+
+
+
+
+                        ?>
+                        <center>
+                            <h3>Elementos</h3>
+                        </center>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">cant.</th>
+                                    <th scope="col">Elemento</th>
+                                    <th scope="col">Tipo dispositivo</th>
+
+                                    <th scope="col">Fecha prestamo</th>
+                                    <th scope="col">Hora prestamo</th>
+                                    <th scope="col">Observaciones</th>
+                                    <th scope="col">Estado</th>
+
 
 
                                 </tr>
                             </thead>
-                            <tbody>
+                            <?php
+                            $cant=1;
+                            while ($datos = $resultadoPrestamoActivo->fetch_assoc()) { ?>
+                             
 
-
-                                <?php
-
-                                foreach ($Elementos as $Elemento) {
-
-                                ?>
+                                <tbody>
 
                                     <tr>
-                                        <td><?php echo $Elemento['serial']; ?></td>
-                                        <td><?php echo $Elemento['placa']; ?></td>
-                                        <td><?php echo $Elemento['tipo_dispositivo'] ?></td>
-                                        <td><?php echo $Elemento['marca'] ?></td>
-                                        <td><?php echo $Elemento['modelo'] ?></td>
+
+
+                                    <td><?php echo $cant ?></td>
+                                        <td><?php echo $datos['serial']    ?></td>
+                                        <td><?php echo $datos['tipo_dispositivo']    ?></td>
+
+
+                                        <td><?php echo $datos['fecha_prestamo']    ?></td>
+                                        <td><?php echo $datos['hora_prestamo']    ?></td>
+
+
+
+                                        <td><?php echo $datos['observaciones']    ?></td>
+                                        <td><?php echo $datos['estado_prestamo'] ?></td>
+
+
+
+
                                     </tr>
-
-                                <?php
-
-                                }
-                                ?>
-
-                            </tbody>
+                                </tbody>
+                            <?php
+                            $cant +=1;
+                            }
+                            ?>
                         </table>
+                        <br>
+
+                    <?php
+
+
+                        //fin verificacion prestamos
 
 
 
-
-
-                        <?php
-                    }
-                    // fin foreach
-
-                    //evalua si el buscador envio algun  id , en caso que si guardamos el id capturado
-                } else {
-                    $documento_usuario = $_POST['documento'];
-                    echo $documento_usuario;
-
-                    $obtener_usuario_id = $mostrarUsuario->obtenerUsuarioId($documento_usuario);
-
-                    // var_dump($obtenerUsuarioId);
-
-
-
-
-                    if ($obtener_usuario_id->num_rows == 0) {
-                        echo "<center><h2>Usuario no encontrado</h2></center>";
                     } else {
 
 
-                        $resultadoPrestamoActivo = $verificarPrestamosActivos->PrestamoActivoElementosDocumento($documento_usuario);
-
-                        // var_dump($resultadoPrestamoActivo);
-                        if ($resultadoPrestamoActivo->num_rows > 0) {
-
-                            echo "<center><h2>Usuario con prestamos activos </h2></center>";
+                        $fila = $obtener_usuario_id->fetch_assoc();
+                    ?>
+                        <form action="./registrarPrestamoElementos.php" method="post">
 
 
-                        ?>
 
-                            <table class="table">
+                            <!-- <div class="registro-div registro_usuario-input">
+                                <h3>Datos Usuario</h3>
+                                <div class="registro-input registro-usuario-input">
+
+                                    <div class="rgts-input rgts-usuario-input">
+
+                                        <select name="tipoDocumento" id="" class="select-registro">
+                                            <option value=<?php echo $fila['idDocumento']; ?>><?php echo $fila['tipo'] ?> </option>
+                                        </select>
+
+                                        <input type="number" name="numeroCedula" value=<?php echo $fila['numero_documento'] ?> class="input-number" readonly>
+                                        <input type="text" name="nombre" value="<?php echo $fila['nombre'] ?>" readonly>
+                                        <input type="text" name="apellido" value="<?php echo $fila['apellido'] ?>" class="input-number" readonly>
+                                        <input type="text" name="telefono" value="<?php echo $fila['telefono'] ?>" readonly>
+                                        <input type="email" name="correo" value="<?php echo $fila['correo']; ?>" readonly>
+
+                                        <select name="rol" id="" class="select-registro">
+                                            <option value="id_rol"><?php echo $fila['nombre_rol']; ?></option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div> -->
+                            <input type="hidden" name="numeroCedula" value=<?php echo $fila['numero_documento'] ?> class="input-number" readonly>
+                            <center>
+                                <h3>Informacion usuario</h3>
+                            </center>
+
+                            <table class="table table-striped table-dark">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Id prestamo</th>
-                                        <th scope="col">Elemento</th>
-                                        <th scope="col">tipo dispositivo</th>
-
-                                        <th scope="col">Doc. responsable</th>
-                                        <th scope="col">Nom. responsable</th>
-                                        <th scope="col">Fecha prestamo</th>
-                                        <th scope="col">Hora prestamo</th>
-                                        <th scope="col">observaciones</th>
-                                        <th scope="col">Estado</th>
-                                        <th scope="col">Acciones</th>
-
+                                        <th scope="col" class="text-center">Tipo documento</th>
+                                        <th scope="col" class="text-center">N° documento</th>
+                                        <th scope="col" class="text-center">Nombre</th>
+                                        <th scope="col" class="text-center">Apellido</th>
+                                        <th scope="col" class="text-center">Correo</th>
+                                        <th scope="col" class="text-center">Telefono</th>
+                                        <th scope="col" class="text-center">Rol</th>
 
                                     </tr>
                                 </thead>
-                                <?php
-                                $contador = 0;
-                                while ($datos = $resultadoPrestamoActivo->fetch_assoc())
-                                     { $contador += 1;?>
+                                <tbody>
+                                    <?php
 
-                                    <tbody>
+
+                                    foreach ($usuarios_filtrados as $usuarios_filtrado) {
+
+                                    ?>
 
                                         <tr>
+                                            <td class="text-center"><?php echo $usuarios_filtrado['tipo'] ?></td>
+                                            <td class="text-center"><?php echo $usuarios_filtrado['numero_documento'] ?></td>
+                                            <td class="text-center"><?php echo $usuarios_filtrado['nombre'] ?></td>
+                                            <td class="text-center"><?php echo $usuarios_filtrado['apellido'] ?></td>
+                                            <td class="text-center"><?php echo $usuarios_filtrado['correo']  ?></td>
+                                            <td class="text-center"><?php echo $usuarios_filtrado['telefono']  ?></td>
+                                            <td class="text-center"><?php echo $usuarios_filtrado['nombre_rol']  ?></td>
 
-                                            <td><?php echo $datos['id_prestamo']    ?></td>
-
-                                            <td><?php echo $datos['serial']    ?></td>
-                                            <td><?php echo $datos['tipo_dispositivo']    ?></td>
-
-                                            <td><?php echo $datos['numero_documento']    ?></td>
-
-                                            <td><?php echo $datos['nombre'] . " " . $datos['apellido']   ?></td>
-                                            <td><?php echo $datos['fecha_prestamo']    ?></td>
-                                            <td><?php echo $datos['hora_prestamo']    ?></td>
-
-
-
-                                            <td><?php echo $datos['observaciones']    ?></td>
-                                            <td><?php echo $datos['estado_prestamo'] ?></td>
-
-                                            
-                                                <td>
-                                                <?php if ($contador==1) {
-                                                    # code...
-                                                ?>
-                                                    <!--  <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo
-                                                                                                                                    $datos['id_prestamo']; ?>" style="color:white">observacion</a>-->
-                                                    <!-- <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $datos['id_prestamo']; ?>&idAmbiente=<?php echo $datos['id_numero_ambiente']; ?>" style="color:white">Entregar</a> -->
-
-                                                    <a class="btn btn-info bg-success" href="añadirObservacion.php?idprestamo=<?php echo $datos['id_prestamo']; ?>" style="color:white">observacion</a>
-
-                                                    <!-- <a class="btn btn-info bg-success" href="verPrestamosActivos.php?idprestamo=<?php echo $datos['id_prestamo']; ?>" style="color:white">Entregar</a> -->
-
-                                                    <a class="btn btn-info bg-success" href="cerrarPrestamoAmbiente.php?idprestamo=<?php echo $datos['id_prestamo']; ?>&idAmbiente=<?php echo $datos['id_numero_ambiente']; ?>" style="color:white">Entregar</a>
-                                                    <?php } ?> 
-                                                </td>
-                                           
+                                            </td>
                                         </tr>
-                                    </tbody>
-                                <?php
-                                }
-                                ?>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
                             </table>
-                            <br>
 
-                        <?php
+                            <?php
+                            $Elementos = $mostrarElemento->mostrarElementosDisponibles();
 
+                            // var_dump($Elementos);
 
-                            //fin verificacion prestamos 
+                            if ($Elementos->num_rows == 0) {
+                                echo "<center><h2>No hay dispositivos disponibles</h2></center>";
+                            } else {
+                            ?>
+                                <input class="btn-registro btn-registro-dispositivo" type="submit" value="prestar" name=prestar>
 
-
-
-                        } else {
-
-
-                            $fila = $obtener_usuario_id->fetch_assoc();
-                        ?>
-                            <form action="./registrarPrestamoElementos.php" method="post">
-
-
-
-                                <div class="registro-div registro_usuario-input">
-                                    <h3>Datos Usuario</h3>
-                                    <div class="registro-input registro-usuario-input">
-
-                                        <div class="rgts-input rgts-usuario-input">
-
-                                            <select name="tipoDocumento" id="" class="select-registro">
-                                                <option value=<?php echo $fila['idDocumento']; ?>><?php echo $fila['tipo'] ?> </option>
-                                            </select>
-
-                                            <input type="number" name="numeroCedula" value=<?php echo $fila['numero_documento'] ?> class="input-number" readonly>
-                                            <input type="text" name="nombre" value="<?php echo $fila['nombre'] ?>" readonly>
-                                            <input type="text" name="apellido" value="<?php echo $fila['apellido'] ?>" class="input-number" readonly>
-                                            <input type="text" name="telefono" value="<?php echo $fila['telefono'] ?>" readonly>
-                                            <input type="email" name="correo" value="<?php echo $fila['correo']; ?>" readonly>
-
-                                            <select name="rol" id="" class="select-registro">
-                                                <option value="id_rol"><?php echo $fila['nombre_rol']; ?></option>
-                                            </select>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php
-                                $Elementos = $mostrarElemento->mostrarElementosDisponibles();
-
-                                // var_dump($Elementos);
-
-                                if ($Elementos->num_rows == 0) {
-                                    echo "<center><h2>No hay dispositivos disponibles</h2></center>";
-                                } else {
-                                ?>
-                                    <input class="btn-registro btn-registro-dispositivo" type="submit" value="prestar" name=prestar>
+                                <center>
+                                    <h3>Informacion elementos</h3>
+                                </center>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">serial</th>
+                                            <th scope="col">placa</th>
+                                            <th scope="col">Tipo</th>
+                                            <th scope="col">marca</th>
+                                            <th scope="col">modelo</th>
+                                            <th scope="col">seleccionarlo</th>
+                                            <th scope="col">Cargador</th>
+                                            <th scope="col">Mouse</th>
 
 
-                                    <table class="table">
-                                        <thead>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                        <?php
+
+                                        foreach ($Elementos as $Elemento) {
+
+                                        ?>
+
                                             <tr>
-                                                <th scope="col">serial</th>
-                                                <th scope="col">placa</th>
-                                                <th scope="col">Tipo</th>
-                                                <th scope="col">marca</th>
-                                                <th scope="col">modelo</th>
-                                                <th scope="col">seleccionarlo</th>
-                                                <th scope="col">Cargador</th>
-                                                <th scope="col">Mouse</th>
-
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-
-                                            <?php
-
-                                            foreach ($Elementos as $Elemento) {
-
-                                            ?>
-
-                                                <tr>
-                                                    <td><?php echo $Elemento['serial']; ?></td>
-                                                    <td><?php echo $Elemento['placa']; ?></td>
-                                                    <td><?php echo $Elemento['tipo_dispositivo'] ?></td>
-                                                    <td><?php echo $Elemento['marca'] ?></td>
-                                                    <td><?php echo $Elemento['modelo'] ?></td>
-                                                    <td><input type="checkbox" name="equipos[]" value="<?php echo $Elemento['serial']; ?>"></td>
-                                                    <!-- <td><select name="cargador" id="" class="select-registro">
+                                                <td><?php echo $Elemento['serial']; ?></td>
+                                                <td><?php echo $Elemento['placa']; ?></td>
+                                                <td><?php echo $Elemento['tipo_dispositivo'] ?></td>
+                                                <td><?php echo $Elemento['marca'] ?></td>
+                                                <td><?php echo $Elemento['modelo'] ?></td>
+                                                <td><input type="checkbox" name="equipos[]" value="<?php echo $Elemento['serial']; ?>"></td>
+                                                <!-- <td><select name="cargador" id="" class="select-registro">
                                                             <option value="si">Si</option>
                                                             <option value="no">No</option>
                                                         </select></td>
@@ -440,161 +575,141 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
                                                         <option value="no">No</option>
                                                         <option value="si">Si</option>
                                                     </select></td> -->
-                                                    <td><input type="checkbox" name="cargador_<?php echo $Elemento['serial'] ?>" value="si"></td>
-                                                    <td><input type="checkbox" name="mouse_<?php echo $Elemento['serial'] ?>" value="si"></td>
+                                                <td><input type="checkbox" name="cargador_<?php echo $Elemento['serial'] ?>" value="si"></td>
+                                                <td><input type="checkbox" name="mouse_<?php echo $Elemento['serial'] ?>" value="si"></td>
 
-                                                </tr>
+                                            </tr>
 
-                                            <?php
+                                        <?php
 
-                                            }
-                                            ?>
+                                        }
+                                        ?>
 
-                                        </tbody>
-                                    </table>
+                                    </tbody>
+                                </table>
 
 
-                                    <label for="">observaciones</label><br>
+                                <center><label for="">observaciones</label><br>
                                     <textarea rows="10" cols="40" name="observaciones" placeholder=""></textarea>
+                                </center>
 
 
-                                <?php
-                                }
-                                ?>
+                            <?php
+                            }
+                            ?>
 
 
-
-
-
-
-
-                            </form>
+                        </form>
 
 
 
-                <?php
-                        }
+            <?php
                     }
+                }
+            }
+
+
+            ?>
+
+
+
+
+
+            <?php
+
+
+
+            if (isset($_POST['prestar'])) {
+
+                // $ambiente = $_POST['inputselect'];
+                $numeroCedula = $_POST['numeroCedula'];
+                $equipos_seleccionados = $_POST['equipos'];
+
+
+                if (empty($_POST['observaciones'])) {
+                    $observaciones = NULL;
+                } else {
+                    $observaciones = $_POST['observaciones'];
                 }
 
 
-                ?>
+                // registramos el prestamo
+                echo date_default_timezone_get();
+                date_default_timezone_set("America/Bogota");
+                echo date_default_timezone_get();
+
+
+                $nuevoPrestamo->id_prestamo = NULL;
+                $nuevoPrestamo->fecha_prestamo = date('Y-m-d');
+                $nuevoPrestamo->hora_prestamo = date('h:i:s');
+                $nuevoPrestamo->fecha_entrega = NULL;
+                $nuevoPrestamo->hora_entrega =  NULL;
+                $nuevoPrestamo->observaciones = $observaciones;
+                $nuevoPrestamo->id_numero_ambiente = NULL;
+                $nuevoPrestamo->numero_documento = $numeroCedula;
+                $nuevoPrestamo->estado_prestamo = "activo";
+                // $nuevoPrestamo->registrarPrestamo();
+                $id = $nuevoPrestamo->registrarPrestamo();
+                echo "id: " . $id;
+
+                // $nuevoPrestamo
+
+
+
+                foreach ($equipos_seleccionados as $equipo) {
+
+                    // echo "------ " . $equipo . "-----";
+
+                    $cargador = isset($_POST['cargador_' . $equipo]) ? $_POST['cargador_' . $equipo] : 'no';
+                    $mouse = isset($_POST['mouse_' . $equipo]) ? $_POST['mouse_' . $equipo] : 'no';
+
+                    $detallePrestamo->id_detalle_prestamo = NULL;
+                    $detallePrestamo->cantidad = NULL;
+                    $detallePrestamo->id_prestamo = $id;
+                    $detallePrestamo->serial = $equipo;
+                    $detallePrestamo->cargador = $cargador;
+                    $detallePrestamo->mouse = $mouse;
+                    $detallePrestamo->registrarDetallePrestamo();
+
+                    $actualizarElemento->serial = $equipo;
+                    $actualizarElemento->estado = 2;
+                    $actualizarElemento->ActualizarEstadoElemento();
 
 
 
 
-
-                <?php
-
-
-
-                if (isset($_POST['prestar'])) {
-
-                    // $ambiente = $_POST['inputselect'];
-                    $numeroCedula = $_POST['numeroCedula'];
-                    $equipos_seleccionados = $_POST['equipos'];
-                    // $mouse = $_POST['mouse'];
-                    // $cargador=$_POST['cargador'];
-
-                    echo $numeroCedula . "-";
-                    echo $equipos_seleccionados[0];
-
-                    if (empty($_POST['observaciones'])) {
-                        $observaciones = NULL;
-                    } else {
-                        $observaciones = $_POST['observaciones'];
-                    }
-
-
-                    $nuevoPrestamo->id_prestamo = NULL;
-                    $nuevoPrestamo->fecha_prestamo = date('Y-m-d');
-                    $nuevoPrestamo->hora_prestamo = date('h:i:s');
-                    $nuevoPrestamo->fecha_entrega = NULL;
-                    $nuevoPrestamo->hora_entrega =  NULL;
-                    $nuevoPrestamo->observaciones = $observaciones;
-                    $nuevoPrestamo->id_numero_ambiente = NULL;
-                    $nuevoPrestamo->numero_documento = $numeroCedula;
-                    $nuevoPrestamo->estado_prestamo = "activo";
-                    // $nuevoPrestamo->registrarPrestamo();
-                    $id = $nuevoPrestamo->registrarPrestamo();
-                    echo "id: " . $id;
-
-                    // $nuevoPrestamo
-
-
-
-                    foreach ($equipos_seleccionados as $equipo) {
-
-                        echo "------ " . $equipo . "-----";
-
-                        $cargador = isset($_POST['cargador_' . $equipo]) ? $_POST['cargador_' . $equipo] : 'no';
-                        $mouse = isset($_POST['mouse_' . $equipo]) ? $_POST['mouse_' . $equipo] : 'no';
-
-                        $detallePrestamo->id_detalle_prestamo = NULL;
-                        $detallePrestamo->cantidad = NULL;
-                        $detallePrestamo->id_prestamo = $id;
-                        $detallePrestamo->serial = $equipo;
-                        $detallePrestamo->cargador = $cargador;
-                        $detallePrestamo->mouse = $mouse;
-                        $detallePrestamo->registrarDetallePrestamo();
-
-                        $actualizarElemento->serial = $equipo;
-                        $actualizarElemento->estado = 2;
-                        $actualizarElemento->ActualizarEstadoElemento();
-
-
-
-
-                        echo $cargador . " " . $equipo . "<br>";
-                        echo $mouse . " " . $equipo . "<br>";
-                    }
-
-
-
-                    // date_default_timezone_set("UTC");
-
-
-                    // $hora = date('h:i:s');
-                    // $fecha = date('d-m-Y');
-                    // $fecha2 = date('d-m-Y  h:i:s');
-
-                    // echo $ambiente[0] . "-------------";
-                    // echo $numeroCedula . "-------------";
-                    // echo $hora . "----------------";
-                    // echo $fecha . "--------------";
-                    // echo $fecha2;
-
-
-
-                    // header("location: verPrestamosActivos.php");
-
-                    //  echo "<script>alert('datos registrados exitosamente');</script>";
+                    // echo $cargador . " " . $equipo . "<br>";
+                    // echo $mouse . " " . $equipo . "<br>";
                 }
 
 
-                ?>
+
+                // date_default_timezone_set("UTC");
 
 
-                <?php
+                // $hora = date('h:i:s');
+                // $fecha = date('d-m-Y');
+                // $fecha2 = date('d-m-Y  h:i:s');
 
-                if (isset($_REQUEST['serial'])) {
-                    $serialprestamo = $_REQUEST['serial']; ?>
-
-                    <script>
-                        setTimeout(function() {
-                            var mensaje = "datos registrados exitosamente equipo: <?php echo $serialprestamo ?>";
-                            alert(mensaje);
-                        }, 500);
-                    </script>
-
-                <?php } ?>
+                // echo $ambiente[0] . "-------------";
+                // echo $numeroCedula . "-------------";
+                // echo $hora . "----------------";
+                // echo $fecha . "--------------";
+                // echo $fecha2;
 
 
 
+                // header("location: verPrestamosActivos.php");
+
+                //  echo "<script>alert('datos registrados exitosamente');</script>";
+            }
 
 
-            </div>
+            ?>
+
+
         </div>
+    </div>
     </div>
     <div class="barra_inferior">
 
@@ -602,30 +717,6 @@ $consulta_estado_dispositivo = $mostrarElemento->estadoElemento();
     </div>
 
 
-
-
-
-
-
-    <!-- <button class="btn-1 btn-0">Prestamo de dispositivos</button>
-    <button class="btn-1" type="submit" >Prestamo de ambientes</button>
-    <button class="btn-1">Registro de administrador</button> -->
-    <!-- <script>
-  // Obtener todos los radios
-  const radios = document.querySelectorAll('input[type="radio"]');
-
-  // Agregar un evento clic a cada radio
-  radios.forEach(radio => {
-    radio.addEventListener('click', () => {
-      // Si el radio estaba seleccionado, deseleccionarlo
-      if (radio.checked) {
-        radio.checked = false;
-      } else {
-        // Si el radio no estaba seleccionado, seleccionarlo
-        radio.checked = true;
-      }
-    });
-  }); -->
     </script>
 </body>
 

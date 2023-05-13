@@ -1,4 +1,4 @@
-<?php
+<?php 
 require_once "./classUsuario.php";
 
 class Instructor extends Usuario{

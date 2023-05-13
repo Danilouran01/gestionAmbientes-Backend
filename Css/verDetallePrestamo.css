@@ -1,0 +1,36 @@
+
+        .elementos-form input {
+            border: none;
+        }
+
+        .elementos-form select {
+            width: 150px;
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+        }
+
+        .elementos-form th,
+        .elementos-form td {
+            padding: 10px;
+        }
+
+
+        .prestamo-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .prestamo-detail {
+            flex-basis: calc(50% - 10px);
+        }
+
+        .prestamo-observacion {
+            border: 1px solid #ccc;
+            padding: 10px;
+            flex-basis: 100%;
+            margin-top: 20px;
+            background-color: #f7f7f7;
+        }
+   

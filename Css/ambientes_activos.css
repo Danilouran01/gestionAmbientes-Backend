@@ -180,13 +180,7 @@ html{
     margin-right: 30px;
 }
 
-.flex {
-    display: flex;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-}
+
 
 .herencia{
     display: flex;
@@ -310,10 +304,5 @@ select{
     overflow: auto;
     max-height: 100%;
     
-}
-
-.contenido{
-    display: flex;
-    overflow: auto;
 }
 

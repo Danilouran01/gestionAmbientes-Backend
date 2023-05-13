@@ -1,4 +1,4 @@
-    <?php
+    <?php  
     include_once "./classInvitado.php";
 
     if(isset($_GET['msg']))
@@ -10,11 +10,11 @@
 
         $tipoDocumento = $_POST['tipoDocumento'];
         $numeroCedula = $_POST['numeroCedula'];
-        $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
         $telefono = $_POST['telefono'];
-        $correo = $_POST['correo'];
         $centro = $_POST['centro'];
+        $nombre = strtolower($_POST['nombre']);
+        $apellido = strtolower($_POST['apellido']);
+        $correo = strtolower($_POST['correo']);
 
 
 

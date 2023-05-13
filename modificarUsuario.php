@@ -1,4 +1,4 @@
-<?php
+<?php 
   
 include_once "./classUsuario.php";
   if (isset($_POST['enviar'])) {
@@ -21,6 +21,12 @@ include_once "./classUsuario.php";
       }else{
         $contrasena=NULL;
       }
+
+      if (isset($_POST['ficha'])) {
+        $$ficha=$_POST['ficha'];
+      }else{
+        $$ficha=NULL;
+      }
       
   
       $usuario = new Usuario();
@@ -31,7 +37,8 @@ include_once "./classUsuario.php";
       $usuario->telefono=$telefono;
       $usuario->correo=$correo;
       $usuario->rol=$rol;
-      $usuario->setFicha($centro);
+      $usuario->centro=$centro;
+      $usuario->setFicha($ficha);
       $usuario->setContrasena($contrasena);
      $usuario_modificado= $usuario->modificarUsuario();
 

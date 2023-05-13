@@ -1,8 +1,13 @@
 
-    <?php
+    <?php 
     require_once "./classElemento.php";
 
-    if (isset($_REQUEST['enviarElemento'])) {
+    if (isset($_REQUEST['enviarElemento']) || isset($_REQUEST['registrarElemento']) ) {
+     
+        if (isset($_REQUEST['registrarElemento'])) {
+            $ver_elemento=True;
+        }
+
         $serial = $_POST['serial'];
         $tipoDispositivo = $_POST['tipoDispositivo'];
         $marca = $_POST['marca'];
@@ -19,10 +24,15 @@
         $elemento->placa = $placa;
         $elemento->estado = $estado;
         // $elemento->registrarElemento();
-        $j=$elemento->registrarElemento();
-        if($j){
+        $registro_elemento=$elemento->registrarElemento();
+        if($registro_elemento){
+            if ($ver_elemento) {
+                header("Location: ver_elemento.php?serial=$serial&idElemento=$serial");
+            }else{
+                header("Location: registrarPrestamoElementos.php?serial=$serial");
+            }
 
-        header("Location: registrarPrestamoElementos.php?serial=$serial");
+        
 
         }
 

@@ -1,4 +1,4 @@
-<?php
+<?php 
 require_once "./conexionPoo.php";
 
 class Usuario extends Conexion
@@ -34,7 +34,7 @@ class Usuario extends Conexion
         $this->conectar();
 
         $consulta_usuario_instructor = mysqli_prepare($this->con, "INSERT INTO `usuario`(`numero_documento`, `nombre`, `apellido`, `tipo_documento`, `numero_ficha`, `centro`, `telefono`, `correo`, `contrasena`, `id_rol`) VALUES (?,?,?,?,?,?,?,?,?,?)");
-        $consulta_usuario_instructor->bind_param("issiisissi", $this->numeroDocumento, $this->nombre, $this->apellido, $this->tipoDocumento, $this->ficha,$this->centro, $this->telefono, $this->correo, $this->contrasena, $this->rol);
+        $consulta_usuario_instructor->bind_param("issiissssi", $this->numeroDocumento, $this->nombre, $this->apellido, $this->tipoDocumento, $this->ficha,$this->centro, $this->telefono, $this->correo, $this->contrasena, $this->rol);
         $consulta_usuario_instructor->execute();
         if ($consulta_usuario_instructor) {
             echo "Datos insertados correctamente";

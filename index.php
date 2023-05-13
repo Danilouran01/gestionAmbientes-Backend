@@ -28,6 +28,9 @@ if (isset($_GET['msg'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/path/to/sweetalert2.min.css">
+<script src="/path/to/sweetalert2.all.min.js"></script>
+
 
     <title>Gestion de Ambientes</title>
 </head>
